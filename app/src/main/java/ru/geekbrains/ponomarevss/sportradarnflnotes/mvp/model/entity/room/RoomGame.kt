@@ -19,5 +19,7 @@ data class RoomGame(
     @PrimaryKey var id: String,
     var status: String,
     var scheduled: String,
+    var homeId: String,
+    var awayId: String,
     var weekId: String
 )
