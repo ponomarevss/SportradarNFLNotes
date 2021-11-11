@@ -13,7 +13,9 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.dao.*
 
         RoomSeason::class,
         RoomWeek::class,
-        RoomGame::class
+        RoomGame::class,
+        RoomScoring::class,
+        RoomPeriod::class
                ],
     version = 1
 )
@@ -26,6 +28,8 @@ abstract class Database : RoomDatabase() {
     abstract val seasonDao: SeasonDao
     abstract val weekDao: WeekDao
     abstract val gameDao: GameDao
+    abstract val scoringDao: ScoringDao
+    abstract val periodDao: PeriodDao
 
     companion object {
         const val DB_NAME = "database.db"
