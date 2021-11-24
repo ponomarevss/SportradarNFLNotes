@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
     foreignKeys = [ForeignKey(
         entity = RoomSeason::class,
         parentColumns = ["id"],
-        childColumns = ["scheduleId"],
+        childColumns = ["seasonId"],
         onDelete = ForeignKey.CASCADE
     )]
 )
@@ -16,5 +16,5 @@ data class RoomWeek(
     @PrimaryKey var id: String,
     var sequence: Int,
     var title: String,
-    var scheduleId: String
+    var seasonId: String
 )

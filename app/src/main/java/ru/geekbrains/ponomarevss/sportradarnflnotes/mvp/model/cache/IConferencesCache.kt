@@ -6,6 +6,6 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.Co
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.League
 
 interface IConferencesCache {
-    fun getConferences(league: League): Single<List<Conference>>
-    fun putConferences(league: League, conferences: List<Conference>): Completable
+    fun getConferences(): Single<List<Conference>>
+    fun putConferences(conferences: List<Conference>): Completable
 }

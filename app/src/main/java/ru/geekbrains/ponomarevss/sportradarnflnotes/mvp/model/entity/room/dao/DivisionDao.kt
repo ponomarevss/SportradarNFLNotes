@@ -38,4 +38,7 @@ interface DivisionDao {
 
     @Query("SELECT * FROM RoomDivision WHERE id = :id LIMIT 1")
     fun findById(id: String): RoomDivision?
+
+    @Query("SELECT * FROM RoomDivision WHERE conferenceId = :conferenceId LIMIT 1")
+    fun findByConferenceId(conferenceId: String): List<RoomDivision>
 }
