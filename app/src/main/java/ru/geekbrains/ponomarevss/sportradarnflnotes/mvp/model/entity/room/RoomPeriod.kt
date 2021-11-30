@@ -16,7 +16,6 @@ data class RoomPeriod(
     @PrimaryKey var id: String,
     var periodType: String,
     var number: Int,
-    var sequence: Int,
     var homePoints: Int,
     var awayPoints: Int,
     var scoringId: String

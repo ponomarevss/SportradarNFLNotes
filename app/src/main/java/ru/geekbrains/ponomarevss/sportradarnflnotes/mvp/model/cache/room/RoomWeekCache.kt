@@ -4,9 +4,7 @@ import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IWeekCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.*
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.RoomGame
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.RoomRival
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.RoomWeek
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.*
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.db.Database
 
 class RoomWeekCache(val db: Database) : IWeekCache {
@@ -56,19 +54,26 @@ class RoomWeekCache(val db: Database) : IWeekCache {
 
     override fun putWeek(weeklySchedule: WeeklySchedule): Completable = Completable.fromAction {
         with(weeklySchedule) {
+            RoomSeason(id, year, type, name)
             putGames(week)
             RoomWeek(week.id, week.sequence, week.title, id)
         }.let { db.weekDao.insert(it) }
     }
 
-    override fun putWeeks(seasonSchedule: SeasonSchedule): Completable {
-        TODO("Not yet implemented")
+    override fun putWeeks(seasonSchedule: SeasonSchedule): Completable = Completable.fromAction{
+        with(seasonSchedule) {
+            RoomSeason(id, year, type, name)
+            weeks.map {
+                putGames(it)
+                RoomWeek(it.id, it.sequence, it.title, id)
+            }.let { db.weekDao.insert(it) }
+        }
     }
 
     private fun putGames(week: Week) = week.games.map {
         putHome(it)
         putAway(it)
-        putScoring(it.scoring)
+        putScoring(it)
         RoomGame(it.id, it.status, it.scheduled, it.home.id, it.away.id, week.id)
     }.let { db.gameDao.insert(it) }
 
@@ -79,6 +84,16 @@ class RoomWeekCache(val db: Database) : IWeekCache {
     private fun putAway(game: Game) = with(game.away) {
         RoomRival(id, AWAY, name, alias, gameNumber, game.id).let { db.rivalDao.insert(it) }
     }
+
+    private fun putScoring(game: Game) = game.scoring?.run {
+        putPeriods(game.id, this)
+        val roomScoring = RoomScoring(game.id, homePoints, awayPoints, game.id)
+        db.scoringDao.insert(roomScoring)
+    }
+
+    private fun putPeriods(gameId: String, scoring: Scoring) = scoring.periods.map {
+        RoomPeriod(it.id, it.periodType, it.number, it.homePoints, it.awayPoints, gameId)
+    }.let { db.periodDao.insert(it) }
 
 
 }
