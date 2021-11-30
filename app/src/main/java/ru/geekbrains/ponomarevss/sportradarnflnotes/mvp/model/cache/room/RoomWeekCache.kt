@@ -32,6 +32,24 @@ class RoomWeekCache(val db: Database) : IWeekCache {
             }
         }
 
+    override fun putWeek(weeklySchedule: WeeklySchedule): Completable = Completable.fromAction {
+        with(weeklySchedule) {
+            RoomSeason(id, year, type, name)
+            putGames(week)
+            RoomWeek(week.id, week.sequence, week.title, id)
+        }.let { db.weekDao.insert(it) }
+    }
+
+    override fun putWeeks(seasonSchedule: SeasonSchedule): Completable = Completable.fromAction{
+        with(seasonSchedule) {
+            RoomSeason(id, year, type, name)
+            weeks.map {
+                putGames(it)
+                RoomWeek(it.id, it.sequence, it.title, id)
+            }.let { db.weekDao.insert(it) }
+        }
+    }
+
     private fun getGames(weekId: String) = db.gameDao.findByWeek(weekId).map {
         Game(it.id, it.status, it.scheduled, getHome(it.id), getAway(it.id), getScoring(it.id))
     }
@@ -50,24 +68,6 @@ class RoomWeekCache(val db: Database) : IWeekCache {
 
     private fun getPeriods(scoringId: String) = db.periodDao.select(scoringId).map {
         Period(it.periodType, it.id, it.number, it.homePoints, it.awayPoints)
-    }
-
-    override fun putWeek(weeklySchedule: WeeklySchedule): Completable = Completable.fromAction {
-        with(weeklySchedule) {
-            RoomSeason(id, year, type, name)
-            putGames(week)
-            RoomWeek(week.id, week.sequence, week.title, id)
-        }.let { db.weekDao.insert(it) }
-    }
-
-    override fun putWeeks(seasonSchedule: SeasonSchedule): Completable = Completable.fromAction{
-        with(seasonSchedule) {
-            RoomSeason(id, year, type, name)
-            weeks.map {
-                putGames(it)
-                RoomWeek(it.id, it.sequence, it.title, id)
-            }.let { db.weekDao.insert(it) }
-        }
     }
 
     private fun putGames(week: Week) = week.games.map {
@@ -95,35 +95,4 @@ class RoomWeekCache(val db: Database) : IWeekCache {
         RoomPeriod(it.id, it.periodType, it.number, it.homePoints, it.awayPoints, gameId)
     }.let { db.periodDao.insert(it) }
 
-
 }
-
-//    override fun getWeek(year: Int, type: String, sequence: Int): Single<Week> =
-//        Single.fromCallable {
-//            val roomSeason =
-//                db.seasonDao.select(year, type) ?: throw RuntimeException("No such season in cache")
-//            db.weekDao.findBySeasonId(roomSeason.id, sequence)?.let { roomWeek ->
-//                Week(roomWeek.id, roomWeek.sequence, roomWeek.title,
-//                    db.gameDao.findByWeek(roomWeek.id).map { roomGame ->
-//                        Game(roomGame.id, roomGame.status, roomGame.scheduled,
-//                            db.rivalDao.findHomeByGameId(roomGame.id).run {
-//                                Rival(id, name, alias, gameNumber)
-//                            },
-//                            db.rivalDao.findAwayByGameId(roomGame.id).run {
-//                                Rival(id, name, alias, gameNumber)
-//                            },
-//                            db.scoringDao.select(roomGame.id)?.run {
-//                                Scoring(homePoints, awayPoints,
-//                                    db.periodDao.select(id).map {
-//                                        Period(
-//                                            it.periodType, it.id, it.number,
-//                                            it.homePoints, it.awayPoints
-//                                        )
-//                                    }
-//                                )
-//                            }
-//                        )
-//
-//                    })
-//            }
-//        }
