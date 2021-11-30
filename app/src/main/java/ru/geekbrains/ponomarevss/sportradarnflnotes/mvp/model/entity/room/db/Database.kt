@@ -28,6 +28,7 @@ abstract class Database : RoomDatabase() {
     abstract val seasonDao: SeasonDao
     abstract val weekDao: WeekDao
     abstract val gameDao: GameDao
+    abstract val rivalDao: RivalDao
     abstract val scoringDao: ScoringDao
     abstract val periodDao: PeriodDao
 

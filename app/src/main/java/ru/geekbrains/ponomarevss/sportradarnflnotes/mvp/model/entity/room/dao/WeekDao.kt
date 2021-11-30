@@ -36,5 +36,8 @@ interface WeekDao {
     fun getAll(): List<RoomWeek>
 
     @Query("SELECT * FROM RoomWeek WHERE seasonId = :seasonId AND sequence = :sequence LIMIT 1")
-    fun findBySeasonId(seasonId: String, sequence: Int): RoomWeek?
+    fun findOneBySeasonId(seasonId: String, sequence: Int): RoomWeek?
+
+    @Query("SELECT * FROM RoomWeek WHERE seasonId = :seasonId AND sequence = :sequence LIMIT 1")
+    fun findAllBySeasonId(seasonId: String): List<RoomWeek>?
 }
