@@ -18,5 +18,5 @@ interface LeagueDao {
 //    fun findById(id: String): RoomLeague?
 
     @Query("SELECT * FROM RoomLeague WHERE name = '3c6d318a-6164-4290-9bbc-bf9bb21cc4b8' LIMIT 1")
-    fun select(): RoomLeague?
+    fun select(): RoomLeague
 }

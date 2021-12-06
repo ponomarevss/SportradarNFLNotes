@@ -14,6 +14,7 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.dao.*
         RoomSeason::class,
         RoomWeek::class,
         RoomGame::class,
+        RoomRival::class,
         RoomScoring::class,
         RoomPeriod::class
                ],

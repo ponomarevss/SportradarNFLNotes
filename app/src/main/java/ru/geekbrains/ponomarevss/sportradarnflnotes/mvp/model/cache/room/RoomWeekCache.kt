@@ -19,7 +19,7 @@ class RoomWeekCache(val db: Database) : IWeekCache {
             val roomSeason = db.seasonDao.select(year, type)
                 ?: throw RuntimeException("No such season in cache")
             db.weekDao.findOneBySeasonId(roomSeason.id, sequence)?.let {
-                Week(it.id, it.sequence, it.title, getGames(it.id))
+                Week(it.id, it.sequence, it.title, getGames(it.id) as List<Game>)
             }
         }
 
@@ -27,14 +27,14 @@ class RoomWeekCache(val db: Database) : IWeekCache {
         Single.fromCallable {
             val roomSeason = db.seasonDao.select(year, type)
                 ?: throw RuntimeException("No such season in cache")
-            db.weekDao.findAllBySeasonId(roomSeason.id)?.map {
-                Week(it.id, it.sequence, it.title, getGames(it.id))
+            db.weekDao.findAllBySeasonId(roomSeason.id).map {
+                Week(it.id, it.sequence, it.title, getGames(it.id) as List<Game>)
             }
         }
 
     override fun putWeek(weeklySchedule: WeeklySchedule): Completable = Completable.fromAction {
         with(weeklySchedule) {
-            RoomSeason(id, year, type, name)
+            db.seasonDao.insert(RoomSeason(id, year, type, name))
             putGames(week)
             RoomWeek(week.id, week.sequence, week.title, id)
         }.let { db.weekDao.insert(it) }
@@ -42,7 +42,7 @@ class RoomWeekCache(val db: Database) : IWeekCache {
 
     override fun putWeeks(seasonSchedule: SeasonSchedule): Completable = Completable.fromAction{
         with(seasonSchedule) {
-            RoomSeason(id, year, type, name)
+            db.seasonDao.insert(RoomSeason(id, year, type, name))
             weeks.map {
                 putGames(it)
                 RoomWeek(it.id, it.sequence, it.title, id)
@@ -51,14 +51,19 @@ class RoomWeekCache(val db: Database) : IWeekCache {
     }
 
     private fun getGames(weekId: String) = db.gameDao.findByWeek(weekId).map {
-        Game(it.id, it.status, it.scheduled, getHome(it.id), getAway(it.id), getScoring(it.id))
+        getHome(it.id)?.let { it1 ->
+            getAway(it.id)?.let { it2 ->
+                Game(it.id, it.status, it.scheduled,
+                    it1, it2, getScoring(it.id))
+            }
+        }
     }
 
-    private fun getHome(gameId: String) = db.rivalDao.findHomeByGameId(gameId).run {
+    private fun getHome(gameId: String) = db.rivalDao.findHomeByGameId(gameId)?.run {
         Rival(id, name, alias, gameNumber)
     }
 
-    private fun getAway(gameId: String) = db.rivalDao.findAwayByGameId(gameId).run {
+    private fun getAway(gameId: String) = db.rivalDao.findAwayByGameId(gameId)?.run {
         Rival(id, name, alias, gameNumber)
     }
 

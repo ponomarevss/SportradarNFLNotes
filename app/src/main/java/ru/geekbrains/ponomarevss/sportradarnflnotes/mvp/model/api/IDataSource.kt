@@ -9,9 +9,13 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.Se
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.WeeklySchedule
 
 interface IDataSource {
-    @GET("/league/hierarchy.json")
+
+    companion object {
+        private const val APIKEY = "efv8g6v7bta5mkgey4v38xbe"
+    }
+    @GET("league/hierarchy.json")
     fun getLeagueHierarchy(
-        @Query("api_key") apiKey: String
+        @Query("api_key") apiKey: String = APIKEY
     ): Single<LeagueHierarchy>
 
     @GET("/games/{year}/{nfl_season}/schedule.json")

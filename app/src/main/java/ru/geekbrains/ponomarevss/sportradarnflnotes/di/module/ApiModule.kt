@@ -21,7 +21,7 @@ class ApiModule {
     @Named("baseUrl")
     @Provides
     @Singleton
-    fun baseUrl(): String = "https://api.sportradar.us/nfl/official/trial/v7/en"
+    fun baseUrl(): String = "https://api.sportradar.us/nfl/official/trial/v7/en/"
 
     @Provides
     @Singleton
@@ -42,4 +42,5 @@ class ApiModule {
     @Provides
     @Singleton
     fun networkStatus(app: App): INetworkStatus = AndroidNetworkStatus(app)
+
 }

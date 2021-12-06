@@ -1,7 +1,6 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.dao
 
 import androidx.room.*
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.RoomConference
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.RoomDivision
 
 @Dao
@@ -39,6 +38,6 @@ interface DivisionDao {
     @Query("SELECT * FROM RoomDivision WHERE id = :id LIMIT 1")
     fun findById(id: String): RoomDivision?
 
-    @Query("SELECT * FROM RoomDivision WHERE conferenceId = :conferenceId LIMIT 1")
+    @Query("SELECT * FROM RoomDivision WHERE conferenceId = :conferenceId")
     fun findByConferenceId(conferenceId: String): List<RoomDivision>
 }
