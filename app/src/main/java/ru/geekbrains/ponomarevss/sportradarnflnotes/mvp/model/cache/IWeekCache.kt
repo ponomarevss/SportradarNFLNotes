@@ -9,8 +9,6 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.We
 interface IWeekCache {
     fun getWeek(year: Int, type: String, sequence: Int): Single<Week>
     fun getWeeks(year: Int, type: String): Single<List<Week>>
-//    fun putWeek(week: Week): Completable
-//    fun putWeeks(weeks: List<Week>): Completable
     fun putWeek(weeklySchedule: WeeklySchedule): Completable
     fun putWeeks(seasonSchedule: SeasonSchedule): Completable
 }

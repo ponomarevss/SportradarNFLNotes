@@ -25,5 +25,8 @@ class CacheModule {
     @Singleton
     @Provides
     fun conferencesCache(db: Database): IConferencesCache = RoomConferencesCache(db)
+
+    @Singleton
+    @Provides
     fun weekCache(db: Database): IWeekCache = RoomWeekCache(db)
 }

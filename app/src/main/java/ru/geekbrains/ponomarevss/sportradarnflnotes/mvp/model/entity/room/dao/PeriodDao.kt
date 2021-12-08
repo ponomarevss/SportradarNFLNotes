@@ -34,8 +34,8 @@ interface PeriodDao {
     @Delete
     fun delete(roomPeriods: List<RoomPeriod>)
 
-//    @Query("SELECT * FROM RoomPeriod")
-//    fun getAll(): List<RoomPeriod>
+    @Query("SELECT * FROM RoomPeriod")
+    fun getAll(): List<RoomPeriod>
 
     @Query("SELECT * FROM RoomPeriod WHERE scoringId = :scoringId")
     fun select(scoringId: String): List<RoomPeriod>

@@ -15,6 +15,7 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.RoomCo
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.RoomDivision
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.RoomLeague
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.db.Database
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IWeekRepo
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.App
 import java.io.IOException
 import java.io.InputStream
@@ -24,7 +25,8 @@ class MainActivity : AppCompatActivity() {
 
     @Inject lateinit var api: IDataSource
     @Inject lateinit var db: Database
-    @Inject lateinit var cache: IConferencesCache
+    @Inject lateinit var cache: IWeekCache
+    @Inject lateinit var repo: IWeekRepo
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,19 +35,43 @@ class MainActivity : AppCompatActivity() {
 
         App.instance.appComponent.inject(this)
 
+//        api.getLeagueHierarchy()
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe({
+//                       println(it)
+//            },{
+//                it.message
+//            })
 
-        api.getLeagueHierarchy().flatMap {
-            cache.putConferences(it.conferences).toSingleDefault(
-                db.teamDao.getAll()
-            )
-        }
-            .subscribeOn(Schedulers.io())
+        /**Дергаем сезон и кладем его в БД*/
+//        api.getSeasonSchedule("2021", "REG")
+//            .flatMap {
+//                cache.putWeeks(it).toSingleDefault(it)
+//            }
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe({
+//                println(it)
+//            },{
+//                println(it.message)
+//            })
+
+//        cache.getWeek(2018,"REG", 1)
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe({
+//                       println(it)
+//            },{
+//                println(it.message)
+//            })
+
+        repo.getWeek(2015, "REG", 7)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                       it.map { rTeam ->
-                           println(rTeam) }
-            }, {
-                println(it)
+                       println(it)
+            },{
+                println(it.message)
             })
     }
 }

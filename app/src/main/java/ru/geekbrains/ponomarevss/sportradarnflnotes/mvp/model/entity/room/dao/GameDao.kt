@@ -39,9 +39,9 @@ interface GameDao {
     @Query("SELECT * FROM RoomGame WHERE id = :id LIMIT 1")
     fun findById(id: String): RoomGame?
 
-    @Query("SELECT * FROM RoomGame WHERE weekId = :weekId LIMIT 1")
+    @Query("SELECT * FROM RoomGame WHERE weekId = :weekId")
     fun findByWeek(weekId: String): List<RoomGame>
 
-    @Query("SELECT * FROM RoomGame WHERE homeId = :homeId OR awayId = :awayId LIMIT 1")
+    @Query("SELECT * FROM RoomGame WHERE homeId = :homeId OR awayId = :awayId")
     fun findByRival(homeId: String, awayId: String): List<RoomGame>
 }

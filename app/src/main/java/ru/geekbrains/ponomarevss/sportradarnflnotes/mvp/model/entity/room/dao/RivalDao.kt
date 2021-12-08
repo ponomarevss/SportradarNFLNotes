@@ -35,12 +35,12 @@ interface RivalDao {
     @Delete
     fun delete(roomRivals: List<RoomRival>)
 
-//    @Query("SELECT * FROM RoomRival")
-//    fun getAll(): List<RoomRival>?
+    @Query("SELECT * FROM RoomRival")
+    fun getAll(): List<RoomRival>
 
     @Query("SELECT * FROM RoomRival WHERE gameId = :gameId AND status = 'home' LIMIT 1")
-    fun findHomeByGameId(gameId: String): RoomRival?
+    fun findHomeByGameId(gameId: String): RoomRival
 
     @Query("SELECT * FROM RoomRival WHERE gameId = :gameId AND status = 'away' LIMIT 1")
-    fun findAwayByGameId(gameId: String): RoomRival?
+    fun findAwayByGameId(gameId: String): RoomRival
 }

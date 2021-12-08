@@ -18,19 +18,19 @@ interface IDataSource {
         @Query("api_key") apiKey: String = APIKEY
     ): Single<LeagueHierarchy>
 
-    @GET("/games/{year}/{nfl_season}/schedule.json")
+    @GET("games/{year}/{nfl_season}/schedule.json")
     fun getSeasonSchedule(
         @Path("year") year: String,
         @Path("nfl_season") nflSeason: String,
-        @Query("api_key") apiKey: String
+        @Query("api_key") apiKey: String = APIKEY
     ): Single<SeasonSchedule>
 
-    @GET("/games/{year}/{nfl_season}/{nfl_season_week}/schedule.json")
+    @GET("games/{year}/{nfl_season}/{nfl_season_week}/schedule.json")
     fun getWeeklySchedule(
         @Path("year") year: String,
         @Path("nfl_season") nflSeason: String,
         @Path("nfl_season_week") nflSeasonWeek: String,
-        @Query("api_key") apiKey: String
+        @Query("api_key") apiKey: String = APIKEY
     ): Single<WeeklySchedule>
 }
 

@@ -5,6 +5,7 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity(
+    primaryKeys = ["id", "gameId"],
     foreignKeys = [ForeignKey(
         entity = RoomGame::class,
         parentColumns = ["id"],
@@ -13,7 +14,7 @@ import androidx.room.PrimaryKey
     )]
 )
 data class RoomRival(
-    @PrimaryKey var id: String,
+    var id: String,
     var status: String,
     var name: String,
     var alias: String,
