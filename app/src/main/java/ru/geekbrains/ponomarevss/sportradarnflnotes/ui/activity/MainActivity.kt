@@ -35,15 +35,6 @@ class MainActivity : AppCompatActivity() {
 
         App.instance.appComponent.inject(this)
 
-//        api.getLeagueHierarchy()
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe({
-//                       println(it)
-//            },{
-//                it.message
-//            })
-
         /**Дергаем сезон и кладем его в БД*/
 //        api.getSeasonSchedule("2021", "REG")
 //            .flatMap {
@@ -57,16 +48,7 @@ class MainActivity : AppCompatActivity() {
 //                println(it.message)
 //            })
 
-//        cache.getWeek(2018,"REG", 1)
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe({
-//                       println(it)
-//            },{
-//                println(it.message)
-//            })
-
-        repo.getWeek(2015, "REG", 7)
+        repo.getWeek(2016, "REG", 12)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                        println(it)
