@@ -34,15 +34,6 @@ class RoomWeekCache(val db: Database) : IWeekCache {
             }
         }
 
-//    override fun getWeeks(year: Int, type: String): Single<List<Week>> =
-//        Single.fromCallable {
-//            val roomSeason = db.seasonDao.select(year, type)
-//                ?: throw RuntimeException("No such season in cache")
-//            db.weekDao.findAllBySeasonId(roomSeason.id).map {
-//                Week(it.id, it.sequence, it.title, getGames(it.id))
-//            }
-//        }
-//
     override fun putWeek(weeklySchedule: WeeklySchedule): Completable = Completable.fromAction {
         with(weeklySchedule) {
             db.seasonDao.insert(RoomSeason(id, year, type, name))
