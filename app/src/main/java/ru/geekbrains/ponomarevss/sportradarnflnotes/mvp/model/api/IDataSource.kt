@@ -5,6 +5,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.LeagueHierarchy
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.LeagueSeasons
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.SeasonSchedule
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.WeeklySchedule
 
@@ -13,6 +14,11 @@ interface IDataSource {
     companion object {
         private const val APIKEY = "efv8g6v7bta5mkgey4v38xbe"
     }
+    @GET("league/seasons.json")
+    fun getSeasons(
+        @Query("api_key") apiKey: String = APIKEY
+    ): Single<LeagueSeasons>
+
     @GET("league/hierarchy.json")
     fun getLeagueHierarchy(
         @Query("api_key") apiKey: String = APIKEY
@@ -38,3 +44,4 @@ interface IDataSource {
 //    https://api.sportradar.us/nfl/official/trial/v7/en/games/2021/REG/01/schedule.json?api_key=efv8g6v7bta5mkgey4v38xbe
 //    https://api.sportradar.us/nfl/official/trial/v7/en/games/2021/REG/schedule.json?api_key=efv8g6v7bta5mkgey4v38xbe
 //    https://api.sportradar.us/nfl/official/trial/v7/en/league/hierarchy.json?api_key=efv8g6v7bta5mkgey4v38xbe
+//    http://api.sportradar.us/nfl/official/trial/v7/en/league/seasons.json?api_key=efv8g6v7bta5mkgey4v38xbe

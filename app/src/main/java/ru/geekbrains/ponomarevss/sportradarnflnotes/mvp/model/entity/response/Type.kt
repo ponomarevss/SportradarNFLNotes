@@ -6,11 +6,6 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class Season(
-    @Expose val id: String,
-    @Expose val year: Int,
-    @Expose val startDate: String,
-    @Expose val endDate: String,
-    @Expose val status: String,
-    @Expose val type: Type
+data class Type(
+    @Expose val code: String
 ): Parcelable
