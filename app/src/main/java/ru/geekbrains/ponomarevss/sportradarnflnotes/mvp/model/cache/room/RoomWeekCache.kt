@@ -36,7 +36,6 @@ class RoomWeekCache(val db: Database) : IWeekCache {
 
     override fun putWeek(weeklySchedule: WeeklySchedule): Completable = Completable.fromAction {
         with(weeklySchedule) {
-            db.seasonDao.insert(RoomSeason(id, year, type, name))
             db.weekDao.insert(RoomWeek(week.id, week.sequence, week.title, id))
             putGames(week)
         }
@@ -44,7 +43,6 @@ class RoomWeekCache(val db: Database) : IWeekCache {
 
     override fun putWeeks(seasonSchedule: SeasonSchedule): Completable = Completable.fromAction{
         with(seasonSchedule) {
-            db.seasonDao.insert(RoomSeason(id, year, type, name))
             weeks.map {
                 db.weekDao.insert(RoomWeek(it.id, it.sequence, it.title, id))
                 putGames(it)

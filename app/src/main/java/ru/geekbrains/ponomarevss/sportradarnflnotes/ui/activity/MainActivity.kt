@@ -6,12 +6,11 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import ru.geekbrains.ponomarevss.sportradarnflnotes.R
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.api.IDataSource
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.ISeasonsRepo
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.App
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
-
-    @Inject lateinit var api: IDataSource
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,13 +18,5 @@ class MainActivity : AppCompatActivity() {
 
         App.instance.appComponent.inject(this)
 
-        api.getSeasons()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                       println(it.seasons[0])
-            },{
-                println(it)
-            })
     }
 }
