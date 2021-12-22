@@ -14,14 +14,12 @@ class RoomWeeksCache(val db: Database) : IWeeksCache {
         private const val AWAY = "away"
     }
 
-    override fun getWeeksCache(year: Int, type: String): Single<List<Week>> =
-        Single.fromCallable {
-            val roomSeason = db.seasonDao.select(year, type)
-                ?: throw RuntimeException("No such season in cache")
-            db.weekDao.findAllBySeasonId(roomSeason.id).map {
-                Week(it.id, it.sequence, it.title, getGames(it.id))
-            }
+    override fun getWeeksCache(year: Int, type: String): Single<List<Week>> = Single.fromCallable {
+        val roomSeason = db.seasonDao.select(year, type) ?: throw RuntimeException("No such season in cache")
+        db.weekDao.findAllBySeasonId(roomSeason.id).map {
+            Week(it.id, it.sequence, it.title, getGames(it.id))
         }
+    }
 
     override fun putWeeksCache(seasonSchedule: SeasonSchedule): Completable = Completable.fromAction{
         with(seasonSchedule) {
@@ -32,11 +30,9 @@ class RoomWeeksCache(val db: Database) : IWeeksCache {
         }
     }
 
-    override fun getGamesCache(weekId: String): Single<List<Game>> =
-        Single.fromCallable { getGames(weekId) }
+    override fun getGamesCache(weekId: String): Single<List<Game>> = Single.fromCallable { getGames(weekId) }
 
-    override fun putGamesCache(weeklySchedule: WeeklySchedule): Completable =
-        Completable.fromAction { putGames(weeklySchedule.week) }
+    override fun putGamesCache(weeklySchedule: WeeklySchedule): Completable = Completable.fromAction { putGames(weeklySchedule.week) }
 
 
     private fun getGames(weekId: String) = db.gameDao.findByWeek(weekId).map {

@@ -14,22 +14,20 @@ class RetrofitSeasonsRepo(
     private val cache: ISeasonsCache
 ) : ISeasonsRepo {
 
-    override fun getSeasons(): Single<List<Season>> =
-        networkStatus.isOnlineSingle().flatMap { isOnline ->
-            if (isOnline) {
-                cache.getSeasons()
-                    .flatMap {
-                        if (it.isEmpty()) {
-                            api.getSeasons()
-                                .flatMap { leagueSeasons ->
-                                    cache.putSeasons(leagueSeasons.seasons)
-                                        .toSingle { leagueSeasons.seasons }
-                                }
-                        } else Single.just(it)
-                    }
-            } else cache.getSeasons()
-        }
-            .subscribeOn(Schedulers.io())
+    override fun getSeasons(): Single<List<Season>> = networkStatus.isOnlineSingle().flatMap { isOnline ->
+        if (isOnline) {
+            cache.getSeasons()
+                .flatMap {
+                    if (it.isEmpty()) {
+                        api.getSeasons()
+                            .flatMap { leagueSeasons ->
+                                cache.putSeasons(leagueSeasons.seasons)
+                                    .toSingle { leagueSeasons.seasons }
+                            }
+                    } else Single.just(it)
+                }
+        } else cache.getSeasons()
+    }.subscribeOn(Schedulers.io())
 }
 
 

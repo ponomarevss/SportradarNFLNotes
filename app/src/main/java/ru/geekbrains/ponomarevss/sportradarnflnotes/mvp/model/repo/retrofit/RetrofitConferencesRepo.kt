@@ -30,14 +30,11 @@ class RetrofitConferencesRepo(
         } else cache.getConferences()
     }.subscribeOn(Schedulers.io())
 
-    /*ПРОВЕРИТЬ МЕТОД!*/
     override fun getTeam(teamId: String): Single<Team> = networkStatus.isOnlineSingle().flatMap { isOnline ->
         if (isOnline) {
             cache.getTeam(teamId).onErrorResumeNext {
                 api.getLeagueHierarchy().flatMap {
-                    cache.putConferences(it.conferences).toSingle {
-                        cache.getTeam(teamId).blockingGet().also { println("cache.getTeam(teamId).blockingGet()") }
-                    }
+                    cache.putConferences(it.conferences).toSingle { cache.getTeam(teamId).blockingGet() }
                 }
             }
         } else cache.getTeam(teamId)

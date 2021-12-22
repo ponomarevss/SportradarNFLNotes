@@ -11,5 +11,4 @@ interface IConferencesCache {
     fun putConferences(conferences: List<Conference>): Completable
 
     fun getTeam(teamId: String): Single<Team>
-    fun updateTeam(team: Team): Completable
 }

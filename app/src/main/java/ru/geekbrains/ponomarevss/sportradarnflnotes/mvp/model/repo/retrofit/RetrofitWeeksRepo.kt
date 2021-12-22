@@ -14,26 +14,18 @@ class RetrofitWeeksRepo(
     private val cache: IWeeksCache
 ) : IWeeksRepo {
 
-    override fun getWeeks(year: Int, type: String): Single<List<Week>> =
-        networkStatus.isOnlineSingle().flatMap { isOnline ->
-            if (isOnline) {
-                cache.getWeeksCache(year, type)
-                    .flatMap {
-                        if (it.isEmpty()) {
-                            api.getSeasonSchedule(year.toString(), type)
-                                .flatMap { schedule ->
-                                    cache.putWeeksCache(schedule)
-                                        .toSingle { schedule.weeks }
-                                }
-                        } else Single.just(it)
-                    }
-            } else cache.getWeeksCache(year, type)
-        }
-        .subscribeOn(Schedulers.io())
+    override fun getWeeks(year: Int, type: String): Single<List<Week>> = networkStatus.isOnlineSingle().flatMap { isOnline ->
+        if (isOnline) {
+            cache.getWeeksCache(year, type)
+                .flatMap {
+                    if (it.isEmpty()) {
+                        api.getSeasonSchedule(year.toString(), type)
+                            .flatMap { schedule ->
+                                cache.putWeeksCache(schedule)
+                                    .toSingle { schedule.weeks }
+                            }
+                    } else Single.just(it)
+                }
+        } else cache.getWeeksCache(year, type)
+    }.subscribeOn(Schedulers.io())
 }
-
-
-/**Вариант, когда репо, в случае onError, отдает объект из cache*/
-//    .flatMap { schedule ->
-//        cache.putWeek(schedule) .toSingle { cache.getWeek(year, type, sequence).blockingGet() }
-//    }

@@ -32,10 +32,6 @@ class RoomConferencesCache(val db: Database) : IConferencesCache {
         }
     }
 
-    override fun updateTeam(team: Team): Completable {
-        TODO("Not yet implemented")
-    }
-
     private fun putDivisions(conference: Conference) = conference.divisions.map {
         db.divisionDao.insert(RoomDivision(it.id, it.name, it.alias, conference.id))
         putTeams(it)
