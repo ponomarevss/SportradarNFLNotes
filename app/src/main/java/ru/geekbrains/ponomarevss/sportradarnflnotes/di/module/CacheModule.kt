@@ -5,10 +5,10 @@ import dagger.Module
 import dagger.Provides
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IConferencesCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.ISeasonsCache
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IWeekCache
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IWeeksCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.room.RoomConferencesCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.room.RoomSeasonsCache
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.room.RoomWeekCache
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.room.RoomWeeksCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.db.Database
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.App
 import javax.inject.Singleton
@@ -30,7 +30,7 @@ class CacheModule {
 
     @Singleton
     @Provides
-    fun weekCache(db: Database): IWeekCache = RoomWeekCache(db)
+    fun weekCache(db: Database): IWeeksCache = RoomWeeksCache(db)
 
     @Singleton
     @Provides

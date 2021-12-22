@@ -1,31 +1,20 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.room
 
 import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.schedulers.Schedulers
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IWeekCache
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IWeeksCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.*
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.*
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.db.Database
 
-class RoomWeekCache(val db: Database) : IWeekCache {
+class RoomWeeksCache(val db: Database) : IWeeksCache {
 
     companion object{
         private const val HOME = "home"
         private const val AWAY = "away"
     }
 
-    override fun getWeek(year: Int, type: String, sequence: Int): Single<Week> =
-        Single.fromCallable {
-            val roomSeason = db.seasonDao.select(year, type)
-                ?: throw RuntimeException("No such season in cache")
-            db.weekDao.findOneBySeasonId(roomSeason.id, sequence)?.let {
-                Week(it.id, it.sequence, it.title, getGames(it.id))
-            }
-        }
-
-    override fun getWeeks(year: Int, type: String): Single<List<Week>> =
+    override fun getWeeksCache(year: Int, type: String): Single<List<Week>> =
         Single.fromCallable {
             val roomSeason = db.seasonDao.select(year, type)
                 ?: throw RuntimeException("No such season in cache")
@@ -34,14 +23,7 @@ class RoomWeekCache(val db: Database) : IWeekCache {
             }
         }
 
-    override fun putWeek(weeklySchedule: WeeklySchedule): Completable = Completable.fromAction {
-        with(weeklySchedule) {
-            db.weekDao.insert(RoomWeek(week.id, week.sequence, week.title, id))
-            putGames(week)
-        }
-    }
-
-    override fun putWeeks(seasonSchedule: SeasonSchedule): Completable = Completable.fromAction{
+    override fun putWeeksCache(seasonSchedule: SeasonSchedule): Completable = Completable.fromAction{
         with(seasonSchedule) {
             weeks.map {
                 db.weekDao.insert(RoomWeek(it.id, it.sequence, it.title, id))
@@ -49,6 +31,13 @@ class RoomWeekCache(val db: Database) : IWeekCache {
             }
         }
     }
+
+    override fun getGamesCache(weekId: String): Single<List<Game>> =
+        Single.fromCallable { getGames(weekId) }
+
+    override fun putGamesCache(weeklySchedule: WeeklySchedule): Completable =
+        Completable.fromAction { putGames(weeklySchedule.week) }
+
 
     private fun getGames(weekId: String) = db.gameDao.findByWeek(weekId).map {
         Game(it.id, it.status, it.scheduled, getHome(it.id), getAway(it.id), getScoring(it.id))
