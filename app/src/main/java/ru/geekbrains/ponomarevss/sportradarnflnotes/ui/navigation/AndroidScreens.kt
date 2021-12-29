@@ -6,15 +6,14 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.Ga
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.Season
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.Week
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.navigation.IScreens
-import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.fragment.GameFragment
-import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.fragment.GamesFragment
-import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.fragment.SeasonsFragment
-import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.fragment.WeeksFragment
+import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.fragment.*
 
 class AndroidScreens : IScreens {
     override fun teams(): Screen {
         TODO("Not yet implemented")
     }
+
+    override fun table() = FragmentScreen { TableFragment.newInstance()}
 
     override fun seasons() = FragmentScreen { SeasonsFragment.newInstance() }
 

@@ -8,23 +8,13 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.Se
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.network.INetworkStatus
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.ISeasonsRepo
 
-class RetrofitSeasonsRepo(
-    val api: IDataSource,
-    private val networkStatus: INetworkStatus,
-    private val cache: ISeasonsCache
-) : ISeasonsRepo {
+class RetrofitSeasonsRepo(val api: IDataSource, private val networkStatus: INetworkStatus, private val cache: ISeasonsCache) : ISeasonsRepo {
 
     override fun getSeasons(): Single<List<Season>> = networkStatus.isOnlineSingle().flatMap { isOnline ->
         if (isOnline) {
-            cache.getSeasons()
+            api.getSeasons()
                 .flatMap {
-                    if (it.isEmpty()) {
-                        api.getSeasons()
-                            .flatMap { leagueSeasons ->
-                                cache.putSeasons(leagueSeasons.seasons)
-                                    .toSingle { leagueSeasons.seasons }
-                            }
-                    } else Single.just(it)
+                    cache.putSeasons(it.seasons).toSingle { it.seasons }
                 }
         } else cache.getSeasons()
     }.subscribeOn(Schedulers.io())

@@ -39,5 +39,5 @@ interface WeekDao {
     fun findOneBySeasonId(seasonId: String, sequence: Int): RoomWeek?
 
     @Query("SELECT * FROM RoomWeek WHERE seasonId = :seasonId")
-    fun findAllBySeasonId(seasonId: String): List<RoomWeek>
+    fun findForSeasonId(seasonId: String): List<RoomWeek>
 }

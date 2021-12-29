@@ -4,9 +4,11 @@ import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IConferencesCache
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IGamesCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.ISeasonsCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IWeeksCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.room.RoomConferencesCache
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.room.RoomGamesCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.room.RoomSeasonsCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.room.RoomWeeksCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.db.Database
@@ -30,9 +32,13 @@ class CacheModule {
 
     @Singleton
     @Provides
+    fun seasonCache(db: Database): ISeasonsCache = RoomSeasonsCache(db)
+
+    @Singleton
+    @Provides
     fun weekCache(db: Database): IWeeksCache = RoomWeeksCache(db)
 
     @Singleton
     @Provides
-    fun seasonCache(db: Database): ISeasonsCache = RoomSeasonsCache(db)
+    fun gameCache(db: Database): IGamesCache = RoomGamesCache(db)
 }

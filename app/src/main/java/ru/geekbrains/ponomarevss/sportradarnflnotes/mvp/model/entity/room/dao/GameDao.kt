@@ -37,11 +37,11 @@ interface GameDao {
     fun getAll(): List<RoomGame>
 
     @Query("SELECT * FROM RoomGame WHERE id = :id LIMIT 1")
-    fun findById(id: String): RoomGame?
+    fun findForId(id: String): RoomGame?
 
     @Query("SELECT * FROM RoomGame WHERE weekId = :weekId")
-    fun findByWeek(weekId: String): List<RoomGame>
+    fun findForWeekId(weekId: String): List<RoomGame>
 
-    @Query("SELECT * FROM RoomGame WHERE homeId = :homeId OR awayId = :awayId")
-    fun findByRival(homeId: String, awayId: String): List<RoomGame>
+    @Query("SELECT * FROM RoomGame WHERE homeId = :rivalId OR awayId = :rivalId")
+    fun findForRivalId(rivalId: String): List<RoomGame>
 }

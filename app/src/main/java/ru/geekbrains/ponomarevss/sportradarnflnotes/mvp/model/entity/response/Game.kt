@@ -11,5 +11,6 @@ data class Game(
     @Expose val scheduled: String,
     @Expose val home: Rival,
     @Expose val away: Rival,
-    @Expose val scoring: Scoring? = null
+    @Expose val scoring: Scoring? = null,
+    var isWatched: Boolean = false
 ): Parcelable

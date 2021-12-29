@@ -6,8 +6,15 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Week(
-    @Expose val id: String,
-    @Expose val sequence: Int,
-    @Expose val title: String,
-    @Expose val games: List<Game>
+    val id: String,
+    val sequence: Int,
+    val title: String,
 ): Parcelable
+
+//@Parcelize
+//data class Week(
+//    @Expose val id: String,
+//    @Expose val sequence: Int,
+//    @Expose val title: String,
+//    @Expose val games: List<Game>
+//): Parcelable

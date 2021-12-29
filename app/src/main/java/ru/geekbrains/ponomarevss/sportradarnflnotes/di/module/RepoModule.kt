@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.Provides
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.api.IDataSource
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IConferencesCache
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IGamesCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.ISeasonsCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IWeeksCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.network.INetworkStatus
@@ -46,6 +47,6 @@ class RepoModule {
     fun gameRepo(
         api: IDataSource,
         networkStatus: INetworkStatus,
-        cache: IWeeksCache,
+        cache: IGamesCache,
     ): IGamesRepo = RetrofitGamesRepo(api, networkStatus, cache)
 }

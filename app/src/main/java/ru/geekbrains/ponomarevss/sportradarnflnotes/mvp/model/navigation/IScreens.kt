@@ -7,6 +7,7 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.We
 
 interface IScreens {
     fun teams(): Screen
+    fun table(): Screen
     fun seasons(): Screen
     fun weeks(season: Season): Screen
     fun games(season: Season, week: Week): Screen

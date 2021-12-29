@@ -24,4 +24,5 @@ interface AppComponent {
     fun inject(weeksPresenter: WeeksPresenter)
     fun inject(gamesPresenter: GamesPresenter)
     fun inject(gamePresenter: GamePresenter)
+    fun inject(tablePresenter: TablePresenter)
 }

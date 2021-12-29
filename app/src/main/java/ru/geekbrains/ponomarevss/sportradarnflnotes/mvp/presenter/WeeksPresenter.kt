@@ -44,7 +44,7 @@ class WeeksPresenter(val uiScheduler: Scheduler, val season: Season): MvpPresent
     }
 
     private fun loadData() {
-        repo.getWeeks(season.year, season.type.code)
+        repo.getWeeks(season)
             .observeOn(uiScheduler)
             .subscribe({
                 weeksListPresenter.weeks.clear()

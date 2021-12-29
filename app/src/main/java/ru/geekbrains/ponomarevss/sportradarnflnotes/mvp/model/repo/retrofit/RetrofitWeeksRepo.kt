@@ -4,28 +4,31 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.api.IDataSource
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IWeeksCache
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.Season
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.Week
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.network.INetworkStatus
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IWeeksRepo
 
-class RetrofitWeeksRepo(
-    val api: IDataSource,
-    private val networkStatus: INetworkStatus,
-    private val cache: IWeeksCache
-) : IWeeksRepo {
+class RetrofitWeeksRepo(val api: IDataSource, private val networkStatus: INetworkStatus, private val cache: IWeeksCache) : IWeeksRepo {
 
-    override fun getWeeks(year: Int, type: String): Single<List<Week>> = networkStatus.isOnlineSingle().flatMap { isOnline ->
+    override fun getWeeks(season: Season): Single<List<Week>> = networkStatus.isOnlineSingle().flatMap { isOnline ->
         if (isOnline) {
-            cache.getWeeksCache(year, type)
+            cache.getWeeks(season.id)
                 .flatMap {
                     if (it.isEmpty()) {
-                        api.getSeasonSchedule(year.toString(), type)
+                        api.getSeasonSchedule(season.year.toString(), season.type.code)
                             .flatMap { schedule ->
-                                cache.putWeeksCache(schedule)
-                                    .toSingle { schedule.weeks }
+                                cache.putWeeks(
+                                    schedule.scheduleWeeks.map { scheduleWeek -> scheduleWeek.toWeek() },
+                                    season.id
+                                ).toSingle {
+                                    schedule.scheduleWeeks.map { scheduleWeek ->
+                                        scheduleWeek.toWeek()
+                                    }
+                                }
                             }
                     } else Single.just(it)
                 }
-        } else cache.getWeeksCache(year, type)
+        } else cache.getWeeks(season.id)
     }.subscribeOn(Schedulers.io())
 }

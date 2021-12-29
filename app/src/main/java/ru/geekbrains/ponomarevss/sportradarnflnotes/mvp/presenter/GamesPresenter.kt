@@ -15,6 +15,10 @@ import javax.inject.Inject
 
 class GamesPresenter(val uiScheduler: Scheduler, val season: Season, val week: Week): MvpPresenter<GamesView>() {
 
+    companion object{
+        private const val SCHEDULED_STATUS = "scheduled"
+    }
+
     @Inject lateinit var repo: IGamesRepo
     @Inject lateinit var router: Router
     @Inject lateinit var screens: IScreens
@@ -29,7 +33,7 @@ class GamesPresenter(val uiScheduler: Scheduler, val season: Season, val week: W
                 with(game) {
                     setHome(home.alias)
                     setAway(away.alias)
-                    setScoring("${scoring?.homePoints} : ${scoring?.awayPoints}")
+                    if (isWatched) setScoring("${scoring?.homePoints} : ${scoring?.awayPoints}")
                     setScheduled(scheduled)
                     setStatus(status)
                 }
@@ -48,6 +52,15 @@ class GamesPresenter(val uiScheduler: Scheduler, val season: Season, val week: W
 
         gamesListPresenter.itemClickListener = {
             val game = gamesListPresenter.games[it.pos]
+            game.apply {
+                if (status != SCHEDULED_STATUS) {
+                    isWatched = true
+                    repo.putGame(this, week.id)
+                        .observeOn(uiScheduler)
+                        .subscribe()
+                }
+            }
+            viewState.updateList()
             router.navigateTo(screens.game(game))
         }
     }
