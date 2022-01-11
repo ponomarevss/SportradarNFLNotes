@@ -12,6 +12,7 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.list.IGamesLis
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.GamesView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.list.GameItemView
 import javax.inject.Inject
+import javax.inject.Named
 
 class GamesPresenter(val uiScheduler: Scheduler, val season: Season, val week: Week): MvpPresenter<GamesView>() {
 
@@ -22,8 +23,12 @@ class GamesPresenter(val uiScheduler: Scheduler, val season: Season, val week: W
     @Inject lateinit var repo: IGamesRepo
     @Inject lateinit var router: Router
     @Inject lateinit var screens: IScreens
+    @Inject @field:Named("logoUrl") lateinit var logoUrl: String
 
-    class GamesListPresenter: IGamesListPresenter {
+    inner class GamesListPresenter: IGamesListPresenter {
+
+
+
         val games = mutableListOf<Game>()
         override var itemClickListener: ((GameItemView) -> Unit)? = null
 
@@ -33,9 +38,11 @@ class GamesPresenter(val uiScheduler: Scheduler, val season: Season, val week: W
                 with(game) {
                     setHome(home.alias)
                     setAway(away.alias)
-                    if (isWatched) setScoring("${scoring?.homePoints} : ${scoring?.awayPoints}")
+                    if (isWatched) setScoring("${scoring?.homePoints} : ${scoring?.awayPoints}") else setScoring("")
                     setScheduled(scheduled)
                     setStatus(status)
+                    loadHomeAvatar(logoUrl + home.alias)
+                    loadAwayAvatar(logoUrl + away.alias)
                 }
             }
         }

@@ -24,6 +24,7 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.BackButtonListener
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter.GamesRVAdapter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter.SeasonsRVAdapter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter.WeeksRVAdapter
+import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.image.GlideImageLoader
 
 class GamesFragment: MvpAppCompatFragment(), GamesView, BackButtonListener {
     companion object {
@@ -64,7 +65,7 @@ class GamesFragment: MvpAppCompatFragment(), GamesView, BackButtonListener {
 
     override fun init() {
         vb?.rvGames?.layoutManager = LinearLayoutManager(context)
-        adapter = GamesRVAdapter(presenter.gamesListPresenter)
+        adapter = GamesRVAdapter(presenter.gamesListPresenter, GlideImageLoader())
         vb?.rvGames?.adapter = adapter
     }
 

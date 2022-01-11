@@ -1,6 +1,7 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.ui.activity
 
 import android.os.Bundle
+import com.bumptech.glide.Glide
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -16,6 +17,7 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IGamesCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.Game
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.Rival
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IConferencesRepo
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IWeeksRepo
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.MainPresenter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.MainView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.App

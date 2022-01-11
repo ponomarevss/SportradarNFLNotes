@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
@@ -41,13 +42,11 @@ class TableFragment: MvpAppCompatFragment(), TableView, BackButtonListener {
 
     private var vb: FragmentTableBinding? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ) = FragmentTableBinding.inflate(inflater, container, false).also {
-        vb = it
-    }.root
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
+        FragmentTableBinding.inflate(inflater, container, false).also {
+                vb = it
+            }
+            .root
 
     override fun onDestroyView() {
         super.onDestroyView()

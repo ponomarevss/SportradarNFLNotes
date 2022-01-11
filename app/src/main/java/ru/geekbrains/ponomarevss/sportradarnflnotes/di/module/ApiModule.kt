@@ -23,6 +23,11 @@ class ApiModule {
     @Singleton
     fun baseUrl(): String = "https://api.sportradar.us/nfl/official/trial/v7/en/"
 
+    @Named("logoUrl")
+    @Provides
+    @Singleton
+    fun logoUrl(): String = "https://static.www.nfl.com/t_headshot_desktop/f_auto/league/api/clubs/logos/"
+
     @Provides
     @Singleton
     fun gson(): Gson = GsonBuilder()

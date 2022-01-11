@@ -2,18 +2,21 @@ package ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.ItemGameBinding
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.ItemSeasonBinding
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.ItemWeekBinding
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.image.IImageLoader
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.list.IGamesListPresenter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.list.ISeasonsListPresenter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.list.IWeeksListPresenter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.list.GameItemView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.list.SeasonItemView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.list.WeekItemView
+import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.image.GlideImageLoader
 
-class GamesRVAdapter(val presenter: IGamesListPresenter) :
+class GamesRVAdapter(val presenter: IGamesListPresenter, val imageLoader: IImageLoader<ImageView>) :
     RecyclerView.Adapter<GamesRVAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -40,24 +43,32 @@ class GamesRVAdapter(val presenter: IGamesListPresenter) :
         GameItemView {
         override var pos = -1
 
-        override fun setStatus(text: String) {
-            vb.tvStatus.text = text
+        override fun setStatus(text: String) = with(vb) {
+            tvStatus.text = text
         }
 
-        override fun setScheduled(text: String) {
-            vb.tvScheduled.text = text
+        override fun setScheduled(text: String) = with(vb) {
+            tvScheduled.text = text
         }
 
-        override fun setHome(text: String) {
-            vb.tvHome.text = text
+        override fun setHome(text: String) = with(vb) {
+            tvHome.text = text
         }
 
-        override fun setAway(text: String) {
-            vb.tvAway.text = text
+        override fun setAway(text: String) = with(vb) {
+            tvAway.text = text
         }
 
-        override fun setScoring(text: String) {
-            vb.tvScoring.text = text
+        override fun setScoring(text: String) = with(vb) {
+            tvScoring.text = text
+        }
+
+        override fun loadHomeAvatar(url: String) = with(vb) {
+            imageLoader.loadInto(url, ivHome)
+        }
+
+        override fun loadAwayAvatar(url: String) = with(vb) {
+            imageLoader.loadInto(url, ivAway)
         }
     }
 }
