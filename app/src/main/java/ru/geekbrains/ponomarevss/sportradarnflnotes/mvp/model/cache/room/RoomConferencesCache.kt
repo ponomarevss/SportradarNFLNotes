@@ -3,9 +3,9 @@ package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.room
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IConferencesCache
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.Conference
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.Division
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.Team
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Conference
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Division
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Team
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.RoomConference
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.RoomDivision
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.RoomTeam

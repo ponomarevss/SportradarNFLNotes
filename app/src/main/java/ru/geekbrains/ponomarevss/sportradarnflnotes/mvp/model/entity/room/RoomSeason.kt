@@ -2,8 +2,6 @@ package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.gson.annotations.Expose
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.Type
 
 @Entity
 data class RoomSeason(

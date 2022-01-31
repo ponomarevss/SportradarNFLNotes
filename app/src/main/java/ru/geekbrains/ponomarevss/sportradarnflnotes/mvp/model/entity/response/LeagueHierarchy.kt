@@ -3,6 +3,8 @@ package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import kotlinx.parcelize.Parcelize
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Conference
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.League
 
 @Parcelize
 data class LeagueHierarchy(

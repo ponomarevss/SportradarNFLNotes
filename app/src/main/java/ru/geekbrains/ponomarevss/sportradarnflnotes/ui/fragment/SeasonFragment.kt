@@ -2,29 +2,25 @@ package ru.geekbrains.ponomarevss.sportradarnflnotes.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
-import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.FragmentSeasonsBinding
-import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.FragmentWeeksBinding
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.Season
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.SeasonsPresenter
+import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.FragmentSeasonBinding
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Season
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.WeeksPresenter
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.SeasonsView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.WeeksView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.App
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.BackButtonListener
-import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter.SeasonsRVAdapter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter.WeeksRVAdapter
 
-class WeeksFragment: MvpAppCompatFragment(), WeeksView, BackButtonListener {
+class SeasonFragment: MvpAppCompatFragment(), WeeksView, BackButtonListener {
     companion object {
         private const val SEASON_ARG = "season"
+        private const val SPAN_COUNT = 6
 
-        fun newInstance(season: Season) = WeeksFragment().apply {
+        fun newInstance(season: Season) = SeasonFragment().apply {
             arguments = Bundle().apply {
                 putParcelable(SEASON_ARG, season)
             }
@@ -39,13 +35,13 @@ class WeeksFragment: MvpAppCompatFragment(), WeeksView, BackButtonListener {
     }
 
     var adapter: WeeksRVAdapter? = null
-    private var vb: FragmentWeeksBinding? = null
+    private var vb: FragmentSeasonBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = FragmentWeeksBinding.inflate(inflater, container, false).also {
+    ) = FragmentSeasonBinding.inflate(inflater, container, false).also {
         vb = it
     }.root
 
@@ -55,7 +51,7 @@ class WeeksFragment: MvpAppCompatFragment(), WeeksView, BackButtonListener {
     }
 
     override fun init() {
-        vb?.rvWeeks?.layoutManager = LinearLayoutManager(context)
+        vb?.rvWeeks?.layoutManager = GridLayoutManager(context, SPAN_COUNT)
         adapter = WeeksRVAdapter(presenter.weeksListPresenter)
         vb?.rvWeeks?.adapter = adapter
     }

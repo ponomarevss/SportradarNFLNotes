@@ -1,4 +1,4 @@
-package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response
+package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common
 
 import android.os.Parcelable
 import com.google.gson.annotations.Expose

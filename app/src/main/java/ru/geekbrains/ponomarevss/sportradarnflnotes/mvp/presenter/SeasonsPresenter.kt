@@ -1,15 +1,12 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter
 
 import com.github.terrakok.cicerone.Router
-import com.google.gson.annotations.Expose
 import io.reactivex.rxjava3.core.Scheduler
 import moxy.MvpPresenter
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.Season
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.Type
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Season
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.navigation.IScreens
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.ISeasonsRepo
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.list.ISeasonsListPresenter
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.MainView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.SeasonsView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.list.SeasonItemView
 import javax.inject.Inject
@@ -49,7 +46,7 @@ class SeasonsPresenter(val uiScheduler: Scheduler): MvpPresenter<SeasonsView>() 
 
         seasonsListPresenter.itemClickListener = {
             val season = seasonsListPresenter.seasons[it.pos]
-            router.navigateTo(screens.weeks(season))
+            router.navigateTo(screens.season(season))
         }
     }
 

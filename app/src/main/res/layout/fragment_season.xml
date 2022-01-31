@@ -7,6 +7,14 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_weeks"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:clipToPadding="false"
+        android:paddingBottom="16dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_teams_stats"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="16dp"
         android:clipToPadding="false"

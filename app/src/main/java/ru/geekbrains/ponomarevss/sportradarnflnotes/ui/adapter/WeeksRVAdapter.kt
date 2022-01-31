@@ -3,11 +3,8 @@ package ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.ItemSeasonBinding
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.ItemWeekBinding
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.list.ISeasonsListPresenter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.list.IWeeksListPresenter
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.list.SeasonItemView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.list.WeekItemView
 
 class WeeksRVAdapter(val presenter: IWeeksListPresenter) :

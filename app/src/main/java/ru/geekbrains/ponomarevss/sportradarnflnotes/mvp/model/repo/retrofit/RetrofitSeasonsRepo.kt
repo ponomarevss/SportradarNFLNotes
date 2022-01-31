@@ -4,7 +4,7 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.api.IDataSource
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.ISeasonsCache
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.Season
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Season
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.network.INetworkStatus
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.ISeasonsRepo
 

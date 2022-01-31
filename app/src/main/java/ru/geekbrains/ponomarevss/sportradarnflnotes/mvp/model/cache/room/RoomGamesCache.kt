@@ -3,7 +3,10 @@ package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.room
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IGamesCache
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.*
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Game
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Period
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Rival
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Scoring
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.*
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.db.Database
 

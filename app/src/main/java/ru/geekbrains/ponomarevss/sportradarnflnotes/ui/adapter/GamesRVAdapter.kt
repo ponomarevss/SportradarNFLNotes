@@ -5,16 +5,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.ItemGameBinding
-import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.ItemSeasonBinding
-import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.ItemWeekBinding
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.image.IImageLoader
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.list.IGamesListPresenter
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.list.ISeasonsListPresenter
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.list.IWeeksListPresenter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.list.GameItemView
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.list.SeasonItemView
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.list.WeekItemView
-import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.image.GlideImageLoader
 
 class GamesRVAdapter(val presenter: IGamesListPresenter, val imageLoader: IImageLoader<ImageView>) :
     RecyclerView.Adapter<GamesRVAdapter.ViewHolder>() {

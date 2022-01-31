@@ -1,23 +1,12 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.ui.activity
 
 import android.os.Bundle
-import com.bumptech.glide.Glide
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.androidx.AppNavigator
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.MvpAppCompatActivity
 import moxy.ktx.moxyPresenter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.R
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.ActivityMainBinding
-import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.FragmentTableBinding
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.api.IDataSource
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IGamesCache
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.Game
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.Rival
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IConferencesRepo
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IWeeksRepo
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.MainPresenter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.MainView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.App
