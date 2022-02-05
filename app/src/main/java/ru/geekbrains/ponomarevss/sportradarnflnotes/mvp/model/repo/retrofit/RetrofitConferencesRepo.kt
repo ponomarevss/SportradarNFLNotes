@@ -23,7 +23,8 @@ class RetrofitConferencesRepo(
                         api.getLeagueHierarchy()
                             .flatMap { hierarchy ->
                                 cache.putConferences(hierarchy.conferences)
-                                    .toSingle { hierarchy.conferences }
+                                    .toSingle { cache.getConferences().blockingGet() }
+//                                    .toSingle { hierarchy.conferences }
                             }
                     } else Single.just(it)
                 }

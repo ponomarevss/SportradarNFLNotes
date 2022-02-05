@@ -13,7 +13,7 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.db.Dat
 
 class RoomConferencesCache(val db: Database) : IConferencesCache {
 
-    override fun putConferences(conferences: List<Conference>) = Completable.fromAction {
+    override fun putConferences(conferences: List<Conference>): Completable = Completable.fromAction {
         conferences.map {
             db.conferenceDao.insert(RoomConference(it.id, it.name, it.alias))
             putDivisions(it)
@@ -28,7 +28,7 @@ class RoomConferencesCache(val db: Database) : IConferencesCache {
 
     override fun getTeam(teamId: String): Single<Team> = Single.fromCallable {
         db.teamDao.findById(teamId)?.let {
-            Team(it.id, it.name, it.market, it.alias)
+            Team(it.id, it.name, it.market, it.alias, it.divisionId)
         }
     }
 
@@ -49,6 +49,6 @@ class RoomConferencesCache(val db: Database) : IConferencesCache {
 
     private fun getTeams(divisionId: String) =
         db.teamDao.findByDivisionId(divisionId).map {
-            Team(it.id, it.name, it.market, it.alias)
+            Team(it.id, it.name, it.market, it.alias, it.divisionId)
         }
 }
