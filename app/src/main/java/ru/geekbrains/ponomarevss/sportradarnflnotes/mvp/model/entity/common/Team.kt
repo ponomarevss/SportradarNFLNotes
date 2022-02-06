@@ -11,5 +11,4 @@ data class Team(
     @Expose val market: String,
     @Expose val alias: String,
     var divisionId: String? = null
-//    var stats: TeamStats = TeamStats()
 ): Parcelable
