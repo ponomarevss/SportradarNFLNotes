@@ -9,11 +9,8 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Team
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.network.INetworkStatus
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IConferencesRepo
 
-class RetrofitConferencesRepo(
-    val api: IDataSource,
-    private val networkStatus: INetworkStatus,
-    private val cache: IConferencesCache
-) : IConferencesRepo {
+class RetrofitConferencesRepo(val api: IDataSource, private val networkStatus: INetworkStatus, private val cache: IConferencesCache) :
+    IConferencesRepo {
 
     override fun getConferences(): Single<List<Conference>> = networkStatus.isOnlineSingle().flatMap { isOnline ->
         if (isOnline) {

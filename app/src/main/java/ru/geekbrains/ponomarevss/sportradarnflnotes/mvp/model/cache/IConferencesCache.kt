@@ -10,4 +10,5 @@ interface IConferencesCache {
     fun putConferences(conferences: List<Conference>): Completable
 
     fun getTeam(teamId: String): Single<Team>
+    fun getTeams(): Single<List<Team>>
 }

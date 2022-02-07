@@ -17,13 +17,32 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.db.Dat
 class RoomStandingsCache(val db: Database) : IStandingsCache {
 
     override fun putStandings(standings: Standings): Completable = Completable.fromAction {
-        with(standings) { db.standingsDao.insert(RoomStandings(seasonId, teamId, wins, losses, ties, divWins, divLosses, divTies)) }
+        with(standings) {
+            db.standingsDao.insert(RoomStandings(seasonId, teamId, wins, losses, ties, divWins, divLosses, divTies))
+        }
     }
 
     override fun getStandings(seasonId: String, teamId: String): Single<Standings> = Single.fromCallable {
-        db.standingsDao.select(seasonId, teamId)?.run {
+        db.standingsDao.select(seasonId, teamId).run {
             Standings(seasonId, teamId, wins, losses, ties, divWins, divLosses, divTies)
-        } ?: Standings(seasonId, teamId)
+        }
+    }
+
+    override fun putStandingsList(standings: List<Standings>): Completable = Completable.fromAction {
+        val roomStandings = standings.map {
+            with(it) {
+                RoomStandings(seasonId, teamId, wins, losses, ties, divWins, divLosses, divTies)
+            }
+        }
+        db.standingsDao.insert(roomStandings)
+    }
+
+    override fun getStandingsList(seasonId: String): Single<List<Standings>> = Single.fromCallable {
+        db.standingsDao.selectForSeason(seasonId).map {
+            with(it) {
+                Standings(seasonId, teamId, wins, losses, ties, divWins, divLosses, divTies)
+            }
+        }
     }
 
 }
