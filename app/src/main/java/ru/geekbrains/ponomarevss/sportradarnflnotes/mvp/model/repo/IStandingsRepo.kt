@@ -8,4 +8,5 @@ interface IStandingsRepo {
     fun getStandings(seasonId: String, teamId: String): Single<Standings>
     fun getStandingsList(seasonId: String): Single<List<Standings>>
     fun putStandings(standings: Standings): Completable
+    fun putStandingsList(standingsList: List<Standings>): Completable
 }

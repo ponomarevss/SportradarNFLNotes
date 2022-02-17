@@ -9,6 +9,6 @@ data class Team(
     @Expose val id: String,
     @Expose val name: String,
     @Expose val market: String,
-    @Expose val alias: String,
+    @Expose var alias: String,
     var divisionId: String? = null
 ): Parcelable

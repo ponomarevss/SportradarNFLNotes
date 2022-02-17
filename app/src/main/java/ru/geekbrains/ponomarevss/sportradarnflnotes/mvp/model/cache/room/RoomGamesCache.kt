@@ -66,10 +66,16 @@ class RoomGamesCache(val db: Database) : IGamesCache {
 
 
     private fun putHome(game: Game) = with(game.home) {
+        if (alias == "JAC") {
+            alias = "JAX"
+        }
         RoomRival(id, HOME, name, alias, gameNumber, game.id).let { db.rivalDao.insert(it) }
     }
 
     private fun putAway(game: Game) = with(game.away) {
+        if (alias == "JAC") {
+            alias = "JAX"
+        }
         RoomRival(id, AWAY, name, alias, gameNumber, game.id).let { db.rivalDao.insert(it) }
     }
 

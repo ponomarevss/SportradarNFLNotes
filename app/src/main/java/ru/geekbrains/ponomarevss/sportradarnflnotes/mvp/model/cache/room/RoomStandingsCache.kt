@@ -2,6 +2,7 @@ package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.room
 
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IConferencesCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IStandingsCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Conference

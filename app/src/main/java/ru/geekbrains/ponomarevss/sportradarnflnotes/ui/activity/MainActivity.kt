@@ -3,10 +3,15 @@ package ru.geekbrains.ponomarevss.sportradarnflnotes.ui.activity
 import android.os.Bundle
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.androidx.AppNavigator
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatActivity
 import moxy.ktx.moxyPresenter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.R
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.ActivityMainBinding
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IStandingsCache
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Standings
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IConferencesRepo
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IStandingsRepo
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.MainPresenter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.MainView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.App
@@ -14,6 +19,9 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.BackButtonListener
 import javax.inject.Inject
 
 class MainActivity : MvpAppCompatActivity(), MainView {
+
+    @Inject lateinit var standingsRepo: IStandingsRepo
+    @Inject lateinit var standingsCache: IStandingsCache
 
     @Inject lateinit var navigatorHolder: NavigatorHolder
     val navigator = AppNavigator(this, R.id.container)

@@ -21,7 +21,6 @@ class RetrofitConferencesRepo(val api: IDataSource, private val networkStatus: I
                             .flatMap { hierarchy ->
                                 cache.putConferences(hierarchy.conferences)
                                     .toSingle { cache.getConferences().blockingGet() }
-//                                    .toSingle { hierarchy.conferences }
                             }
                     } else Single.just(it)
                 }

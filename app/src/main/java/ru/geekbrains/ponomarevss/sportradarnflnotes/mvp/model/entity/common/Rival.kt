@@ -8,6 +8,6 @@ import kotlinx.parcelize.Parcelize
 data class Rival(
     @Expose val id: String,
     @Expose val name: String,
-    @Expose val alias: String,
+    @Expose var alias: String,
     @Expose val gameNumber: Int
 ): Parcelable

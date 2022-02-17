@@ -25,10 +25,7 @@ class SeasonsRVAdapter(val presenter: ISeasonsListPresenter) :
 
     override fun getItemCount() = presenter.getCount()
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) =
-        presenter.bindView(holder.apply {
-            pos = position
-        })
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) = presenter.bindView(holder.apply { pos = position })
 
     inner class ViewHolder(val vb: ItemSeasonBinding) : RecyclerView.ViewHolder(vb.root),
         SeasonItemView {

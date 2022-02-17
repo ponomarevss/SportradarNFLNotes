@@ -3,16 +3,10 @@ package ru.geekbrains.ponomarevss.sportradarnflnotes.di.module
 import dagger.Module
 import dagger.Provides
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.api.IDataSource
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IConferencesCache
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IGamesCache
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.ISeasonsCache
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IWeeksCache
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.*
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.network.INetworkStatus
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.*
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.retrofit.RetrofitConferencesRepo
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.retrofit.RetrofitGamesRepo
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.retrofit.RetrofitSeasonsRepo
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.retrofit.RetrofitWeeksRepo
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.retrofit.*
 import javax.inject.Singleton
 
 @Module
@@ -49,4 +43,12 @@ class RepoModule {
         networkStatus: INetworkStatus,
         cache: IGamesCache,
     ): IGamesRepo = RetrofitGamesRepo(api, networkStatus, cache)
+
+    @Provides
+    @Singleton
+    fun standingsRepo(
+        api: IDataSource,
+        cache: IStandingsCache,
+        teamsCache: IConferencesCache
+    ): IStandingsRepo = RetrofitStandingsRepo(api, cache, teamsCache)
 }

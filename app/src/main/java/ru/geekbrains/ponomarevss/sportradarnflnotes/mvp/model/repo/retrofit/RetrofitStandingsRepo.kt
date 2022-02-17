@@ -8,41 +8,41 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IConferences
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IStandingsCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Standings
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IStandingsRepo
+import java.lang.Thread.sleep
 
 class RetrofitStandingsRepo(val api: IDataSource, val cache: IStandingsCache, val teamsCache: IConferencesCache) : IStandingsRepo {
-    override fun getStandings(seasonId: String, teamId: String): Single<Standings> = cache.getStandings(seasonId, teamId)
-        .subscribeOn(Schedulers.io())
+
+    companion object{
+        private const val REQUESTS_GAP = 1500L
+    }
 
     override fun getStandingsList(seasonId: String): Single<List<Standings>> = cache.getStandingsList(seasonId).flatMap { standingsList ->
         if (standingsList.isEmpty()) {
-            // в этой ветке описываем что делать если standingsList пустой
-            // надо вернуть Single<List<Standings>>
-            teamsCache.getTeams().map { teams ->
-                // проверяем, не пустой ли teams
+            teamsCache.getTeams().flatMap { teams ->
                 if (teams.isEmpty()) {
-                    //здесь надо получить из api иерархию и положить в бд конференции
+                    sleep(REQUESTS_GAP)
                     api.getLeagueHierarchy().flatMap { hierarchy ->
-                        teamsCache.putConferences(hierarchy.conferences).toSingleDefault(hierarchy)
-                    }
-                    //получаем из бд новые команды, создаем из них List<Standings>
-                    teamsCache.getTeams().blockingGet().map { newTeam ->
-                        Standings(seasonId, newTeam.id)
+                        teamsCache.putConferences(hierarchy.conferences).toSingle {
+                            teamsCache.getTeams().blockingGet().map { team ->
+                                Standings(seasonId, team.id).apply { cache.putStandings(this).subscribe() }
+                            }.also { println("1 get teams from api, put em to a cache and create standings list") }
+                        }
                     }
                 } else {
-                    //если список команд не пустой, трансформируем его в List<Standings>
-                    teams.map { team ->
-                        Standings(seasonId, team.id)
-                    }
+                    Single.fromCallable {
+                        teams.map { team ->
+                            Standings(seasonId, team.id).apply { cache.putStandings(this).subscribe() }
+                        }.also { println("2 get teams from cache and create standings list") } }
                 }
             }
         } else {
-            // если standingsList не пустой
-            Single.just(standingsList)
+            Single.just(standingsList).also { println("3 get standings list from cache") }
         }
     }.subscribeOn(Schedulers.io())
 
-    override fun putStandings(standings: Standings): Completable = Completable.fromAction {
-        cache.putStandings(standings)
-    }
+    override fun getStandings(seasonId: String, teamId: String): Single<Standings> = cache.getStandings(seasonId, teamId).subscribeOn(Schedulers.io())
 
+    override fun putStandings(standings: Standings): Completable = cache.putStandings(standings).subscribeOn(Schedulers.io())
+
+    override fun putStandingsList(standingsList: List<Standings>): Completable = cache.putStandingsList(standingsList).subscribeOn(Schedulers.io())
 }

@@ -44,6 +44,9 @@ class RoomConferencesCache(val db: Database) : IConferencesCache {
     }
 
     private fun putTeams(division: Division) = division.teams.map {
+        if (it.alias == "JAC") {
+            it.alias = "JAX"
+        }
         RoomTeam(it.id, it.name, it.market, it.alias, division.id)
     }.let { db.teamDao.insert(it) }
 

@@ -4,15 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.FragmentSeasonBinding
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Season
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.WeeksPresenter
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.SeasonPresenter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.WeeksView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.App
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.BackButtonListener
+import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter.StandingsRVAdapter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter.WeeksRVAdapter
 
 class SeasonFragment: MvpAppCompatFragment(), WeeksView, BackButtonListener {
@@ -27,14 +29,15 @@ class SeasonFragment: MvpAppCompatFragment(), WeeksView, BackButtonListener {
         }
     }
 
-    val presenter: WeeksPresenter by moxyPresenter {
+    val presenter: SeasonPresenter by moxyPresenter {
         val season = arguments?.getParcelable<Season>(SEASON_ARG) as Season
-        WeeksPresenter(AndroidSchedulers.mainThread(), season).apply {
+        SeasonPresenter(AndroidSchedulers.mainThread(), season).apply {
             App.instance.appComponent.inject(this)
         }
     }
 
-    var adapter: WeeksRVAdapter? = null
+    var weeksAdapter: WeeksRVAdapter? = null
+    var standingsAdapter: StandingsRVAdapter? = null
     private var vb: FragmentSeasonBinding? = null
 
     override fun onCreateView(
@@ -52,12 +55,17 @@ class SeasonFragment: MvpAppCompatFragment(), WeeksView, BackButtonListener {
 
     override fun init() {
         vb?.rvWeeks?.layoutManager = GridLayoutManager(context, SPAN_COUNT)
-        adapter = WeeksRVAdapter(presenter.weeksListPresenter)
-        vb?.rvWeeks?.adapter = adapter
+        weeksAdapter = WeeksRVAdapter(presenter.weeksListPresenter)
+        vb?.rvWeeks?.adapter = weeksAdapter
+
+        vb?.rvStandings?.layoutManager = LinearLayoutManager(context)
+        standingsAdapter = StandingsRVAdapter(presenter.standingsListPresenter)
+        vb?.rvStandings?.adapter = standingsAdapter
     }
 
     override fun updateList() {
-        adapter?.notifyDataSetChanged()
+        weeksAdapter?.notifyDataSetChanged()
+        standingsAdapter?.notifyDataSetChanged()
     }
 
     override fun backPressed() = presenter.backPressed()

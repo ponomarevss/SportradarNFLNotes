@@ -22,6 +22,6 @@ interface StandingsDao {
     @Query("SELECT * FROM RoomStandings WHERE seasonId = :seasonId AND teamId = :teamId LIMIT 1")
     fun select(seasonId: String, teamId: String): RoomStandings
 
-    @Query("SELECT * FROM RoomStandings WHERE seasonId = :seasonId LIMIT 1")
+    @Query("SELECT * FROM RoomStandings WHERE seasonId = :seasonId")
     fun selectForSeason(seasonId: String): List<RoomStandings>
 }
