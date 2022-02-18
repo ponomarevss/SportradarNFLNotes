@@ -50,8 +50,10 @@ class SeasonPresenter(val uiScheduler: Scheduler, val season: Season): MvpPresen
             val standings = standingsList[view.pos]
             val team = teams.first { it.id == standings.teamId }
             with (view) {
-                    setTeam("${team.market} ${team.name}")
-                    loadLogo(logoUrl + team.alias)
+                with(team) {
+                    setTeam("$market $name")
+                    loadLogo(logoUrl + alias)
+                }
                 with (standings) {
                     setWLT("${wins}-${losses}-${ties}")
                     setDivWLT("${divWins}-${divLosses}-${divTies}")
