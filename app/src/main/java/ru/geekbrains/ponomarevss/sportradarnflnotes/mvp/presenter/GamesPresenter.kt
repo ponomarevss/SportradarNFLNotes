@@ -41,8 +41,8 @@ class GamesPresenter(val uiScheduler: Scheduler, val season: Season, val week: W
                     if (isWatched) setScoring("${scoring?.homePoints} : ${scoring?.awayPoints}") else setScoring("")
                     setScheduled(scheduled)
                     setStatus(status)
-                    loadHomeAvatar(logoUrl + home.alias)
-                    loadAwayAvatar(logoUrl + away.alias)
+                    loadHomeLogo(logoUrl + home.alias)
+                    loadAwayLogo(logoUrl + away.alias)
                 }
             }
         }
@@ -135,36 +135,11 @@ class GamesPresenter(val uiScheduler: Scheduler, val season: Season, val week: W
     }
 
     fun backPressed(): Boolean {
-        router.exit()
+        router.navigateTo(screens.season(season))
         return true
     }
+//    fun backPressed(): Boolean {
+//        router.exit()
+//        return true
+//    }
 }
-
-
-//private fun updateStandings(seasonId: String, game: Game) {
-//    val singleHome = teamsRepo.getTeam(game.home.id)
-//    val singleAway = teamsRepo.getTeam(game.away.id)
-//    val singleStandHome = standingsRepo.getStandings(seasonId, game.home.id)
-//    val singleStandAway = standingsRepo.getStandings(seasonId, game.away.id)
-//
-//    Single.zip(singleHome, singleAway, singleStandHome, singleStandAway, { home, away, stHome, stAway ->
-//        game.scoring?.run {
-//            when {
-//                homePoints > awayPoints -> homeWins(home, away, stHome, stAway)
-//                homePoints < awayPoints -> awayWins(home, away, stHome, stAway)
-//                homePoints == awayPoints -> ties(home, away, stHome, stAway)
-//            }
-//        } ?: throw Throwable("Game has no scoring")
-//
-//        standingsRepo.putStandings(stHome).toSingle { singleStandHome.blockingGet() }.doOnSuccess { println(it) }.subscribe()
-//        standingsRepo.putStandings(stAway).toSingle { singleStandAway.blockingGet() }.doOnSuccess { println(it) }.subscribe()
-//
-//    })
-//        .observeOn(uiScheduler)
-//        .subscribe({
-//            println(it)
-//        },{
-//            println(it.message)
-//        })
-//
-//}

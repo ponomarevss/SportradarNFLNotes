@@ -5,8 +5,10 @@ import io.reactivex.rxjava3.core.Scheduler
 import moxy.MvpPresenter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Season
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Standings
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Team
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Week
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.navigation.IScreens
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IConferencesRepo
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IStandingsRepo
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IWeeksRepo
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.list.IStandingsListPresenter
@@ -15,13 +17,17 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.WeeksView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.list.StandingsItemView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.list.WeekItemView
 import javax.inject.Inject
+import javax.inject.Named
 
 class SeasonPresenter(val uiScheduler: Scheduler, val season: Season): MvpPresenter<WeeksView>() {
 
     @Inject lateinit var weeksRepo: IWeeksRepo
     @Inject lateinit var standingsRepo: IStandingsRepo
+    @Inject lateinit var conferencesRepo: IConferencesRepo
     @Inject lateinit var router: Router
     @Inject lateinit var screens: IScreens
+    @Inject @field:Named("logoUrl") lateinit var logoUrl: String
+
 
     class WeeksListPresenter: IWeeksListPresenter {
         val weeks = mutableListOf<Week>()
@@ -35,15 +41,18 @@ class SeasonPresenter(val uiScheduler: Scheduler, val season: Season): MvpPresen
         override fun getCount(): Int = weeks.size
     }
 
-    class StandingsListPresenter: IStandingsListPresenter {
+    inner class StandingsListPresenter: IStandingsListPresenter {
+        val teams = mutableListOf<Team>()
         val standingsList = mutableListOf<Standings>()
         override var itemClickListener: ((StandingsItemView) -> Unit)? = null
 
         override fun bindView(view: StandingsItemView) {
             val standings = standingsList[view.pos]
+            val team = teams.first { it.id == standings.teamId }
             with (view) {
+                    setTeam("${team.market} ${team.name}")
+                    loadLogo(logoUrl + team.alias)
                 with (standings) {
-                    setTeam(teamId)
                     setWLT("${wins}-${losses}-${ties}")
                     setDivWLT("${divWins}-${divLosses}-${divTies}")
                 }
@@ -61,6 +70,7 @@ class SeasonPresenter(val uiScheduler: Scheduler, val season: Season): MvpPresen
         viewState.init()
         loadWeeksData()
         loadStandingsData()
+        loadTeamsData()
 
         weeksListPresenter.itemClickListener = {
             val week = weeksListPresenter.weeks[it.pos]
@@ -68,7 +78,17 @@ class SeasonPresenter(val uiScheduler: Scheduler, val season: Season): MvpPresen
         }
     }
 
-
+    private fun loadTeamsData() {
+        conferencesRepo.getTeams()
+            .observeOn(uiScheduler)
+            .subscribe({
+                standingsListPresenter.teams.clear()
+                standingsListPresenter.teams.addAll(it)
+                viewState.updateList()
+            }, {
+                println(it.message)
+            })
+    }
 
     private fun loadWeeksData() {
         weeksRepo.getWeeks(season)
@@ -87,7 +107,8 @@ class SeasonPresenter(val uiScheduler: Scheduler, val season: Season): MvpPresen
             .observeOn(uiScheduler)
             .subscribe({
                 standingsListPresenter.standingsList.clear()
-                standingsListPresenter.standingsList.addAll(it)
+                standingsListPresenter.standingsList.addAll(it.sortedBy { standings ->
+                    standings.wins - standings.losses}.asReversed())
                 viewState.updateList()
             },{
                 println(it.message)
@@ -97,7 +118,11 @@ class SeasonPresenter(val uiScheduler: Scheduler, val season: Season): MvpPresen
 
 
     fun backPressed(): Boolean {
-        router.exit()
+        router.navigateTo(screens.seasons())
         return true
     }
+//    fun backPressed(): Boolean {
+//        router.exit()
+//        return true
+//    }
 }

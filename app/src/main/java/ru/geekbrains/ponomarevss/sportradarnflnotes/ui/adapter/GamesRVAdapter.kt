@@ -56,11 +56,11 @@ class GamesRVAdapter(val presenter: IGamesListPresenter, val imageLoader: IImage
             tvScoring.text = text
         }
 
-        override fun loadHomeAvatar(url: String) = with(vb) {
+        override fun loadHomeLogo(url: String) = with(vb) {
             imageLoader.loadInto(url, ivHome)
         }
 
-        override fun loadAwayAvatar(url: String) = with(vb) {
+        override fun loadAwayLogo(url: String) = with(vb) {
             imageLoader.loadInto(url, ivAway)
         }
     }

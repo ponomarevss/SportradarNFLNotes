@@ -2,12 +2,14 @@ package ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.ItemStandingsBinding
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.image.IImageLoader
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.list.IStandingsListPresenter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.list.StandingsItemView
 
-class StandingsRVAdapter(val presenter: IStandingsListPresenter) :
+class StandingsRVAdapter(val presenter: IStandingsListPresenter, val imageLoader: IImageLoader<ImageView>) :
     RecyclerView.Adapter<StandingsRVAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -33,6 +35,10 @@ class StandingsRVAdapter(val presenter: IStandingsListPresenter) :
 
         override fun setDivWLT(text: String) = with(vb) {
             tvDivWLT.text = text
+        }
+
+        override fun loadLogo(url: String) = with(vb) {
+            imageLoader.loadInto(url, ivTeam)
         }
     }
 }

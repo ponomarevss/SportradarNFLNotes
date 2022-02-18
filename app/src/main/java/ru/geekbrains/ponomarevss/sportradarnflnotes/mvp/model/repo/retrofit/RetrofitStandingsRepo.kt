@@ -13,7 +13,7 @@ import java.lang.Thread.sleep
 class RetrofitStandingsRepo(val api: IDataSource, val cache: IStandingsCache, val teamsCache: IConferencesCache) : IStandingsRepo {
 
     companion object{
-        private const val REQUESTS_GAP = 1500L
+        private const val REQUESTS_GAP = 1100L
     }
 
     override fun getStandingsList(seasonId: String): Single<List<Standings>> = cache.getStandingsList(seasonId).flatMap { standingsList ->

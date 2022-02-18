@@ -8,9 +8,14 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Conf
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Team
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.network.INetworkStatus
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IConferencesRepo
+import java.lang.Thread.sleep
 
 class RetrofitConferencesRepo(val api: IDataSource, private val networkStatus: INetworkStatus, private val cache: IConferencesCache) :
     IConferencesRepo {
+
+    companion object{
+        private const val REQUESTS_GAP = 1100L
+    }
 
     override fun getConferences(): Single<List<Conference>> = networkStatus.isOnlineSingle().flatMap { isOnline ->
         if (isOnline) {
@@ -35,6 +40,17 @@ class RetrofitConferencesRepo(val api: IDataSource, private val networkStatus: I
                 }
             }
         } else cache.getTeam(teamId)
+    }.subscribeOn(Schedulers.io())
+
+    override fun getTeams(): Single<List<Team>> = networkStatus.isOnlineSingle().flatMap{ isOnline ->
+        if (isOnline) {
+            cache.getTeams().onErrorResumeNext {
+                sleep(REQUESTS_GAP)
+                api.getLeagueHierarchy().flatMap {
+                    cache.putConferences(it.conferences).toSingle { cache.getTeams().blockingGet() }
+                }
+            }
+        } else cache.getTeams()
     }.subscribeOn(Schedulers.io())
 
 }

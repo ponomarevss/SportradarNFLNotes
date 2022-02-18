@@ -6,6 +6,6 @@ interface GameItemView: IItemView {
     fun setHome(text: String)
     fun setAway(text: String)
     fun setScoring(text: String)
-    fun loadHomeAvatar(url: String)
-    fun loadAwayAvatar(url: String)
+    fun loadHomeLogo(url: String)
+    fun loadAwayLogo(url: String)
 }

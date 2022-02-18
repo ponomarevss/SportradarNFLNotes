@@ -16,6 +16,7 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.App
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.BackButtonListener
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter.StandingsRVAdapter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter.WeeksRVAdapter
+import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.image.GlideImageLoader
 
 class SeasonFragment: MvpAppCompatFragment(), WeeksView, BackButtonListener {
     companion object {
@@ -59,7 +60,7 @@ class SeasonFragment: MvpAppCompatFragment(), WeeksView, BackButtonListener {
         vb?.rvWeeks?.adapter = weeksAdapter
 
         vb?.rvStandings?.layoutManager = LinearLayoutManager(context)
-        standingsAdapter = StandingsRVAdapter(presenter.standingsListPresenter)
+        standingsAdapter = StandingsRVAdapter(presenter.standingsListPresenter, GlideImageLoader())
         vb?.rvStandings?.adapter = standingsAdapter
     }
 
