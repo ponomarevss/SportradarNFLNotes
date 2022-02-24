@@ -63,7 +63,8 @@ class SeasonsPresenter(val uiScheduler: Scheduler): MvpPresenter<SeasonsView>() 
     }
 
     fun backPressed(): Boolean {
-        router.exit()
+        router.finishChain()
+//        router.exit()
         return true
     }
 }

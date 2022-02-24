@@ -1,72 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="5dp"
+    app:cardCornerRadius="5dp"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/iv_home"
-            android:layout_width="40dp"
-            android:layout_height="40dp"/>
-
-        <TextView
-            android:id="@+id/tv_home"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:layout_marginStart="16dp"
-            tools:text="HOME"/>
+            android:orientation="horizontal"
+            android:gravity="center">
 
-        <TextView
-            android:id="@+id/tv_scoring"
-            android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/iv_home"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+
+            <TextView
+                android:id="@+id/tv_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:layout_marginStart="16dp"
+                tools:text="HOME"/>
+
+            <TextView
+                android:id="@+id/tv_scoring"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:layout_marginStart="16dp"
+                tools:text="SCORING"/>
+
+            <TextView
+                android:id="@+id/tv_away"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:layout_marginStart="16dp"
+                tools:text="AWAY"/>
+
+            <ImageView
+                android:id="@+id/iv_away"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:layout_marginStart="16dp"
-            tools:text="SCORING"/>
+            android:orientation="horizontal"
+            android:gravity="center">
 
-        <TextView
-            android:id="@+id/tv_away"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:layout_marginStart="16dp"
-            tools:text="AWAY"/>
+            <TextView
+                android:id="@+id/tv_scheduled"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:layout_marginStart="16dp"
+                tools:text="scheduled"/>
 
-        <ImageView
-            android:id="@+id/iv_away"
-            android:layout_width="40dp"
-            android:layout_height="40dp"/>
-
+            <TextView
+                android:id="@+id/tv_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:layout_marginStart="16dp"
+                tools:text="status"/>
+        </LinearLayout>
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
-
-        <TextView
-            android:id="@+id/tv_scheduled"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="11sp"
-            android:layout_marginStart="16dp"
-            tools:text="scheduled"/>
-
-        <TextView
-            android:id="@+id/tv_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="11sp"
-            android:layout_marginStart="16dp"
-            tools:text="status"/>
-    </LinearLayout>
-</LinearLayout>
+</androidx.cardview.widget.CardView>
