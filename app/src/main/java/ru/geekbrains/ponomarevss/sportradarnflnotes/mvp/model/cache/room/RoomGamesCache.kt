@@ -9,6 +9,10 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Riva
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Scoring
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.*
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.db.Database
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.old.RoomGame
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.old.RoomPeriod
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.old.RoomRival
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.old.RoomScoring
 
 class RoomGamesCache(val db: Database) : IGamesCache {
 

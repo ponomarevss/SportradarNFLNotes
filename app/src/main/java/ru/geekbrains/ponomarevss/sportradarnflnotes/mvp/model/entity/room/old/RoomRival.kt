@@ -1,10 +1,10 @@
-package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room
+package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.old
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
 
 @Entity(
+    primaryKeys = ["id", "gameId"],
     foreignKeys = [ForeignKey(
         entity = RoomGame::class,
         parentColumns = ["id"],
@@ -12,9 +12,11 @@ import androidx.room.PrimaryKey
         onDelete = ForeignKey.CASCADE
     )]
 )
-data class RoomScoring(
-    @PrimaryKey var id: String, // "gameId + 'scoring'"
-    var homePoints: Int,
-    var awayPoints: Int,
+data class RoomRival(
+    var id: String,
+    var status: String,
+    var name: String,
+    var alias: String,
+    var gameNumber: Int,
     var gameId: String
 )

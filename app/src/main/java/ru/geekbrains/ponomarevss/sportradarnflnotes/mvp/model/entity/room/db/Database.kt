@@ -1,8 +1,8 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.db
 
 import androidx.room.RoomDatabase
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.*
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.dao.*
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.old.*
 
 @androidx.room.Database(
     entities = [

@@ -1,19 +1,10 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.room
 
 import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.schedulers.Schedulers
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IConferencesCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IStandingsCache
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Conference
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Division
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Standings
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Team
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.RoomConference
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.RoomDivision
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.RoomStandings
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.RoomTeam
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.old.RoomStandings
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.db.Database
 
 class RoomStandingsCache(val db: Database) : IStandingsCache {

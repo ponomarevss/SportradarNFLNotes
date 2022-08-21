@@ -18,7 +18,7 @@ import javax.inject.Named
 class GamesPresenter(val uiScheduler: Scheduler, val season: Season, val week: Week) : MvpPresenter<GamesView>() {
 
     companion object {
-        private const val SCHEDULED_STATUS = "scheduled"
+        private const val CLOSED_STATUS = "closed"
     }
 
     @Inject lateinit var standingsRepo: IStandingsRepo
@@ -60,7 +60,7 @@ class GamesPresenter(val uiScheduler: Scheduler, val season: Season, val week: W
         gamesListPresenter.itemClickListener = {
             val game = gamesListPresenter.games[it.pos]
             game.apply {
-                if (status != SCHEDULED_STATUS && !isWatched) {
+                if (status == CLOSED_STATUS && !isWatched) {
                     isWatched = true
                     gamesRepo.putGame(this, week.id).observeOn(uiScheduler).subscribe()
                     updateStandings(season.id, game)

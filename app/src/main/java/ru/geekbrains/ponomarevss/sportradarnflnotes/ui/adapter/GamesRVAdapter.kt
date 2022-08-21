@@ -32,8 +32,7 @@ class GamesRVAdapter(val presenter: IGamesListPresenter, val imageLoader: IImage
             pos = position
         })
 
-    inner class ViewHolder(val vb: ItemGameBinding) : RecyclerView.ViewHolder(vb.root),
-        GameItemView {
+    inner class ViewHolder(val vb: ItemGameBinding) : RecyclerView.ViewHolder(vb.root), GameItemView {
         override var pos = -1
 
         override fun setStatus(text: String) = with(vb) {

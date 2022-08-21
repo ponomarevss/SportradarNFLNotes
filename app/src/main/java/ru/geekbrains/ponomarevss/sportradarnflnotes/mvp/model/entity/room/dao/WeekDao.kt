@@ -1,7 +1,7 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.dao
 
 import androidx.room.*
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.RoomWeek
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.old.RoomWeek
 
 @Dao
 interface WeekDao {

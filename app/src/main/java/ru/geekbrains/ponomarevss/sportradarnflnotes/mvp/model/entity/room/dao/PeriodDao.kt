@@ -1,9 +1,7 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.dao
 
 import androidx.room.*
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.RoomConference
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.RoomDivision
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.RoomPeriod
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.old.RoomPeriod
 
 @Dao
 interface PeriodDao {

@@ -1,8 +1,7 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.dao
 
 import androidx.room.*
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.RoomSeason
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.RoomTeam
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.old.RoomSeason
 
 @Dao
 interface SeasonDao {
