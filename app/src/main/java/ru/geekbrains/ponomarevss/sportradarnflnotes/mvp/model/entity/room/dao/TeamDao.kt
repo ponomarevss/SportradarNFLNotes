@@ -1,8 +1,9 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.dao
 
-import androidx.room.*
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.RoomConference
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.RoomDivision
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.RoomTeam
 
 @Dao
@@ -11,28 +12,7 @@ interface TeamDao {
     fun insert(roomTeam: RoomTeam)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(vararg roomTeams: RoomTeam)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(roomTeams: List<RoomTeam>)
-
-    @Update
-    fun update(roomTeam: RoomTeam)
-
-    @Update
-    fun update(vararg roomTeams: RoomTeam)
-
-    @Update
-    fun update(roomTeams: List<RoomTeam>)
-
-    @Delete
-    fun delete(roomTeam: RoomTeam)
-
-    @Delete
-    fun delete(vararg roomTeams: RoomTeam)
-
-    @Delete
-    fun delete(roomTeams: List<RoomTeam>)
 
     @Query("SELECT * FROM RoomTeam")
     fun getAll(): List<RoomTeam>
@@ -40,6 +20,6 @@ interface TeamDao {
     @Query("SELECT * FROM RoomTeam WHERE id = :id LIMIT 1")
     fun findById(id: String): RoomTeam?
 
-    @Query("SELECT * FROM RoomTeam WHERE divisionId = :divisionId")
-    fun findByDivisionId(divisionId: String): List<RoomTeam>
+    @Query("SELECT * FROM RoomTeam WHERE division = :division")
+    fun findByDivisionId(division: String): List<RoomTeam>
 }

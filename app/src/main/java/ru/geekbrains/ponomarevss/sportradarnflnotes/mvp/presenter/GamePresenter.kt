@@ -3,8 +3,8 @@ package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.core.Scheduler
 import moxy.MvpPresenter
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Game
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Period
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.oldcommon.Game
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.oldcommon.Period
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.navigation.IScreens
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IConferencesRepo
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.list.IPeriodsListPresenter

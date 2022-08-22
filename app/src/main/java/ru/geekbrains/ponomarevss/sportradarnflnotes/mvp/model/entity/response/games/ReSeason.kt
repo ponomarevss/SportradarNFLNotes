@@ -1,15 +1,13 @@
-package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common
+package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.games
 
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class Season(
+data class ReSeason(
     @Expose val id: String,
     @Expose val year: Int,
-    @Expose val startDate: String,
-    @Expose val endDate: String,
     @Expose val status: String,
-    @Expose val type: Type
+    @Expose val type: ReType
 ): Parcelable

@@ -2,9 +2,9 @@ package ru.geekbrains.ponomarevss.sportradarnflnotes.ui.navigation
 
 import com.github.terrakok.cicerone.Screen
 import com.github.terrakok.cicerone.androidx.FragmentScreen
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Game
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Season
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Week
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.oldcommon.Game
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.oldcommon.Season
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.oldcommon.Week
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.navigation.IScreens
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.fragment.*
 

@@ -8,8 +8,8 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.FragmentGamesBinding
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Season
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Week
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.oldcommon.Season
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.oldcommon.Week
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.GamesPresenter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.GamesView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.App

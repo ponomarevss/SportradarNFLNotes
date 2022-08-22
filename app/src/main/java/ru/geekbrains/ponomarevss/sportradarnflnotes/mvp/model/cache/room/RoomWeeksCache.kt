@@ -3,9 +3,9 @@ package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.room
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IWeeksCache
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Week
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.oldcommon.Week
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.RoomWeek
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.db.Database
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.old.RoomWeek
 
 class RoomWeeksCache(val db: Database) : IWeeksCache {
     override fun putWeeks(weeks: List<Week>, seasonId: String): Completable = Completable.fromAction {

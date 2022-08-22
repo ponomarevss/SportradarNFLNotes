@@ -3,8 +3,8 @@ package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.room
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IStandingsCache
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Standings
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.old.RoomStandings
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.oldcommon.Standings
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.RoomStandings
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.db.Database
 
 class RoomStandingsCache(val db: Database) : IStandingsCache {

@@ -1,4 +1,4 @@
-package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common
+package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

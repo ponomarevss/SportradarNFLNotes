@@ -1,4 +1,4 @@
-package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.old
+package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room
 
 import androidx.room.Entity
 import androidx.room.ForeignKey

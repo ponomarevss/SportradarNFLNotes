@@ -3,16 +3,12 @@ package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.room
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IGamesCache
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Game
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Period
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Rival
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Scoring
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.oldcommon.Game
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.oldcommon.Period
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.oldcommon.Rival
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.oldcommon.Scoring
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.*
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.db.Database
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.old.RoomGame
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.old.RoomPeriod
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.old.RoomRival
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.old.RoomScoring
 
 class RoomGamesCache(val db: Database) : IGamesCache {
 

@@ -1,9 +1,9 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.navigation
 
 import com.github.terrakok.cicerone.Screen
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Game
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Season
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.common.Week
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.oldcommon.Game
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.oldcommon.Season
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.oldcommon.Week
 
 interface IScreens {
     fun teams(): Screen
