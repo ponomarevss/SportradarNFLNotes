@@ -9,6 +9,5 @@ data class RoomTeam(
     var name: String,
     var market: String,
     var alias: String,
-    var division: String,
-//    var conference: String
+    var division: String
 )

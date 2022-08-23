@@ -10,6 +10,6 @@ data class Game(
     val scheduled: String,
     val home: String,
     val away: String,
-    val scoring: List<Int>? = null,
+    val scoring: List<Int>,
     var isWatched: Boolean = false
 ): Parcelable

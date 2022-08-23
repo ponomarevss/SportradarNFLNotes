@@ -9,6 +9,5 @@ data class Team(
     val name: String,
     val market: String,
     val alias: String,
-    val division: String,
-//    val conference: String
+    val division: String
 ): Parcelable
