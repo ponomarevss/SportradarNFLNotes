@@ -9,5 +9,5 @@ data class ReTeam(
     @Expose val id: String,
     @Expose val name: String,
     @Expose val market: String,
-    @Expose var alias: String,
+    @Expose val alias: String,
 ): Parcelable
