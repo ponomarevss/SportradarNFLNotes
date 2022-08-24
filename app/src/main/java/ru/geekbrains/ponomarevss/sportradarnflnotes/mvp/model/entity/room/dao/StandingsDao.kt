@@ -12,7 +12,7 @@ interface StandingsDao {
     fun insert(roomStandings: List<RoomStandings>)
 
     @Query("SELECT * FROM RoomStandings WHERE seasonId = :seasonId AND teamId = :teamId LIMIT 1")
-    fun select(seasonId: String, teamId: String): RoomStandings
+    fun select(seasonId: String, teamId: String): RoomStandings?
 
     @Query("SELECT * FROM RoomStandings WHERE seasonId = :seasonId")
     fun selectForSeason(seasonId: String): List<RoomStandings>

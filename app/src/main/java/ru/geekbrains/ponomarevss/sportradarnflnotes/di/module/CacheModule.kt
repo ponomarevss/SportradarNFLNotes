@@ -22,7 +22,7 @@ class CacheModule {
 
     @Singleton
     @Provides
-    fun conferencesCache(db: Database): IConferencesCache = RoomConferencesCache(db)
+    fun conferencesCache(db: Database): ITeamsCache = RoomTeamsCache(db)
 
     @Singleton
     @Provides

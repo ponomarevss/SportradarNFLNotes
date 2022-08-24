@@ -8,14 +8,17 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.hi
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.hierarchy.ReTeam
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.*
 
-//Re to General
+/**
+* Mapping of Response to General
+* */
 fun mapReToGame(reGame: ReGame) = Game(
     id = reGame.id,
     status = reGame.status,
     scheduled = reGame.scheduled,
     home = reGame.home.id,
     away = reGame.away.id,
-    scoring = reGame.scoring?.let { listOf(it.homePoints, it.awayPoints) } ?: listOf(0, 0)
+    homePoints = reGame.scoring?.homePoints ?: 0,
+    awayPoints = reGame.scoring?.awayPoints ?: 0
 )
 
 fun mapReToSeason(reSeason: ReSeason) = Season(
@@ -31,7 +34,7 @@ fun mapReToTeam(reDivision: ReDivision, reTeam: ReTeam) = Team(
     market = reTeam.market,
     alias = reTeam.alias,
     division = reDivision.name
-)
+).apply { if (alias == "JAC") alias = "JAX" }
 
 fun mapReToWeek(reWeek: ReWeek) = Week(
     id = reWeek.id,
@@ -39,14 +42,17 @@ fun mapReToWeek(reWeek: ReWeek) = Week(
     title = reWeek.title
 )
 
-//Room to General
-fun mapRoomToGame(roomGame: RoomGame, roomScoring: RoomScoring) = Game(
+/**
+ * Mapping of Room entities to General
+ * */
+fun mapRoomToGame(roomGame: RoomGame) = Game(
     id = roomGame.id,
     status = roomGame.status,
     scheduled = roomGame.scheduled,
     home = roomGame.homeId,
     away = roomGame.awayId,
-    scoring = roomScoring.let { listOf(it.homePoints, it.awayPoints) },
+    homePoints = roomGame.homePoints,
+    awayPoints = roomGame.awayPoints,
     isWatched = roomGame.isWatched
 )
 
@@ -82,24 +88,50 @@ fun mapRoomToWeek(roomWeek: RoomWeek) = Week(
     title = roomWeek.title
 )
 
-//General to Room
-fun mapGameToRoomGame(game: Game, week: Week) = RoomGame(
+/**
+ * Mapping of General entities to Room
+ * */
+fun mapGameToRoom(game: Game, week: Week) = RoomGame(
     id = game.id,
     status = game.status,
     scheduled = game.scheduled,
     homeId = game.home,
     awayId = game.away,
+    homePoints = game.homePoints,
+    awayPoints = game.awayPoints,
     weekId = week.id,
     isWatched = game.isWatched
 )
 
-fun mapGameToRoomScoring(game: Game) = RoomScoring(
-    id = game.id,
-    homePoints = game.scoring[0],
-    awayPoints = game.scoring[1],
-    gameId = game.id
+fun mapSeasonToRoom(season: Season) = RoomSeason(
+    id = season.id,
+    year = season.year,
+    status = season.status,
+    type = season.type
 )
 
-//todo JAX re to team
+fun mapStandingsToRoom(standings: Standings) = RoomStandings(
+    seasonId = standings.seasonId,
+    teamId = standings.teamId,
+    wins = standings.wins,
+    losses = standings.losses,
+    ties = standings.ties,
+    divWins = standings.divWins,
+    divLosses = standings.divLosses,
+    divTies = standings.divTies
+)
 
-//Re to Room
+fun mapTeamToRoom(team: Team) = RoomTeam(
+    id = team.id,
+    name = team.name,
+    market = team.market,
+    alias = team.alias,
+    division = team.division
+)
+
+fun mapWeekToRoom(week: Week, season: Season) = RoomWeek(
+    id = week.id,
+    sequence = week.sequence,
+    title = week.title,
+    seasonId = season.id
+)

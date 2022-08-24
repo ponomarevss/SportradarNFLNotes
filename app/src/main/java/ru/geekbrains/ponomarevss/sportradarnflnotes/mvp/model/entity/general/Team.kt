@@ -8,6 +8,6 @@ data class Team(
     val id: String,
     val name: String,
     val market: String,
-    val alias: String,
+    var alias: String,
     val division: String
 ): Parcelable

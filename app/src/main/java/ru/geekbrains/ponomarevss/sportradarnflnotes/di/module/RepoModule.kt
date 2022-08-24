@@ -17,7 +17,7 @@ class RepoModule {
     fun conferencesRepo(
         api: IDataSource,
         networkStatus: INetworkStatus,
-        cache: IConferencesCache,
+        cache: ITeamsCache,
     ): IConferencesRepo = RetrofitConferencesRepo(api, networkStatus, cache)
 
     @Provides
@@ -49,6 +49,6 @@ class RepoModule {
     fun standingsRepo(
         api: IDataSource,
         cache: IStandingsCache,
-        teamsCache: IConferencesCache
+        teamsCache: ITeamsCache
     ): IStandingsRepo = RetrofitStandingsRepo(api, cache, teamsCache)
 }

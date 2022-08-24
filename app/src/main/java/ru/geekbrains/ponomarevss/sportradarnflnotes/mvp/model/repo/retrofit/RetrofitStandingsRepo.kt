@@ -4,13 +4,13 @@ import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.api.IDataSource
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IConferencesCache
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.ITeamsCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IStandingsCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.oldcommon.Standings
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IStandingsRepo
 import java.lang.Thread.sleep
 
-class RetrofitStandingsRepo(val api: IDataSource, val cache: IStandingsCache, val teamsCache: IConferencesCache) : IStandingsRepo {
+class RetrofitStandingsRepo(val api: IDataSource, val cache: IStandingsCache, val teamsCache: ITeamsCache) : IStandingsRepo {
 
     companion object{
         private const val REQUESTS_GAP = 1100L

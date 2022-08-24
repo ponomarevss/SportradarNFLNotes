@@ -11,6 +11,8 @@ data class RoomGame(
     var scheduled: String,
     var homeId: String,
     var awayId: String,
+    var homePoints: Int,
+    var awayPoints: Int,
     var weekId: String,
     var isWatched: Boolean
 )
