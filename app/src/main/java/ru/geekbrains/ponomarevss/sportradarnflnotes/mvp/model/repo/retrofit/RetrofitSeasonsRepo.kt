@@ -20,8 +20,8 @@ class RetrofitSeasonsRepo(
         if (isOnline) {
             api.getSeasons()
                 .flatMap { reLeagueSeasons ->
-                    cache.putSeasons(reLeagueSeasons.seasons.map { mapReToSeason(it) })
-                        .toSingle { reLeagueSeasons.seasons.map { mapReToSeason(it) } }
+                    val seasons = reLeagueSeasons.seasons.map { mapReToSeason(it) }
+                    cache.putSeasons(seasons).toSingle { seasons }
                 }
         } else cache.getSeasons()
     }.subscribeOn(ioScheduler)

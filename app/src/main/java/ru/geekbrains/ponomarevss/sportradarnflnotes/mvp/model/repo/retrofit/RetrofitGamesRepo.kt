@@ -3,7 +3,6 @@ package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.retrofit
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.schedulers.Schedulers
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.api.IDataSource
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IGamesCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Game
