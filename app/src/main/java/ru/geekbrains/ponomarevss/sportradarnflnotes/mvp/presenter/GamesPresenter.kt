@@ -6,7 +6,7 @@ import io.reactivex.rxjava3.core.Single
 import moxy.MvpPresenter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.oldcommon.*
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.navigation.IScreens
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IConferencesRepo
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.ITeamsRepo
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IGamesRepo
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IStandingsRepo
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.list.IGamesListPresenter
@@ -22,7 +22,7 @@ class GamesPresenter(val uiScheduler: Scheduler, val season: Season, val week: W
     }
 
     @Inject lateinit var standingsRepo: IStandingsRepo
-    @Inject lateinit var teamsRepo: IConferencesRepo
+    @Inject lateinit var teamsRepo: ITeamsRepo
     @Inject lateinit var gamesRepo: IGamesRepo
     @Inject lateinit var router: Router
     @Inject lateinit var screens: IScreens

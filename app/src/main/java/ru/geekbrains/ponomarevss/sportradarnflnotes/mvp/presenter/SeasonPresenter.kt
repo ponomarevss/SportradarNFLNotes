@@ -8,7 +8,7 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.oldcommon.S
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.oldcommon.Team
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.oldcommon.Week
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.navigation.IScreens
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IConferencesRepo
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.ITeamsRepo
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IStandingsRepo
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IWeeksRepo
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.list.IStandingsListPresenter
@@ -23,7 +23,7 @@ class SeasonPresenter(val uiScheduler: Scheduler, val season: Season): MvpPresen
 
     @Inject lateinit var weeksRepo: IWeeksRepo
     @Inject lateinit var standingsRepo: IStandingsRepo
-    @Inject lateinit var conferencesRepo: IConferencesRepo
+    @Inject lateinit var teamsRepo: ITeamsRepo
     @Inject lateinit var router: Router
     @Inject lateinit var screens: IScreens
     @Inject @field:Named("logoUrl") lateinit var logoUrl: String
@@ -81,7 +81,7 @@ class SeasonPresenter(val uiScheduler: Scheduler, val season: Season): MvpPresen
     }
 
     private fun loadTeamsData() {
-        conferencesRepo.getTeams()
+        teamsRepo.getTeams()
             .observeOn(uiScheduler)
             .subscribe({
                 standingsListPresenter.teams.clear()

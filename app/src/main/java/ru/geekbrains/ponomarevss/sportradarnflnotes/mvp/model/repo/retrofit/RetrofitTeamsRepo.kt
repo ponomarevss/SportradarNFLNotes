@@ -7,11 +7,11 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.ITeamsCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.oldcommon.Conference
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.oldcommon.Team
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.network.INetworkStatus
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IConferencesRepo
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.ITeamsRepo
 import java.lang.Thread.sleep
 
-class RetrofitConferencesRepo(val api: IDataSource, private val networkStatus: INetworkStatus, private val cache: ITeamsCache) :
-    IConferencesRepo {
+class RetrofitTeamsRepo(val api: IDataSource, private val networkStatus: INetworkStatus, private val cache: ITeamsCache) :
+    ITeamsRepo {
 
     companion object{
         private const val REQUESTS_GAP = 1100L

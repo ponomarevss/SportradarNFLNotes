@@ -6,7 +6,7 @@ import moxy.MvpPresenter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.oldcommon.Game
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.oldcommon.Period
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.navigation.IScreens
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IConferencesRepo
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.ITeamsRepo
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.list.IPeriodsListPresenter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.GameView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.list.PeriodItemView
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 class GamePresenter(val uiScheduler: Scheduler, val game: Game): MvpPresenter<GameView>() {
 
-    @Inject lateinit var repo: IConferencesRepo
+    @Inject lateinit var repo: ITeamsRepo
     @Inject lateinit var router: Router
     @Inject lateinit var screens: IScreens
 

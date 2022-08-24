@@ -5,12 +5,13 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.ga
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.games.ReSeason
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.games.ReWeek
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.hierarchy.ReDivision
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.hierarchy.ReHierarchy
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.hierarchy.ReTeam
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.*
 
 /**
-* Mapping of Response to General
-* */
+ * Mapping of Response to General
+ * */
 fun mapReToGame(reGame: ReGame) = Game(
     id = reGame.id,
     status = reGame.status,
@@ -27,6 +28,13 @@ fun mapReToSeason(reSeason: ReSeason) = Season(
     status = reSeason.status,
     type = reSeason.type.code
 )
+
+fun mapReToTeams(reHierarchy: ReHierarchy): List<Team> =
+    reHierarchy.conferences.flatMap { reConference ->
+        reConference.divisions.flatMap { reDivision ->
+            reDivision.teams.map { mapReToTeam(reDivision, it) }
+        }
+    }
 
 fun mapReToTeam(reDivision: ReDivision, reTeam: ReTeam) = Team(
     id = reTeam.id,

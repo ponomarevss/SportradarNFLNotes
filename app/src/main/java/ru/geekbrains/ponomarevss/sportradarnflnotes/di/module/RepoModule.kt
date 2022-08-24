@@ -18,7 +18,7 @@ class RepoModule {
         api: IDataSource,
         networkStatus: INetworkStatus,
         cache: ITeamsCache,
-    ): IConferencesRepo = RetrofitConferencesRepo(api, networkStatus, cache)
+    ): ITeamsRepo = RetrofitTeamsRepo(api, networkStatus, cache)
 
     @Provides
     @Singleton
