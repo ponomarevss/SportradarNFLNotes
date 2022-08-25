@@ -14,7 +14,6 @@ class MainPresenter: MvpPresenter<MainView>() {
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         router.replaceScreen(screens.seasons())
-//        router.replaceScreen(screens.table())
     }
 
     fun backPressed() = router.exit()

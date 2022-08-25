@@ -3,7 +3,7 @@ package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.core.Scheduler
 import moxy.MvpPresenter
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.oldcommon.Season
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Season
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.navigation.IScreens
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.ISeasonsRepo
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.list.ISeasonsListPresenter
@@ -11,7 +11,7 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.SeasonsView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.list.SeasonItemView
 import javax.inject.Inject
 
-class SeasonsPresenter(val uiScheduler: Scheduler): MvpPresenter<SeasonsView>() {
+class SeasonsPresenter(private val uiScheduler: Scheduler): MvpPresenter<SeasonsView>() {
 
     @Inject lateinit var repo: ISeasonsRepo
     @Inject lateinit var router: Router
@@ -26,10 +26,8 @@ class SeasonsPresenter(val uiScheduler: Scheduler): MvpPresenter<SeasonsView>() 
             with(view) {
                 with(season) {
                     setYear(year.toString())
-                    setStartDate(startDate)
-                    setEndDate(endDate)
                     setStatus(status)
-                    setType(type.code)
+                    setType(type)
                 }
             }
         }

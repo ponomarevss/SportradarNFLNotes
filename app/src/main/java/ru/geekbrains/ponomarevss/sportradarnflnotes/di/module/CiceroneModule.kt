@@ -11,7 +11,7 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.navigation.AndroidScreens
 @Module
 class CiceroneModule {
 
-    val cicerone: Cicerone<Router> = Cicerone.create()
+    private val cicerone: Cicerone<Router> = Cicerone.create()
 
     @Provides
     fun navigatorHolder(): NavigatorHolder = cicerone.getNavigatorHolder()

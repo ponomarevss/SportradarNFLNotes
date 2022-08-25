@@ -4,7 +4,7 @@ import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.core.Single
 import moxy.MvpPresenter
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.oldcommon.*
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.*
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.navigation.IScreens
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.ITeamsRepo
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IGamesRepo
@@ -15,35 +15,47 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.list.GameItemView
 import javax.inject.Inject
 import javax.inject.Named
 
-class GamesPresenter(val uiScheduler: Scheduler, val season: Season, val week: Week) : MvpPresenter<GamesView>() {
+class GamesPresenter(
+    private val uiScheduler: Scheduler,
+    val season: Season,
+    val week: Week
+) : MvpPresenter<GamesView>() {
 
     companion object {
         private const val CLOSED_STATUS = "closed"
     }
 
-    @Inject lateinit var standingsRepo: IStandingsRepo
-    @Inject lateinit var teamsRepo: ITeamsRepo
-    @Inject lateinit var gamesRepo: IGamesRepo
-    @Inject lateinit var router: Router
-    @Inject lateinit var screens: IScreens
-    @Inject @field:Named("logoUrl") lateinit var logoUrl: String
+    @Inject
+    lateinit var standingsRepo: IStandingsRepo
+    @Inject
+    lateinit var teamsRepo: ITeamsRepo
+    @Inject
+    lateinit var gamesRepo: IGamesRepo
+    @Inject
+    lateinit var router: Router
+    @Inject
+    lateinit var screens: IScreens
+    @Inject
+    @field:Named("logoUrl")
+    lateinit var logoUrl: String
 
     inner class GamesListPresenter : IGamesListPresenter {
         val games = mutableListOf<Game>()
+        val teams = mutableListOf<Team>()
         override var itemClickListener: ((GameItemView) -> Unit)? = null
 
         override fun bindView(view: GameItemView) {
             val game = games[view.pos]
+            val home = teams.first { it.id == game.home }
+            val away = teams.first { it.id == game.away }
             with(view) {
-                with(game) {
-                    setHome(home.alias)
-                    setAway(away.alias)
-                    if (isWatched) setScoring("${scoring?.homePoints} : ${scoring?.awayPoints}") else setScoring("")
-                    setScheduled(scheduled)
-                    setStatus(status)
-                    loadHomeLogo(logoUrl + home.alias)
-                    loadAwayLogo(logoUrl + away.alias)
-                }
+                setHome(home.alias)
+                setAway(away.alias)
+                if (game.isWatched) setScoring("${game.homePoints} : ${game.awayPoints}") else setScoring("")
+                setScheduled(game.scheduled)
+                setStatus(game.status)
+                loadHomeLogo(logoUrl + home.alias)
+                loadAwayLogo(logoUrl + away.alias)
             }
         }
 
@@ -55,23 +67,23 @@ class GamesPresenter(val uiScheduler: Scheduler, val season: Season, val week: W
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         viewState.init()
-        loadData()
+        loadGamesData()
+        loadTeamsData()
 
         gamesListPresenter.itemClickListener = {
             val game = gamesListPresenter.games[it.pos]
             game.apply {
                 if (status == CLOSED_STATUS && !isWatched) {
                     isWatched = true
-                    gamesRepo.putGame(this, week.id).observeOn(uiScheduler).subscribe()
+                    gamesRepo.putGame(this, week).observeOn(uiScheduler).subscribe()
                     updateStandings(season.id, game)
                 }
             }
             viewState.updateList()
-//            router.navigateTo(screens.game(game))
         }
     }
 
-    private fun loadData() {
+    private fun loadGamesData() {
         gamesRepo.getGames(season, week)
             .observeOn(uiScheduler)
             .subscribe({
@@ -83,25 +95,34 @@ class GamesPresenter(val uiScheduler: Scheduler, val season: Season, val week: W
             })
     }
 
+    private fun loadTeamsData() {
+        teamsRepo.getTeams()
+            .observeOn(uiScheduler)
+            .subscribe({
+                gamesListPresenter.teams.clear()
+                gamesListPresenter.teams.addAll(it)
+            }, {
+                println(it.message)
+            })
+    }
+
     private fun updateStandings(seasonId: String, game: Game) {
-        val singleHome = teamsRepo.getTeam(game.home.id)
-        val singleAway = teamsRepo.getTeam(game.away.id)
-        val singleStandHome = standingsRepo.getStandings(seasonId, game.home.id)
-        val singleStandAway = standingsRepo.getStandings(seasonId, game.away.id)
+        val singleHome = teamsRepo.getTeam(game.home)
+        val singleAway = teamsRepo.getTeam(game.away)
+        val singleStandHome = standingsRepo.getStandings(seasonId, game.home)
+        val singleStandAway = standingsRepo.getStandings(seasonId, game.away)
 
         Single.zip(singleHome, singleAway, singleStandHome, singleStandAway, { home, away, stHome, stAway ->
-            game.scoring?.run {
-                when {
-                    homePoints > awayPoints -> homeWins(home, away, stHome, stAway)
-                    homePoints < awayPoints -> awayWins(home, away, stHome, stAway)
-                    homePoints == awayPoints -> ties(home, away, stHome, stAway)
-                }
-            } ?: throw Throwable("Game has no scoring")
+            when {
+                game.homePoints > game.awayPoints -> homeWins(home, away, stHome, stAway)
+                game.homePoints < game.awayPoints -> awayWins(home, away, stHome, stAway)
+                game.homePoints == game.awayPoints -> ties(home, away, stHome, stAway)
+            }
             return@zip listOf(stHome, stAway)
         }).flatMap {
             standingsRepo.putStandingsList(it).toSingleDefault(it)
         }.observeOn(uiScheduler)
-            .subscribe({},{
+            .subscribe({}, {
                 println(it.message)
             })
 
@@ -110,7 +131,7 @@ class GamesPresenter(val uiScheduler: Scheduler, val season: Season, val week: W
     private fun homeWins(home: Team, away: Team, stHome: Standings, stAway: Standings) {
         ++stHome.wins
         ++stAway.losses
-        if (home.divisionId == away.divisionId) {
+        if (home.division == away.division) {
             ++stHome.divWins
             ++stAway.divLosses
         }
@@ -119,7 +140,7 @@ class GamesPresenter(val uiScheduler: Scheduler, val season: Season, val week: W
     private fun awayWins(home: Team, away: Team, stHome: Standings, stAway: Standings) {
         ++stHome.losses
         ++stAway.wins
-        if (home.divisionId == away.divisionId) {
+        if (home.division == away.division) {
             ++stHome.divLosses
             ++stAway.divWins
         }
@@ -128,7 +149,7 @@ class GamesPresenter(val uiScheduler: Scheduler, val season: Season, val week: W
     private fun ties(home: Team, away: Team, stHome: Standings, stAway: Standings) {
         ++stHome.ties
         ++stAway.ties
-        if (home.divisionId == away.divisionId) {
+        if (home.division == away.division) {
             ++stHome.divTies
             ++stAway.divTies
         }
