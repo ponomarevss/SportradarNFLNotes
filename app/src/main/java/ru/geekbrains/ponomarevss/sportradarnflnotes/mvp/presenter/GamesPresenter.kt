@@ -1,43 +1,37 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter
 
+import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.core.Single
 import moxy.MvpPresenter
+import org.koin.java.KoinJavaComponent.inject
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.*
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.navigation.IScreens
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.ITeamsRepo
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IGamesRepo
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IStandingsRepo
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.ITeamsRepo
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.list.IGamesListPresenter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.GamesView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.list.GameItemView
 import javax.inject.Inject
 import javax.inject.Named
 
-class GamesPresenter(
-    private val uiScheduler: Scheduler,
-    val season: Season,
-    val week: Week
-) : MvpPresenter<GamesView>() {
+class GamesPresenter(private val uiScheduler: Scheduler, val season: Season, val week: Week) : MvpPresenter<GamesView>() {
 
     companion object {
         private const val CLOSED_STATUS = "closed"
     }
 
-    @Inject
-    lateinit var standingsRepo: IStandingsRepo
-    @Inject
-    lateinit var teamsRepo: ITeamsRepo
-    @Inject
-    lateinit var gamesRepo: IGamesRepo
-    @Inject
-    lateinit var router: Router
-    @Inject
-    lateinit var screens: IScreens
-    @Inject
-    @field:Named("logoUrl")
-    lateinit var logoUrl: String
+    @Inject lateinit var standingsRepo: IStandingsRepo
+    @Inject lateinit var teamsRepo: ITeamsRepo
+    @Inject lateinit var gamesRepo: IGamesRepo
+
+//    val router: Router by inject()
+
+    //    @Inject lateinit var router: Router
+//    @Inject lateinit var screens: IScreens
+
+    @Inject @field:Named("logoUrl") lateinit var logoUrl: String
 
     inner class GamesListPresenter : IGamesListPresenter {
         val games = mutableListOf<Game>()
