@@ -7,6 +7,7 @@ import io.reactivex.rxjava3.core.Single
 import moxy.MvpPresenter
 import org.koin.java.KoinJavaComponent.inject
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.*
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.navigation.IScreens
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IGamesRepo
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IStandingsRepo
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.ITeamsRepo
@@ -28,8 +29,8 @@ class GamesPresenter(private val uiScheduler: Scheduler, val season: Season, val
 
 //    val router: Router by inject()
 
-    //    @Inject lateinit var router: Router
-//    @Inject lateinit var screens: IScreens
+    @Inject lateinit var router: Router
+    @Inject lateinit var screens: IScreens
 
     @Inject @field:Named("logoUrl") lateinit var logoUrl: String
 
@@ -106,14 +107,14 @@ class GamesPresenter(private val uiScheduler: Scheduler, val season: Season, val
         val singleStandHome = standingsRepo.getStandings(seasonId, game.home)
         val singleStandAway = standingsRepo.getStandings(seasonId, game.away)
 
-        Single.zip(singleHome, singleAway, singleStandHome, singleStandAway, { home, away, stHome, stAway ->
+        Single.zip(singleHome, singleAway, singleStandHome, singleStandAway) { home, away, stHome, stAway ->
             when {
                 game.homePoints > game.awayPoints -> homeWins(home, away, stHome, stAway)
                 game.homePoints < game.awayPoints -> awayWins(home, away, stHome, stAway)
                 game.homePoints == game.awayPoints -> ties(home, away, stHome, stAway)
             }
             return@zip listOf(stHome, stAway)
-        }).flatMap {
+        }.flatMap {
             standingsRepo.putStandingsList(it).toSingleDefault(it)
         }.observeOn(uiScheduler)
             .subscribe({}, {

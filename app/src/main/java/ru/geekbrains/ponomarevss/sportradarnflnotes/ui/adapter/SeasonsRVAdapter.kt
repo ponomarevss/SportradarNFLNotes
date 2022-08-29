@@ -36,14 +36,6 @@ class SeasonsRVAdapter(val presenter: ISeasonsListPresenter) :
             vb.tvYear.text = text
         }
 
-        override fun setStartDate(text: String) {
-            vb.tvStartDate.text = text
-        }
-
-        override fun setEndDate(text: String) {
-            vb.tvEndDate.text = text
-        }
-
         override fun setStatus(text: String) {
             vb.tvStatus.text = text
         }

@@ -5,5 +5,6 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Sea
 
 interface ISeasonsRepo {
 
-    fun getSeasons(): Single<List<Season>>
+    fun getSeasons(): List<Season>
+//    fun getSeasons(): Single<List<Season>>
 }

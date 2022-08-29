@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Asus/AndroidStudioProjects/SportradarNFLNotes/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/watch/AndroidStudioProjects/SportradarNFLNotes/app/src/main/res/layout/activity_main.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/watch/AndroidStudioProjects/SportradarNFLNotes/app/src/main/res/layout/fragment_game.xml" value="0.2740036231884058" />
         <entry key="..\:/Users/watch/AndroidStudioProjects/SportradarNFLNotes/app/src/main/res/layout/fragment_games.xml" value="0.14270833333333333" />
@@ -18,7 +19,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_X" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
