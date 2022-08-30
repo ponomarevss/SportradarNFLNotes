@@ -1,5 +1,6 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,7 +8,9 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Sea
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.ISeasonsRepo
 
 class SeasonsViewModel(private val repo: ISeasonsRepo): ViewModel() {
-
+    init {
+        Log.e("AAA", "viewModel created")
+    }
     private val _mutableLiveData: MutableLiveData<List<Season>> = MutableLiveData()
     val liveDataForViewToObserve: LiveData<List<Season>> = _mutableLiveData
 
@@ -20,11 +23,12 @@ class SeasonsViewModel(private val repo: ISeasonsRepo): ViewModel() {
 //        _mutableLiveData.postValue(SeasonsAppState.Error(error))
 //    }
 //
-//    override fun onCleared() {
+    override fun onCleared() {
 //        _mutableLiveData.value = SeasonsAppState.Success(null)
 //        cancelJob()
 //        super.onCleared()
-//    }
+        Log.e("AAA", "viewModel destroyed")
+    }
 //
 //
 //    private fun cancelJob() {

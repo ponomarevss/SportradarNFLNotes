@@ -4,10 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.ItemSeasonBinding
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Season
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.list.ISeasonsListPresenter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.list.SeasonItemView
 
-class SeasonsRVAdapter(val presenter: ISeasonsListPresenter) :
+//class SeasonsRVAdapter(val presenter: ISeasonsListPresenter) :
+class SeasonsRVAdapter(val seasons: List<Season>) :
     RecyclerView.Adapter<SeasonsRVAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -19,13 +21,15 @@ class SeasonsRVAdapter(val presenter: ISeasonsListPresenter) :
             )
         ).apply {
             itemView.setOnClickListener {
-                presenter.itemClickListener?.invoke(this)
+//                presenter.itemClickListener?.invoke(this)
             }
         }
 
-    override fun getItemCount() = presenter.getCount()
+//    override fun getItemCount() = presenter.getCount()
+    override fun getItemCount() = seasons.size
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) = presenter.bindView(holder.apply { pos = position })
+//    override fun onBindViewHolder(holder: ViewHolder, position: Int) = presenter.bindView(holder.apply { pos = position })
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {} /*= presenter.bindView(holder.apply { pos = position })*/
 
     inner class ViewHolder(val vb: ItemSeasonBinding) : RecyclerView.ViewHolder(vb.root),
         SeasonItemView {

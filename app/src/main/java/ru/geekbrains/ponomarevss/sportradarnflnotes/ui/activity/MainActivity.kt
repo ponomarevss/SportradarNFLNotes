@@ -2,11 +2,14 @@ package ru.geekbrains.ponomarevss.sportradarnflnotes.ui.activity
 
 import android.os.Bundle
 import com.github.terrakok.cicerone.NavigatorHolder
+import com.github.terrakok.cicerone.Router
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import moxy.MvpAppCompatActivity
 import moxy.ktx.moxyPresenter
+import org.koin.android.ext.android.inject
 import ru.geekbrains.ponomarevss.sportradarnflnotes.R
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.ActivityMainBinding
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.navigation.IScreens
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.MainPresenter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.MainView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.App
@@ -15,8 +18,10 @@ import javax.inject.Inject
 
 class MainActivity : MvpAppCompatActivity(), MainView {
 
-    @Inject lateinit var navigatorHolder: NavigatorHolder
+    private val navigatorHolder: NavigatorHolder by inject()
+    private val router: Router by inject()
     private val navigator = AppNavigator(this, R.id.container)
+    private val screens: IScreens by inject()
 
 //    private val presenter by moxyPresenter {
 //        MainPresenter().apply {
@@ -30,6 +35,7 @@ class MainActivity : MvpAppCompatActivity(), MainView {
 //        App.instance.appComponent.inject(this)
         vb = ActivityMainBinding.inflate(layoutInflater)
         setContentView(vb?.root)
+        router.replaceScreen(screens.seasons())
     }
 
     override fun onResumeFragments() {
