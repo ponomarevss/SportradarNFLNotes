@@ -30,12 +30,12 @@ class SeasonFragment: MvpAppCompatFragment(), WeeksView, BackButtonListener {
         }
     }
 
-    val presenter: SeasonPresenter by moxyPresenter {
-        val season = arguments?.getParcelable<Season>(SEASON_ARG) as Season
-        SeasonPresenter(AndroidSchedulers.mainThread(), season).apply {
-            App.instance.appComponent.inject(this)
-        }
-    }
+//    val presenter: SeasonPresenter by moxyPresenter {
+//        val season = arguments?.getParcelable<Season>(SEASON_ARG) as Season
+//        SeasonPresenter(AndroidSchedulers.mainThread(), season)/*.apply {
+//            App.instance.appComponent.inject(this)
+//        }*/
+//    }
 
     var weeksAdapter: WeeksRVAdapter? = null
     var standingsAdapter: StandingsRVAdapter? = null
@@ -55,19 +55,19 @@ class SeasonFragment: MvpAppCompatFragment(), WeeksView, BackButtonListener {
     }
 
     override fun init() {
-        vb?.rvWeeks?.layoutManager = GridLayoutManager(context, SPAN_COUNT)
-        weeksAdapter = WeeksRVAdapter(presenter.weeksListPresenter)
-        vb?.rvWeeks?.adapter = weeksAdapter
-
-        vb?.rvStandings?.layoutManager = LinearLayoutManager(context)
-        standingsAdapter = StandingsRVAdapter(presenter.standingsListPresenter, GlideImageLoader())
-        vb?.rvStandings?.adapter = standingsAdapter
+//        vb?.rvWeeks?.layoutManager = GridLayoutManager(context, SPAN_COUNT)
+//        weeksAdapter = WeeksRVAdapter(presenter.weeksListPresenter)
+//        vb?.rvWeeks?.adapter = weeksAdapter
+//
+//        vb?.rvStandings?.layoutManager = LinearLayoutManager(context)
+//        standingsAdapter = StandingsRVAdapter(presenter.standingsListPresenter, GlideImageLoader())
+//        vb?.rvStandings?.adapter = standingsAdapter
     }
 
     override fun updateList() {
-        weeksAdapter?.notifyDataSetChanged()
-        standingsAdapter?.notifyDataSetChanged()
+//        weeksAdapter?.notifyDataSetChanged()
+//        standingsAdapter?.notifyDataSetChanged()
     }
 
-    override fun backPressed() = presenter.backPressed()
+//    override fun backPressed() = presenter.backPressed()
 }

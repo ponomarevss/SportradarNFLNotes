@@ -1,4 +1,4 @@
-package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.retrofit
+package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo
 
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.core.Single
@@ -9,12 +9,14 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.mapReToSeas
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.network.INetworkStatus
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.ISeasonsRepo
 
-class RetrofitSeasonsRepo(
-    private val ioScheduler: Scheduler,
-    private val api: IDataSource,
-    private val networkStatus: INetworkStatus,
-    private val cache: ISeasonsCache
-) : ISeasonsRepo {
+class SeasonsRepo() : ISeasonsRepo {
+
+//class RetrofitSeasonsRepo(
+//    private val ioScheduler: Scheduler,
+//    private val api: IDataSource,
+//    private val networkStatus: INetworkStatus,
+//    private val cache: ISeasonsCache
+//) : ISeasonsRepo {
 
     override fun getSeasons(): List<Season> = listOf(
         Season("1", 2019, "closed", "REG"),

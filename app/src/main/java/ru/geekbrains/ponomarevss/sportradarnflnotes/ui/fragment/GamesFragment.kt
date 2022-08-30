@@ -37,13 +37,13 @@ class GamesFragment: MvpAppCompatFragment(), GamesView, BackButtonListener {
     val router: Router by inject()
     val screens: IScreens by inject()
 
-    val presenter: GamesPresenter by moxyPresenter {
-        val season = arguments?.getParcelable<Season>(SEASON_ARG) as Season
-        val week = arguments?.getParcelable<Week>(WEEK_ARG) as Week
-        GamesPresenter(AndroidSchedulers.mainThread(), season, week)/*.apply {
-            App.instance.appComponent.inject(this)
-        }*/
-    }
+//    val presenter: GamesPresenter by moxyPresenter {
+//        val season = arguments?.getParcelable<Season>(SEASON_ARG) as Season
+//        val week = arguments?.getParcelable<Week>(WEEK_ARG) as Week
+//        GamesPresenter(AndroidSchedulers.mainThread(), season, week).apply {
+//            App.instance.appComponent.inject(this)
+//        }
+//    }
 
     var adapter: GamesRVAdapter? = null
     private var vb: FragmentGamesBinding? = null
@@ -62,14 +62,14 @@ class GamesFragment: MvpAppCompatFragment(), GamesView, BackButtonListener {
     }
 
     override fun init() {
-        vb?.rvGames?.layoutManager = LinearLayoutManager(context)
-        adapter = GamesRVAdapter(presenter.gamesListPresenter, GlideImageLoader())
-        vb?.rvGames?.adapter = adapter
+//        vb?.rvGames?.layoutManager = LinearLayoutManager(context)
+//        adapter = GamesRVAdapter(presenter.gamesListPresenter, GlideImageLoader())
+//        vb?.rvGames?.adapter = adapter
     }
 
     override fun updateList() {
-        adapter?.notifyDataSetChanged()
+//        adapter?.notifyDataSetChanged()
     }
 
-    override fun backPressed() = presenter.backPressed()
+//    override fun backPressed() = presenter.backPressed()
 }

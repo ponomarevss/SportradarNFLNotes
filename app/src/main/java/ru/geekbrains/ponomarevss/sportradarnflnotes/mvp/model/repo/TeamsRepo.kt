@@ -1,4 +1,4 @@
-package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.retrofit
+package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo
 
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.core.Single
@@ -7,10 +7,9 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.ITeamsCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Team
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.mapReToTeams
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.network.INetworkStatus
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.ITeamsRepo
 import java.lang.Thread.sleep
 
-class RetrofitTeamsRepo(
+class TeamsRepo(
     private val ioScheduler: Scheduler,
     private val api: IDataSource,
     private val networkStatus: INetworkStatus,

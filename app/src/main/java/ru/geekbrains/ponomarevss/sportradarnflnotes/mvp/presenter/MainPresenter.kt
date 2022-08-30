@@ -8,13 +8,13 @@ import javax.inject.Inject
 
 class MainPresenter: MvpPresenter<MainView>() {
 
-    @Inject lateinit var router: Router
-    @Inject lateinit var screens: IScreens
+//    @Inject lateinit var router: Router
+//    @Inject lateinit var screens: IScreens
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        router.replaceScreen(screens.seasons())
+//        router.replaceScreen(screens.seasons())
     }
 
-    fun backPressed() = router.exit()
+//    fun backPressed() = router.exit()
 }

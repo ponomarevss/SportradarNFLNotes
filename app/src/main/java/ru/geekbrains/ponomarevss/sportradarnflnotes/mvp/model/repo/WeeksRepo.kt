@@ -1,4 +1,4 @@
-package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.retrofit
+package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo
 
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.core.Single
@@ -8,9 +8,8 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Sea
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Week
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.mapReToWeek
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.network.INetworkStatus
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IWeeksRepo
 
-class RetrofitWeeksRepo(
+class WeeksRepo(
     private val ioScheduler: Scheduler,
     private val api: IDataSource,
     private val networkStatus: INetworkStatus,

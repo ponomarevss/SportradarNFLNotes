@@ -6,12 +6,12 @@ plugins {
 }
 
 android {
-    compileSdk 31
+    compileSdk 33
 
     defaultConfig {
         applicationId "ru.geekbrains.ponomarevss.sportradarnflnotes"
         minSdk 22
-        targetSdk 31
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -50,6 +50,9 @@ dependencies {
     kapt "com.github.moxy-community:moxy-compiler:2.1.2"
     implementation "com.github.moxy-community:moxy-ktx:2.2.2"
     implementation "com.github.moxy-community:moxy-androidx:2.2.2"
+
+    //ViewModel
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
 
     //Cicerone
     implementation 'com.github.terrakok:cicerone:6.6'

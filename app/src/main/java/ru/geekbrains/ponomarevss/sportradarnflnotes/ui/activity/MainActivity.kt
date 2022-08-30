@@ -18,16 +18,16 @@ class MainActivity : MvpAppCompatActivity(), MainView {
     @Inject lateinit var navigatorHolder: NavigatorHolder
     private val navigator = AppNavigator(this, R.id.container)
 
-    private val presenter by moxyPresenter {
-        MainPresenter().apply {
-            App.instance.appComponent.inject(this)
-        }
-    }
+//    private val presenter by moxyPresenter {
+//        MainPresenter().apply {
+//            App.instance.appComponent.inject(this)
+//        }
+//    }
     private var vb: ActivityMainBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        App.instance.appComponent.inject(this)
+//        App.instance.appComponent.inject(this)
         vb = ActivityMainBinding.inflate(layoutInflater)
         setContentView(vb?.root)
     }
@@ -43,11 +43,11 @@ class MainActivity : MvpAppCompatActivity(), MainView {
     }
 
     override fun onBackPressed() {
-        supportFragmentManager.fragments.forEach {
-            if (it is BackButtonListener && it.backPressed()){
-                return
-            }
-        }
-        presenter.backPressed()
+//        supportFragmentManager.fragments.forEach {
+//            if (it is BackButtonListener && it.backPressed()){
+//                return
+//            }
+//        }
+//        presenter.backPressed()
     }
 }

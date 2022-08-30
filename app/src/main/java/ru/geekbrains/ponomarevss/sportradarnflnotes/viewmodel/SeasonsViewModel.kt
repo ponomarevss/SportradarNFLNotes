@@ -3,7 +3,6 @@ package ru.geekbrains.ponomarevss.sportradarnflnotes.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.appstate.SeasonsAppState
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Season
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.ISeasonsRepo
 
@@ -13,22 +12,22 @@ class SeasonsViewModel(private val repo: ISeasonsRepo): ViewModel() {
     val liveDataForViewToObserve: LiveData<List<Season>> = _mutableLiveData
 
     fun getData() {
-        _mutableLiveData.value = SeasonsAppState.Loading(null)
-        cancelJob()
-        repo.getSeasons()
-    }
-    fun handleError(error: Throwable) {
-        _mutableLiveData.postValue(SeasonsAppState.Error(error))
+        _mutableLiveData.postValue(repo.getSeasons())
+//        cancelJob()
     }
 
-    override fun onCleared() {
-        _mutableLiveData.value = SeasonsAppState.Success(null)
-        cancelJob()
-        super.onCleared()
-    }
-
-
-    private fun cancelJob() {
+//    fun handleError(error: Throwable) {
+//        _mutableLiveData.postValue(SeasonsAppState.Error(error))
+//    }
+//
+//    override fun onCleared() {
+//        _mutableLiveData.value = SeasonsAppState.Success(null)
+//        cancelJob()
+//        super.onCleared()
+//    }
+//
+//
+//    private fun cancelJob() {
 //        viewModelCoroutineScope.coroutineContext.cancelChildren()
 
                 //для нижеописанного скоупа.
@@ -41,7 +40,7 @@ class SeasonsViewModel(private val repo: ISeasonsRepo): ViewModel() {
                 //проработать как себя ведет viewModelScope
 
 
-    }
+//    }
 
 
 

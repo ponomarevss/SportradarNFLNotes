@@ -6,7 +6,7 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.appstate.SeasonsAp
 
 @AddToEndSingle
 interface SeasonsView: MvpView {
-    fun init()
-    fun updateList()
-    fun renderData(appState: SeasonsAppState)
+//    fun init()
+//    fun updateList()
+//    fun renderData(appState: SeasonsAppState)
 }

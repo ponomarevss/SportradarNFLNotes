@@ -21,12 +21,12 @@ import javax.inject.Named
 
 class SeasonPresenter(private val uiScheduler: Scheduler, val season: Season): MvpPresenter<WeeksView>() {
 
-    @Inject lateinit var weeksRepo: IWeeksRepo
-    @Inject lateinit var standingsRepo: IStandingsRepo
-    @Inject lateinit var teamsRepo: ITeamsRepo
-    @Inject lateinit var router: Router
-    @Inject lateinit var screens: IScreens
-    @Inject @field:Named("logoUrl") lateinit var logoUrl: String
+//    @Inject lateinit var weeksRepo: IWeeksRepo
+//    @Inject lateinit var standingsRepo: IStandingsRepo
+//    @Inject lateinit var teamsRepo: ITeamsRepo
+//    @Inject lateinit var router: Router
+//    @Inject lateinit var screens: IScreens
+//    @Inject @field:Named("logoUrl") lateinit var logoUrl: String
 
 
     class WeeksListPresenter: IWeeksListPresenter {
@@ -47,18 +47,18 @@ class SeasonPresenter(private val uiScheduler: Scheduler, val season: Season): M
         override var itemClickListener: ((StandingsItemView) -> Unit)? = null
 
         override fun bindView(view: StandingsItemView) {
-            val standings = standingsList[view.pos]
-            val team = teams.first { it.id == standings.teamId }
-            with (view) {
-                with(team) {
-                    setTeam("$market $name")
-                    loadLogo(logoUrl + alias)
-                }
-                with (standings) {
-                    setWLT("${wins}-${losses}-${ties}")
-                    setDivWLT("${divWins}-${divLosses}-${divTies}")
-                }
-            }
+//            val standings = standingsList[view.pos]
+//            val team = teams.first { it.id == standings.teamId }
+//            with (view) {
+//                with(team) {
+//                    setTeam("$market $name")
+//                    loadLogo(logoUrl + alias)
+//                }
+//                with (standings) {
+//                    setWLT("${wins}-${losses}-${ties}")
+//                    setDivWLT("${divWins}-${divLosses}-${divTies}")
+//                }
+//            }
         }
 
         override fun getCount(): Int = standingsList.size
@@ -75,50 +75,50 @@ class SeasonPresenter(private val uiScheduler: Scheduler, val season: Season): M
         loadTeamsData()
 
         weeksListPresenter.itemClickListener = {
-            val week = weeksListPresenter.weeks[it.pos]
-            router.navigateTo(screens.games(season, week))
+//            val week = weeksListPresenter.weeks[it.pos]
+//            router.navigateTo(screens.games(season, week))
         }
     }
 
     private fun loadTeamsData() {
-        teamsRepo.getTeams()
-            .observeOn(uiScheduler)
-            .subscribe({
-                standingsListPresenter.teams.clear()
-                standingsListPresenter.teams.addAll(it)
-                viewState.updateList()
-            }, {
-                println(it.message)
-            })
+//        teamsRepo.getTeams()
+//            .observeOn(uiScheduler)
+//            .subscribe({
+//                standingsListPresenter.teams.clear()
+//                standingsListPresenter.teams.addAll(it)
+//                viewState.updateList()
+//            }, {
+//                println(it.message)
+//            })
     }
 
     private fun loadWeeksData() {
-        weeksRepo.getWeeks(season)
-            .observeOn(uiScheduler)
-            .subscribe({
-                weeksListPresenter.weeks.clear()
-                weeksListPresenter.weeks.addAll(it)
-                viewState.updateList()
-            },{
-                println(it.message)
-            })
+//        weeksRepo.getWeeks(season)
+//            .observeOn(uiScheduler)
+//            .subscribe({
+//                weeksListPresenter.weeks.clear()
+//                weeksListPresenter.weeks.addAll(it)
+//                viewState.updateList()
+//            },{
+//                println(it.message)
+//            })
     }
 
     private fun loadStandingsData() {
-        standingsRepo.getStandingsList(season.id)
-            .observeOn(uiScheduler)
-            .subscribe({
-                standingsListPresenter.standingsList.clear()
-                standingsListPresenter.standingsList.addAll(it.sortedBy { standings ->
-                    standings.wins - standings.losses}.asReversed())
-                viewState.updateList()
-            },{
-                println(it.message)
-            })
+//        standingsRepo.getStandingsList(season.id)
+//            .observeOn(uiScheduler)
+//            .subscribe({
+//                standingsListPresenter.standingsList.clear()
+//                standingsListPresenter.standingsList.addAll(it.sortedBy { standings ->
+//                    standings.wins - standings.losses}.asReversed())
+//                viewState.updateList()
+//            },{
+//                println(it.message)
+//            })
     }
 
     fun backPressed(): Boolean {
-        router.navigateTo(screens.seasons())
+//        router.navigateTo(screens.seasons())
         return true
     }
 //    fun backPressed(): Boolean {

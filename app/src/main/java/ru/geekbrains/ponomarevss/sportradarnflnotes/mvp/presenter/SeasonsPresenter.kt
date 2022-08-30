@@ -13,9 +13,9 @@ import javax.inject.Inject
 
 class SeasonsPresenter(private val uiScheduler: Scheduler): MvpPresenter<SeasonsView>() {
 
-    @Inject lateinit var repo: ISeasonsRepo
-    @Inject lateinit var router: Router
-    @Inject lateinit var screens: IScreens
+//    @Inject lateinit var repo: ISeasonsRepo
+//    @Inject lateinit var router: Router
+//    @Inject lateinit var screens: IScreens
 
     class SeasonsListPresenter: ISeasonsListPresenter{
         val seasons = mutableListOf<Season>()
@@ -39,29 +39,29 @@ class SeasonsPresenter(private val uiScheduler: Scheduler): MvpPresenter<Seasons
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        viewState.init()
+//        viewState.init()
         loadData()
 
         seasonsListPresenter.itemClickListener = {
             val season = seasonsListPresenter.seasons[it.pos]
-            router.navigateTo(screens.season(season))
+//            router.navigateTo(screens.season(season))
         }
     }
 
     private fun loadData() {
-        repo.getSeasons()
-            .observeOn(uiScheduler)
-            .subscribe({
-                seasonsListPresenter.seasons.clear()
-                seasonsListPresenter.seasons.addAll(it.asReversed() )
-                viewState.updateList()
-            },{
-                println(it.message)
-            })
+//        repo.getSeasons()
+//            .observeOn(uiScheduler)
+//            .subscribe({
+//                seasonsListPresenter.seasons.clear()
+//                seasonsListPresenter.seasons.addAll(it.asReversed() )
+//                viewState.updateList()
+//            },{
+//                println(it.message)
+//            })
     }
 
     fun backPressed(): Boolean {
-        router.finishChain()
+//        router.finishChain()
 //        router.exit()
         return true
     }

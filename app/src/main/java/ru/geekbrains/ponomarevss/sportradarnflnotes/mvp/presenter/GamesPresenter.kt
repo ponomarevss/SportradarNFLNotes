@@ -23,14 +23,12 @@ class GamesPresenter(private val uiScheduler: Scheduler, val season: Season, val
         private const val CLOSED_STATUS = "closed"
     }
 
-    @Inject lateinit var standingsRepo: IStandingsRepo
-    @Inject lateinit var teamsRepo: ITeamsRepo
-    @Inject lateinit var gamesRepo: IGamesRepo
+//    @Inject lateinit var standingsRepo: IStandingsRepo
+//    @Inject lateinit var teamsRepo: ITeamsRepo
+//    @Inject lateinit var gamesRepo: IGamesRepo
 
-//    val router: Router by inject()
-
-    @Inject lateinit var router: Router
-    @Inject lateinit var screens: IScreens
+//    @Inject lateinit var router: Router
+//    @Inject lateinit var screens: IScreens
 
     @Inject @field:Named("logoUrl") lateinit var logoUrl: String
 
@@ -65,62 +63,62 @@ class GamesPresenter(private val uiScheduler: Scheduler, val season: Season, val
         loadGamesData()
         loadTeamsData()
 
-        gamesListPresenter.itemClickListener = {
-            val game = gamesListPresenter.games[it.pos]
-            game.apply {
-                if (status == CLOSED_STATUS && !isWatched) {
-                    isWatched = true
-                    gamesRepo.putGame(this, week).observeOn(uiScheduler).subscribe()
-                    updateStandings(season.id, game)
-                }
-            }
-            viewState.updateList()
-        }
+//        gamesListPresenter.itemClickListener = {
+//            val game = gamesListPresenter.games[it.pos]
+//            game.apply {
+//                if (status == CLOSED_STATUS && !isWatched) {
+//                    isWatched = true
+//                    gamesRepo.putGame(this, week).observeOn(uiScheduler).subscribe()
+//                    updateStandings(season.id, game)
+//                }
+//            }
+//            viewState.updateList()
+//        }
     }
 
     private fun loadGamesData() {
-        gamesRepo.getGames(season, week)
-            .observeOn(uiScheduler)
-            .subscribe({
-                gamesListPresenter.games.clear()
-                gamesListPresenter.games.addAll(it)
-                viewState.updateList()
-            }, {
-                println(it.message)
-            })
+//        gamesRepo.getGames(season, week)
+//            .observeOn(uiScheduler)
+//            .subscribe({
+//                gamesListPresenter.games.clear()
+//                gamesListPresenter.games.addAll(it)
+//                viewState.updateList()
+//            }, {
+//                println(it.message)
+//            })
     }
 
     private fun loadTeamsData() {
-        teamsRepo.getTeams()
-            .observeOn(uiScheduler)
-            .subscribe({
-                gamesListPresenter.teams.clear()
-                gamesListPresenter.teams.addAll(it)
-            }, {
-                println(it.message)
-            })
+//        teamsRepo.getTeams()
+//            .observeOn(uiScheduler)
+//            .subscribe({
+//                gamesListPresenter.teams.clear()
+//                gamesListPresenter.teams.addAll(it)
+//            }, {
+//                println(it.message)
+//            })
     }
 
     private fun updateStandings(seasonId: String, game: Game) {
-        val singleHome = teamsRepo.getTeam(game.home)
-        val singleAway = teamsRepo.getTeam(game.away)
-        val singleStandHome = standingsRepo.getStandings(seasonId, game.home)
-        val singleStandAway = standingsRepo.getStandings(seasonId, game.away)
-
-        Single.zip(singleHome, singleAway, singleStandHome, singleStandAway) { home, away, stHome, stAway ->
-            when {
-                game.homePoints > game.awayPoints -> homeWins(home, away, stHome, stAway)
-                game.homePoints < game.awayPoints -> awayWins(home, away, stHome, stAway)
-                game.homePoints == game.awayPoints -> ties(home, away, stHome, stAway)
-            }
-            return@zip listOf(stHome, stAway)
-        }.flatMap {
-            standingsRepo.putStandingsList(it).toSingleDefault(it)
-        }.observeOn(uiScheduler)
-            .subscribe({}, {
-                println(it.message)
-            })
-
+//        val singleHome = teamsRepo.getTeam(game.home)
+//        val singleAway = teamsRepo.getTeam(game.away)
+//        val singleStandHome = standingsRepo.getStandings(seasonId, game.home)
+//        val singleStandAway = standingsRepo.getStandings(seasonId, game.away)
+//
+//        Single.zip(singleHome, singleAway, singleStandHome, singleStandAway) { home, away, stHome, stAway ->
+//            when {
+//                game.homePoints > game.awayPoints -> homeWins(home, away, stHome, stAway)
+//                game.homePoints < game.awayPoints -> awayWins(home, away, stHome, stAway)
+//                game.homePoints == game.awayPoints -> ties(home, away, stHome, stAway)
+//            }
+//            return@zip listOf(stHome, stAway)
+//        }.flatMap {
+//            standingsRepo.putStandingsList(it).toSingleDefault(it)
+//        }.observeOn(uiScheduler)
+//            .subscribe({}, {
+//                println(it.message)
+//            })
+//
     }
 
     private fun homeWins(home: Team, away: Team, stHome: Standings, stAway: Standings) {
@@ -151,7 +149,7 @@ class GamesPresenter(private val uiScheduler: Scheduler, val season: Season, val
     }
 
     fun backPressed(): Boolean {
-        router.navigateTo(screens.season(season))
+//        router.navigateTo(screens.season(season))
         return true
     }
 //    fun backPressed(): Boolean {
