@@ -5,6 +5,6 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Sea
 
 interface ISeasonsRepo {
 
-    fun getSeasons(): List<Season>
+    suspend fun getSeasons(): List<Season>
 //    fun getSeasons(): Single<List<Season>>
 }

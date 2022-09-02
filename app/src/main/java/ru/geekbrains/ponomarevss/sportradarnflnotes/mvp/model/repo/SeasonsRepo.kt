@@ -18,7 +18,7 @@ class SeasonsRepo() : ISeasonsRepo {
 //    private val cache: ISeasonsCache
 //) : ISeasonsRepo {
 
-    override fun getSeasons(): List<Season> = listOf(
+    override suspend fun getSeasons(): List<Season> = listOf(
         Season("1", 2019, "closed", "REG"),
         Season("2", 2020, "closed", "REG"),
         Season("3", 2021, "closed", "REG"),
