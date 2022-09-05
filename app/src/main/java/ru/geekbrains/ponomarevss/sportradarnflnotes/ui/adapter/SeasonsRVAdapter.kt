@@ -1,6 +1,7 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.ItemSeasonBinding
@@ -8,44 +9,44 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Sea
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.list.ISeasonsListPresenter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.list.SeasonItemView
 
-//class SeasonsRVAdapter(val presenter: ISeasonsListPresenter) :
-class SeasonsRVAdapter(val seasons: List<Season>) :
-    RecyclerView.Adapter<SeasonsRVAdapter.ViewHolder>() {
+class SeasonsRVAdapter(private var onListItemClickListener: OnListItemClickListener) : RecyclerView.Adapter<SeasonsRVAdapter.ViewHolder>() {
+
+    private var data: List<Season> = mutableListOf()
+
+    fun setData(data: List<Season>) {
+        this.data = data
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(
-            ItemSeasonBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-        ).apply {
-            itemView.setOnClickListener {
-//                presenter.itemClickListener?.invoke(this)
+            ItemSeasonBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        )
+
+    override fun getItemCount() = data.size
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(data[position])
+    }
+
+    inner class ViewHolder(private val vb: ItemSeasonBinding) : RecyclerView.ViewHolder(vb.root) {
+
+        fun bind(data: Season) {
+            if (layoutPosition != RecyclerView.NO_POSITION) {
+                vb.tvYear.text = data.year.toString()
+                vb.tvStatus.text = data.status
+                vb.tvType.text = data.type
+                itemView.setOnClickListener { openInNewWindow(data) }
             }
         }
-
-//    override fun getItemCount() = presenter.getCount()
-    override fun getItemCount() = seasons.size
-
-//    override fun onBindViewHolder(holder: ViewHolder, position: Int) = presenter.bindView(holder.apply { pos = position })
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {} /*= presenter.bindView(holder.apply { pos = position })*/
-
-    inner class ViewHolder(val vb: ItemSeasonBinding) : RecyclerView.ViewHolder(vb.root),
-        SeasonItemView {
-
-        override var pos = -1
-
-        override fun setYear(text: String) {
-            vb.tvYear.text = text
-        }
-
-        override fun setStatus(text: String) {
-            vb.tvStatus.text = text
-        }
-
-        override fun setType(text: String) {
-            vb.tvType.text = text
-        }
     }
+
+    private fun openInNewWindow(listItemData: Season) {
+        onListItemClickListener.onItemClick(listItemData)
+    }
+
+    interface OnListItemClickListener {
+        fun onItemClick(data: Season)
+    }
+
 }

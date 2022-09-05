@@ -3,22 +3,14 @@ package ru.geekbrains.ponomarevss.sportradarnflnotes.ui.fragment
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
-import moxy.ktx.moxyPresenter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.FragmentSeasonBinding
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Season
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.SeasonPresenter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.WeeksView
-import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.App
-import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.BackButtonListener
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter.StandingsRVAdapter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter.WeeksRVAdapter
-import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.image.GlideImageLoader
 
-class SeasonFragment: MvpAppCompatFragment(), WeeksView, BackButtonListener {
+class SeasonFragment: MvpAppCompatFragment(), WeeksView {
     companion object {
         private const val SEASON_ARG = "season"
         private const val SPAN_COUNT = 6

@@ -3,25 +3,17 @@ package ru.geekbrains.ponomarevss.sportradarnflnotes.ui.fragment
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.terrakok.cicerone.Router
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
-import moxy.ktx.moxyPresenter
 import org.koin.android.ext.android.inject
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.FragmentGamesBinding
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Season
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Week
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.navigation.IScreens
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.GamesPresenter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.GamesView
-import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.App
-import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.BackButtonListener
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter.GamesRVAdapter
-import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.image.GlideImageLoader
-import javax.inject.Inject
 
-class GamesFragment: MvpAppCompatFragment(), GamesView, BackButtonListener {
+class GamesFragment: MvpAppCompatFragment(), GamesView {
     companion object {
         private const val SEASON_ARG = "season"
         private const val WEEK_ARG = "week"

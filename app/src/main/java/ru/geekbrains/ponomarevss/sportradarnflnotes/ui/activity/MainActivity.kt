@@ -14,9 +14,9 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.MainView
 
 class MainActivity : MvpAppCompatActivity(), MainView {
 
+    private val navigator = AppNavigator(this, R.id.container)
     private val navigatorHolder: NavigatorHolder by inject()
     private val router: Router by inject()
-    private val navigator = AppNavigator(this, R.id.container)
     private val screens: IScreens by inject()
 
     private var vb: ActivityMainBinding? = null
@@ -41,9 +41,5 @@ class MainActivity : MvpAppCompatActivity(), MainView {
     override fun onPause() {
         super.onPause()
         navigatorHolder.removeNavigator()
-    }
-
-    override fun onBackPressed() {
-
     }
 }

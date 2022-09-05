@@ -10,15 +10,9 @@ class App : Application() {
         lateinit var instance: App
     }
 
-//    lateinit var appComponent: AppComponent
-
     override fun onCreate() {
         super.onCreate()
         instance = this
         startKoin { modules(application, seasonsFragment) }
-
-//        appComponent = DaggerAppComponent.builder()
-//            .appModule(AppModule(this))
-//            .build()
     }
 }
