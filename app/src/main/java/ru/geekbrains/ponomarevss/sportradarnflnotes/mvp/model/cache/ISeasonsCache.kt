@@ -6,6 +6,6 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Sea
 
 interface ISeasonsCache {
 
-    fun putSeasons(seasons: List<Season>): Completable
-    fun getSeasons(): Single<List<Season>>
+    suspend fun putSeasons(seasons: List<Season>)
+    suspend fun getSeasons(): List<Season>
 }

@@ -1,20 +1,17 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.room
 
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Single
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.ISeasonsCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Season
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.mapRoomToSeason
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.mapSeasonToRoom
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.db.Database
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.db.SportradarDatabase
 
-class RoomSeasonsCache(private val db: Database) : ISeasonsCache {
+class RoomSeasonsCache(private val db: SportradarDatabase) : ISeasonsCache {
 
-    override fun putSeasons(seasons: List<Season>): Completable = Completable.fromAction {
+    override suspend fun putSeasons(seasons: List<Season>) {
         db.seasonDao.insert(seasons.map { mapSeasonToRoom(it) })
     }
 
-    override fun getSeasons(): Single<List<Season>> = Single.fromCallable {
+    override suspend fun getSeasons(): List<Season> =
         db.seasonDao.getAll().map { mapRoomToSeason(it) }
-    }
 }

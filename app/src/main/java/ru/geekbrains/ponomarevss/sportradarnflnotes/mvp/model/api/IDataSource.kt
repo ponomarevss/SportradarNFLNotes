@@ -14,10 +14,9 @@ interface IDataSource {
     companion object {
         private const val APIKEY = "efv8g6v7bta5mkgey4v38xbe"
     }
+
     @GET("league/seasons.json")
-    fun getSeasons(
-        @Query("api_key") apiKey: String = APIKEY
-    ): Single<ReLeagueSeasons>
+    suspend fun getSeasons(@Query("api_key") apiKey: String = APIKEY): ReLeagueSeasons
 
     @GET("league/hierarchy.json")
     fun getLeagueHierarchy(

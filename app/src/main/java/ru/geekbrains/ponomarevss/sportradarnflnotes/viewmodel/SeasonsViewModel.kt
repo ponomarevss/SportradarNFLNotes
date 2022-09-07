@@ -15,7 +15,7 @@ class SeasonsViewModel(private val repo: ISeasonsRepo): ViewModel() {
 
     fun getData() {
         viewModelScope.launch {
-            _mutableLiveData.value = repo.getSeasons()
+            _mutableLiveData.value = repo.getSeasons().reversed()
         }
     }
 }
