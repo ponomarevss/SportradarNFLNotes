@@ -8,14 +8,14 @@ import kotlinx.coroutines.launch
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Season
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.ISeasonsRepo
 
-class SeasonsViewModel(private val repo: ISeasonsRepo): ViewModel() {
+class SeasonsViewModel(private val repo: ISeasonsRepo) : ViewModel() {
 
     private val _mutableLiveData: MutableLiveData<List<Season>> = MutableLiveData()
     val liveData: LiveData<List<Season>> = _mutableLiveData
 
-    fun getData() {
+    fun getData(isOnline: Boolean) {
         viewModelScope.launch {
-            _mutableLiveData.value = repo.getSeasons().reversed()
+            _mutableLiveData.value = repo.getSeasons(isOnline).reversed()
         }
     }
 }

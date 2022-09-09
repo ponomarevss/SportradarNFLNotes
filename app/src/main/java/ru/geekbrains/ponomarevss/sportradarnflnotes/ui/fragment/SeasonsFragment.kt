@@ -1,18 +1,23 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import com.github.terrakok.cicerone.Router
 import moxy.MvpAppCompatFragment
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
+import ru.geekbrains.ponomarevss.sportradarnflnotes.R
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.FragmentSeasonsBinding
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Season
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.navigation.IScreens
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter.SeasonsRVAdapter
+import ru.geekbrains.ponomarevss.sportradarnflnotes.utils.OnlineLiveData
 import ru.geekbrains.ponomarevss.sportradarnflnotes.viewmodel.SeasonsViewModel
 
 class SeasonsFragment : MvpAppCompatFragment() {
@@ -20,6 +25,9 @@ class SeasonsFragment : MvpAppCompatFragment() {
         private const val SPAN_COUNT = 2
         fun newInstance() = SeasonsFragment()
     }
+
+    private var isNetworkAvailable: Boolean = true
+
 
     private val router: Router by inject()
     private val screens: IScreens by inject()
@@ -35,19 +43,28 @@ class SeasonsFragment : MvpAppCompatFragment() {
             }
         }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ) =
         FragmentSeasonsBinding.inflate(inflater, container, false).also {
             vb = it
         }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+//        subscribeToNetworkChange()
+
         initViewModel()
     }
 
     private fun initViewModel() {
-        seasonsViewModel.liveData.observe(viewLifecycleOwner) { initView() }
-        seasonsViewModel.getData()
+        seasonsViewModel.liveData.observe(viewLifecycleOwner) {
+            initView()
+        }
+        seasonsViewModel.getData(isNetworkAvailable)
     }
 
     private fun initView() {
@@ -56,6 +73,12 @@ class SeasonsFragment : MvpAppCompatFragment() {
         vb?.rvSeasons?.adapter = adapter
         seasonsViewModel.liveData.value?.let { adapter?.setData(it) }
     }
+
+//    private fun subscribeToNetworkChange() {
+//        OnlineLiveData(requireContext()).observe(viewLifecycleOwner) {
+//            isNetworkAvailable = it
+//        }
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()

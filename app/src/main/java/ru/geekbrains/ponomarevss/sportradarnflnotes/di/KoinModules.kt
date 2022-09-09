@@ -36,12 +36,13 @@ val application = module {
             .create(IDataSource::class.java)
     }
 
-    single{
+    single {
         Room.databaseBuilder(
             get(),
             SportradarDatabase::class.java,
             SportradarDatabase.DB_NAME
-        ).build()
+        )
+            .build()
     }
 
 }

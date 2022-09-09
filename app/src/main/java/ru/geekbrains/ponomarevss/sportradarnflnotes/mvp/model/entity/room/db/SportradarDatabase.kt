@@ -7,11 +7,11 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.dao.Se
 
 @Database(
     entities = [
-        RoomGame::class,
-        RoomSeason::class,
-        RoomStandings::class,
-        RoomTeam::class,
-        RoomWeek::class
+//        RoomGame::class,
+        RoomSeason::class
+//        RoomStandings::class,
+//        RoomTeam::class,
+//        RoomWeek::class
     ],
     version = 1
 )
