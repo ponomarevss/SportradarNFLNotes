@@ -22,8 +22,6 @@ class SeasonsFragment : MvpAppCompatFragment() {
         fun newInstance() = SeasonsFragment()
     }
 
-    private var isNetworkAvailable: Boolean = false
-
     private val router: Router by inject()
     private val screens: IScreens by inject()
 
@@ -49,7 +47,6 @@ class SeasonsFragment : MvpAppCompatFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         subscribeToNetworkState()
         initViewModel()
     }
@@ -58,7 +55,7 @@ class SeasonsFragment : MvpAppCompatFragment() {
         seasonsViewModel.liveData.observe(viewLifecycleOwner) {
             initView()
         }
-        seasonsViewModel.getData(isNetworkAvailable)
+        seasonsViewModel.getData(false)
     }
 
     private fun initView() {
@@ -71,8 +68,9 @@ class SeasonsFragment : MvpAppCompatFragment() {
     private fun subscribeToNetworkState() {
         val onlineLiveData = OnlineLiveData(requireContext())
         onlineLiveData.observe(viewLifecycleOwner) {
-            isNetworkAvailable = it
-            seasonsViewModel.getData(isNetworkAvailable)
+            if (it) {
+                seasonsViewModel.getData(true)
+            }
         }
     }
 
