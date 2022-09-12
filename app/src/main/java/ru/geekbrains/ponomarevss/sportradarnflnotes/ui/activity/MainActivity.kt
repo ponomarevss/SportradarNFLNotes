@@ -15,8 +15,6 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.utils.OnlineLiveData
 
 class MainActivity : MvpAppCompatActivity(), MainView {
 
-    private var isNetworkAvailable: Boolean = true
-
     private val navigator = AppNavigator(this, R.id.container)
     private val navigatorHolder: NavigatorHolder by inject()
     private val router: Router by inject()
@@ -29,17 +27,8 @@ class MainActivity : MvpAppCompatActivity(), MainView {
         vb = ActivityMainBinding.inflate(layoutInflater)
         setContentView(vb?.root)
 
-        subscribeToNetworkChange()
-//        Log.e("AAA", "isNetworkAvailable $isNetworkAvailable")
         if (savedInstanceState == null) {
             router.replaceScreen(screens.seasons())
-        }
-    }
-
-    private fun subscribeToNetworkChange() {
-        OnlineLiveData(this).observe(this) {
-            isNetworkAvailable = it
-//            Log.e("AAA", "MainActivity $it")
         }
     }
 

@@ -1,18 +1,14 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.ui.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import com.github.terrakok.cicerone.Router
 import moxy.MvpAppCompatFragment
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
-import ru.geekbrains.ponomarevss.sportradarnflnotes.R
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.FragmentSeasonsBinding
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Season
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.navigation.IScreens
@@ -26,8 +22,7 @@ class SeasonsFragment : MvpAppCompatFragment() {
         fun newInstance() = SeasonsFragment()
     }
 
-    private var isNetworkAvailable: Boolean = true
-
+    private var isNetworkAvailable: Boolean = false
 
     private val router: Router by inject()
     private val screens: IScreens by inject()
@@ -55,8 +50,7 @@ class SeasonsFragment : MvpAppCompatFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        subscribeToNetworkChange()
-
+        subscribeToNetworkState()
         initViewModel()
     }
 
@@ -74,11 +68,13 @@ class SeasonsFragment : MvpAppCompatFragment() {
         seasonsViewModel.liveData.value?.let { adapter?.setData(it) }
     }
 
-//    private fun subscribeToNetworkChange() {
-//        OnlineLiveData(requireContext()).observe(viewLifecycleOwner) {
-//            isNetworkAvailable = it
-//        }
-//    }
+    private fun subscribeToNetworkState() {
+        val onlineLiveData = OnlineLiveData(requireContext())
+        onlineLiveData.observe(viewLifecycleOwner) {
+            isNetworkAvailable = it
+            seasonsViewModel.getData(isNetworkAvailable)
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
