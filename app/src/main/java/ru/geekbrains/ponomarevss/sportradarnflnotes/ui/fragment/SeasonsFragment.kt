@@ -49,29 +49,33 @@ class SeasonsFragment : MvpAppCompatFragment() {
         super.onViewCreated(view, savedInstanceState)
         subscribeToNetworkState()
         initViewModel()
+        initView()
+        loadData()
+    }
+
+    private fun subscribeToNetworkState() {
+        OnlineLiveData(requireContext()).observe(
+            viewLifecycleOwner,
+            seasonsViewModel.onlineLiveDataObserver()
+        )
     }
 
     private fun initViewModel() {
-        seasonsViewModel.liveData.observe(viewLifecycleOwner) {
-            initView()
-        }
-        seasonsViewModel.getData(false)
+        seasonsViewModel.liveData.observe(viewLifecycleOwner) { setViewData() }
     }
 
     private fun initView() {
         vb?.rvSeasons?.layoutManager = GridLayoutManager(context, SPAN_COUNT)
         adapter = SeasonsRVAdapter(onListItemClickListener)
         vb?.rvSeasons?.adapter = adapter
-        seasonsViewModel.liveData.value?.let { adapter?.setData(it) }
     }
 
-    private fun subscribeToNetworkState() {
-        val onlineLiveData = OnlineLiveData(requireContext())
-        onlineLiveData.observe(viewLifecycleOwner) {
-            if (it) {
-                seasonsViewModel.getData(true)
-            }
-        }
+    private fun loadData() {
+        seasonsViewModel.getCachedData()
+    }
+
+    private fun setViewData() {
+        seasonsViewModel.liveData.value?.let { adapter?.setData(it) }
     }
 
     override fun onDestroyView() {
