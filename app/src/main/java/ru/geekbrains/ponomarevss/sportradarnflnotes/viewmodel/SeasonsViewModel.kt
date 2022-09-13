@@ -29,7 +29,7 @@ class SeasonsViewModel(private val repo: ISeasonsRepo) : ViewModel() {
     private fun getNetworkData(isOnline: Boolean) {
         viewModelScope.launch {
             if (isOnline) {
-                _mutableLiveData.value = repo.getNetworkSeasons().reversed()
+                _mutableLiveData.value = repo.getApiSeasons().reversed()
             }
         }
     }

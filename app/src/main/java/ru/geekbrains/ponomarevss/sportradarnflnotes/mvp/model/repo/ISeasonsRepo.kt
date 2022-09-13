@@ -6,5 +6,5 @@ interface ISeasonsRepo {
 
 //    suspend fun getSeasons(isOnline: Boolean): List<Season>
     suspend fun getCachedSeasons(): List<Season>
-    suspend fun getNetworkSeasons(): List<Season>
+    suspend fun getApiSeasons(): List<Season>
 }

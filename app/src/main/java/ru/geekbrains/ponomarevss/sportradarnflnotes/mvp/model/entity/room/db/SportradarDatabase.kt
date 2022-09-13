@@ -4,6 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.*
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.dao.SeasonDao
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.dao.WeekDao
 
 @Database(
     entities = [
@@ -17,11 +18,12 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.dao.Se
 )
 abstract class SportradarDatabase : RoomDatabase() {
 
-//    abstract val gameDao: GameDao
     abstract val seasonDao: SeasonDao
+    abstract val weekDao: WeekDao
+
+//    abstract val gameDao: GameDao
 //    abstract val standingsDao: StandingsDao
 //    abstract val teamDao: TeamDao
-//    abstract val weekDao: WeekDao
 
     companion object {
         const val DB_NAME = "database.db"

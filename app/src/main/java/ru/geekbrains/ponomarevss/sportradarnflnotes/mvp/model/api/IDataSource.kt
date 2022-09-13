@@ -1,6 +1,5 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.api
 
-import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -19,24 +18,24 @@ interface IDataSource {
     suspend fun getSeasons(@Query("api_key") apiKey: String = APIKEY): ReLeagueSeasons
 
     @GET("league/hierarchy.json")
-    fun getLeagueHierarchy(
+    suspend fun getLeagueHierarchy(
         @Query("api_key") apiKey: String = APIKEY
-    ): Single<ReHierarchy>
+    ): ReHierarchy
 
     @GET("games/{year}/{nfl_season}/schedule.json")
-    fun getSeasonSchedule(
+    suspend fun getSeasonSchedule(
         @Path("year") year: String,
         @Path("nfl_season") nflSeason: String,
         @Query("api_key") apiKey: String = APIKEY
-    ): Single<ReScheduleSeason>
+    ): ReScheduleSeason
 
     @GET("games/{year}/{nfl_season}/{nfl_season_week}/schedule.json")
-    fun getWeeklySchedule(
+    suspend fun getWeeklySchedule(
         @Path("year") year: String,
         @Path("nfl_season") nflSeason: String,
         @Path("nfl_season_week") nflSeasonWeek: String,
         @Query("api_key") apiKey: String = APIKEY
-    ): Single<ReScheduleWeek>
+    ): ReScheduleWeek
 }
 
 

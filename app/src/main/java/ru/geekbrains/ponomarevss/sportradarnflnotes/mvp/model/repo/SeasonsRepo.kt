@@ -27,7 +27,7 @@ class SeasonsRepo(private val api: IDataSource, private val cache: ISeasonsCache
             cache.getSeasons()
         }
 
-    override suspend fun getNetworkSeasons(): List<Season> =
+    override suspend fun getApiSeasons(): List<Season> =
         withContext(CoroutineScope(Dispatchers.IO).coroutineContext) {
             val seasons: List<Season> = api.getSeasons().seasons.map { mapReToSeason(it) }
             cache.putSeasons(seasons)

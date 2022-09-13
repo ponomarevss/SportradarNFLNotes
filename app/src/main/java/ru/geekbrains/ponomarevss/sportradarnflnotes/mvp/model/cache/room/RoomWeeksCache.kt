@@ -1,7 +1,5 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.room
 
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Single
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IWeeksCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Season
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Week
@@ -11,18 +9,10 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.db.Spo
 
 class RoomWeeksCache(private val db: SportradarDatabase) : IWeeksCache {
 
-    //    override fun putWeeks(weeks: List<Week>, season: Season): Completable = Completable.fromAction {
-//        db.weekDao.insert(weeks.map { mapWeekToRoom(it, season) })
-//    }
-//
-//    override fun getWeeks(seasonId: String): Single<List<Week>> = Single.fromCallable {
-//        db.weekDao.findForSeasonId(seasonId).map { mapRoomToWeek(it) }
-//    }
-    override fun putWeeks(weeks: List<Week>, season: Season): Completable {
-        TODO("Not yet implemented")
+    override suspend fun putWeeks(weeks: List<Week>, season: Season) {
+        db.weekDao.insert(weeks.map { mapWeekToRoom(it, season) })
     }
 
-    override fun getWeeks(seasonId: String): Single<List<Week>> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getWeeks(seasonId: String): List<Week> =
+        db.weekDao.findForSeasonId(seasonId).map { mapRoomToWeek(it) }
 }
