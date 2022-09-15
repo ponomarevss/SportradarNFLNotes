@@ -22,19 +22,19 @@ class TeamsRepo(
 
     override fun getTeam(teamId: String): Single<Team> = cache.getTeam(teamId).doOnError { println(it.message) }.subscribeOn(ioScheduler)
 
-    override fun getTeams(): Single<List<Team>> = cache.getTeams().flatMap { teamsList ->
-        if (teamsList.isEmpty()) {
-            networkStatus.isOnlineSingle().flatMap { isOnline ->
-                if (isOnline) {
-                    sleep(REQUESTS_GAP)
-                    api.getLeagueHierarchy().flatMap { reHierarchy ->
-                        val teams = mapReToTeams(reHierarchy)
-                        cache.putTeams(teams).toSingle { teams }
-                    }
-                } else throw Throwable("Unable to fetch teams")
-            }
-        } else {
-            Single.just(teamsList)
-        }
-    }
+//    override fun getTeams(): Single<List<Team>> = cache.getTeams().flatMap { teamsList ->
+//        if (teamsList.isEmpty()) {
+//            networkStatus.isOnlineSingle().flatMap { isOnline ->
+//                if (isOnline) {
+//                    sleep(REQUESTS_GAP)
+//                    api.getLeagueHierarchy().flatMap { reHierarchy ->
+//                        val teams = mapReToTeams(reHierarchy)
+//                        cache.putTeams(teams).toSingle { teams }
+//                    }
+//                } else throw Throwable("Unable to fetch teams")
+//            }
+//        } else {
+//            Single.just(teamsList)
+//        }
+//    }
 }

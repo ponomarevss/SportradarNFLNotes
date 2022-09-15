@@ -4,39 +4,48 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.ItemWeekBinding
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.list.IWeeksListPresenter
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.list.WeekItemView
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Season
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Week
 
-class WeeksRVAdapter(val presenter: IWeeksListPresenter) :
-    RecyclerView.Adapter<WeeksRVAdapter.ViewHolder>() {
+class WeeksRVAdapter(
+    private var season: Season,
+    private var onListItemClickListener: OnListItemClickListener
+) : RecyclerView.Adapter<WeeksRVAdapter.ViewHolder>() {
+
+    private var data: List<Week> = mutableListOf()
+
+    fun setData(data: List<Week>) {
+        this.data = data
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(
-            ItemWeekBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-        ).apply {
-            itemView.setOnClickListener {
-                presenter.itemClickListener?.invoke(this)
+            ItemWeekBinding
+                .inflate(LayoutInflater.from(parent.context), parent, false)
+        )
+
+    override fun getItemCount() = data.size
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(season, data[position])
+    }
+
+    inner class ViewHolder(private val vb: ItemWeekBinding) : RecyclerView.ViewHolder(vb.root) {
+
+        fun bind(season: Season, data: Week, ) {
+            if (layoutPosition != RecyclerView.NO_POSITION) {
+                vb.tvTitle.text = data.title
+                itemView.setOnClickListener { openInNewWindow(season, data) }
             }
         }
+    }
 
-    override fun getItemCount() = presenter.getCount()
+    private fun openInNewWindow(season: Season, listItemData: Week) {
+        onListItemClickListener.onItemClick(season, listItemData)
+    }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) =
-        presenter.bindView(holder.apply {
-            pos = position
-        })
-
-    inner class ViewHolder(val vb: ItemWeekBinding) : RecyclerView.ViewHolder(vb.root),
-        WeekItemView {
-
-        override fun setTitle(text: String) {
-            vb.tvTitle.text = text
-        }
-
-        override var pos = -1
+    interface OnListItemClickListener {
+        fun onItemClick(sData: Season, wData: Week)
     }
 }

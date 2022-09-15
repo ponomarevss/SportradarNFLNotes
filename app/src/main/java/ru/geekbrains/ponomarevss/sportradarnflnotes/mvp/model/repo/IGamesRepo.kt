@@ -8,6 +8,6 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Wee
 
 interface IGamesRepo {
 
-    fun getGames(season: Season, week: Week): Single<List<Game>>
+//    fun getGames(season: Season, week: Week): Single<List<Game>>
     fun putGame(game: Game,  week: Week): Completable
 }

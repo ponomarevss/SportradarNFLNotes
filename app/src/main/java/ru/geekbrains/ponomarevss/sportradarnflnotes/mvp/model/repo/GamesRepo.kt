@@ -18,15 +18,15 @@ class GamesRepo(
     private val cache: IGamesCache
 ) : IGamesRepo {
 
-    override fun getGames(season: Season, week: Week): Single<List<Game>> = networkStatus.isOnlineSingle().flatMap { isOnline ->
-        if (isOnline) {
-            api.getWeeklySchedule(season.year.toString(), season.type, week.sequence.toString())
-                .flatMap { reScheduleWeek ->
-                    val checkedGames = checkGames(reScheduleWeek.week.games.map { mapReToGame(it) })
-                    cache.putGames(checkedGames, week).toSingle { checkedGames }
-                }
-        } else cache.getGames(week)
-    }.subscribeOn(ioScheduler)
+//    override fun getGames(season: Season, week: Week): Single<List<Game>> = networkStatus.isOnlineSingle().flatMap { isOnline ->
+//        if (isOnline) {
+//            api.getWeeklySchedule(season.year.toString(), season.type, week.sequence.toString())
+//                .flatMap { reScheduleWeek ->
+//                    val checkedGames = checkGames(reScheduleWeek.week.games.map { mapReToGame(it) })
+//                    cache.putGames(checkedGames, week).toSingle { checkedGames }
+//                }
+//        } else cache.getGames(week)
+//    }.subscribeOn(ioScheduler)
 
     override fun putGame(game: Game, week: Week): Completable = cache.putGame(game, week).subscribeOn(ioScheduler)
 

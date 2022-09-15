@@ -6,5 +6,5 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Tea
 interface ITeamsRepo {
 
     fun getTeam(teamId: String): Single<Team>
-    fun getTeams(): Single<List<Team>>
+//    fun getTeams(): Single<List<Team>>
 }

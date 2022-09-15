@@ -2,6 +2,7 @@ package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.api.IDataSource
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IWeeksCache
@@ -10,6 +11,10 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Wee
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.mapReToWeek
 
 class WeeksRepo(private val api: IDataSource, private val cache: IWeeksCache) : IWeeksRepo {
+
+    companion object {
+        private const val REQUESTS_GAP = 1100L
+    }
 
 //    override fun getWeeks(season: Season): Single<List<Week>> = networkStatus.isOnlineSingle().flatMap { isOnline ->
 //        if (isOnline) {
@@ -33,6 +38,7 @@ class WeeksRepo(private val api: IDataSource, private val cache: IWeeksCache) : 
 
     override suspend fun getApiWeeks(season: Season): List<Week> =
         withContext(CoroutineScope(Dispatchers.IO).coroutineContext) {
+            delay(REQUESTS_GAP)
             val weeks: List<Week> =
                 api.getSeasonSchedule(season.year.toString(), season.type).weeks.map {
                     mapReToWeek(it)

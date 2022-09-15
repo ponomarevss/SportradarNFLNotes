@@ -12,20 +12,24 @@ class SeasonViewModel(private val season: Season, private val repo: IWeeksRepo) 
     val weeksLiveData: LiveData<List<Week>> = _weeksMutableLiveData
 
     fun onlineLiveDataObserver(): Observer<Boolean> = Observer<Boolean> {
-        getNetworkData(it)
+        getData(it)
     }
 
-    fun getCachedData() {
+    fun getData(isOnline: Boolean) {
         viewModelScope.launch {
-            _weeksMutableLiveData.value = repo.getCachedWeeks(season).reversed()
-        }
-    }
-
-    private fun getNetworkData(isOnline: Boolean) {
-        viewModelScope.launch {
-            if (isOnline) {
-                _weeksMutableLiveData.value = repo.getApiWeeks(season).reversed()
+            var weeks: List<Week> = repo.getCachedWeeks(season)
+            if (weeks.isEmpty() && isOnline) {
+                weeks = repo.getApiWeeks(season)
             }
+            _weeksMutableLiveData.value = weeks
         }
     }
+
+//    private fun getNetworkData(isOnline: Boolean) {
+//        viewModelScope.launch {
+//            if (isOnline) {
+//                _weeksMutableLiveData.value = repo.getApiWeeks(season)
+//            }
+//        }
+//    }
 }

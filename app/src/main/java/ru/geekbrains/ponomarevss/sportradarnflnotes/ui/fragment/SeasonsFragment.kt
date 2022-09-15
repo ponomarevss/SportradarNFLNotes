@@ -71,7 +71,7 @@ class SeasonsFragment : MvpAppCompatFragment() {
     }
 
     private fun loadData() {
-        seasonsViewModel.getCachedData()
+        seasonsViewModel.getData(false)
     }
 
     private fun setViewData() {
