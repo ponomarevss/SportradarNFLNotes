@@ -1,6 +1,7 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,9 +35,10 @@ class SeasonFragment : MvpAppCompatFragment() {
 
     private val router: Router by inject()
     private val screens: IScreens by inject()
-
-    private lateinit var seasonViewModel: SeasonViewModel
-    private var season: Season? = null
+    private var season: Season? = arguments?.getParcelable(SEASON_ARG)
+    private val seasonViewModel: SeasonViewModel by viewModel { parametersOf(season) }
+//    private lateinit var seasonViewModel: SeasonViewModel
+//    private var season: Season? = null
 
     private var vb: FragmentSeasonBinding? = null
 
@@ -60,11 +62,10 @@ class SeasonFragment : MvpAppCompatFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        season = arguments?.getParcelable(SEASON_ARG)
+        Log.e("AAA", season.toString())
         initViewModel()
-        loadData()
+        fetchWeeks()
         init()
-        subscribeToNetworkState()
     }
 
     private fun init() {
@@ -77,23 +78,19 @@ class SeasonFragment : MvpAppCompatFragment() {
 //        vb?.rvStandings?.adapter = standingsAdapter
     }
 
-    private fun loadData() {
-        seasonViewModel.getData(false)
+    private fun fetchWeeks() {
+        seasonViewModel.loadInitWeeks()
+        OnlineLiveData(requireContext()).observe(
+            viewLifecycleOwner,
+            seasonViewModel.onlineLiveDataObserver()
+        )
     }
 
     private fun initViewModel() {
-        val viewModel: SeasonViewModel by viewModel { parametersOf(season) }
-        this.seasonViewModel = viewModel
-        viewModel.weeksLiveData.observe(viewLifecycleOwner) { setViewData() }
-    }
-
-    private fun setViewData() {
-        seasonViewModel.weeksLiveData.value?.let { weeksAdapter?.setData(it) }
-    }
-
-    private fun subscribeToNetworkState() {
-        seasonViewModel.onlineLiveDataObserver().let {
-            OnlineLiveData(requireContext()).observe(viewLifecycleOwner, it)
+//        val viewModel: SeasonViewModel by viewModel { parametersOf(season) }
+//        this.seasonViewModel = viewModel
+        with(seasonViewModel.weeksLiveData) {
+            observe(viewLifecycleOwner) { value?.let { weeksAdapter?.setData(it) } }
         }
     }
 
