@@ -1,6 +1,7 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.utils.OnlineLiveData
 import ru.geekbrains.ponomarevss.sportradarnflnotes.viewmodel.SeasonsViewModel
 
 class SeasonsFragment : MvpAppCompatFragment() {
+
     companion object {
         private const val SPAN_COUNT = 2
         fun newInstance() = SeasonsFragment()

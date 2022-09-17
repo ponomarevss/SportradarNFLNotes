@@ -20,25 +20,22 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter.WeeksRVAdapter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.utils.OnlineLiveData
 import ru.geekbrains.ponomarevss.sportradarnflnotes.viewmodel.SeasonViewModel
 
-//@RequiresApi(33)
 class SeasonFragment : MvpAppCompatFragment() {
     companion object {
         private const val SEASON_ARG = "season"
         private const val SPAN_COUNT = 6
 
         fun newInstance(season: Season) = SeasonFragment().apply {
-            arguments = Bundle().apply {
-                putParcelable(SEASON_ARG, season)
-            }
+            arguments = Bundle().apply { putParcelable(SEASON_ARG, season) }
         }
     }
 
     private val router: Router by inject()
     private val screens: IScreens by inject()
-    private var season: Season? = arguments?.getParcelable(SEASON_ARG)
-    private val seasonViewModel: SeasonViewModel by viewModel { parametersOf(season) }
-//    private lateinit var seasonViewModel: SeasonViewModel
-//    private var season: Season? = null
+
+//    private val season: Season = arguments?.getParcelable(SEASON_ARG)!!
+//    private val seasonViewModel: SeasonViewModel by viewModel { parametersOf(season) }
+    private val seasonViewModel: SeasonViewModel by viewModel { parametersOf(arguments?.getParcelable(SEASON_ARG)!!) }
 
     private var vb: FragmentSeasonBinding? = null
 
@@ -62,15 +59,13 @@ class SeasonFragment : MvpAppCompatFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.e("AAA", season.toString())
         initViewModel()
         fetchWeeks()
-        init()
+        initView()
     }
 
-    private fun init() {
+    private fun initView() {
         vb?.rvWeeks?.layoutManager = GridLayoutManager(context, SPAN_COUNT)
-        weeksAdapter = season?.let { WeeksRVAdapter(it, onListItemClickListener) }
         vb?.rvWeeks?.adapter = weeksAdapter
 
 //        vb?.rvStandings?.layoutManager = LinearLayoutManager(context)
@@ -87,8 +82,8 @@ class SeasonFragment : MvpAppCompatFragment() {
     }
 
     private fun initViewModel() {
-//        val viewModel: SeasonViewModel by viewModel { parametersOf(season) }
-//        this.seasonViewModel = viewModel
+        val season: Season = arguments?.getParcelable(SEASON_ARG)!!
+        weeksAdapter = WeeksRVAdapter(season, onListItemClickListener)
         with(seasonViewModel.weeksLiveData) {
             observe(viewLifecycleOwner) { value?.let { weeksAdapter?.setData(it) } }
         }

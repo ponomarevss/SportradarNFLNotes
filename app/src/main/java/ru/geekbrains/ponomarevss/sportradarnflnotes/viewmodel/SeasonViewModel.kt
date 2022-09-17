@@ -1,6 +1,8 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.*
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Season
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Week
@@ -15,8 +17,13 @@ class SeasonViewModel(private val season: Season, private val repo: IWeeksRepo) 
 
     fun loadInitWeeks() {
         viewModelScope.launch {
-            if (_weeksMutableLiveData.value == null) {
-                _weeksMutableLiveData.value = repo.getCachedWeeks(season).reversed()
+            try {
+                if (_weeksMutableLiveData.value == null) {
+                    _weeksMutableLiveData.value = repo.getCachedWeeks(season).reversed()
+                    Log.e("AAA", "data from repo.getCachedWeeks ${_weeksMutableLiveData.value}")
+                }
+            } catch (e: Throwable) {
+                Log.e("AAA", "loadInitWeeks ${e.message.toString()}")
             }
         }
     }
@@ -27,9 +34,14 @@ class SeasonViewModel(private val season: Season, private val repo: IWeeksRepo) 
 
     private fun updateWeeks(isOnline: Boolean) {
         viewModelScope.launch {
-            if (isOnline && !isUpdated) {
-                _weeksMutableLiveData.value = repo.getApiWeeks(season).reversed()
-                isUpdated = true
+            try {
+                if (isOnline && !isUpdated) {
+                    _weeksMutableLiveData.value = repo.getApiWeeks(season).reversed()
+                    Log.e("AAA", "data from api")
+                    isUpdated = true
+                }
+            } catch (e: Throwable) {
+                Log.e("AAA", "updateWeeks ${e.message.toString()}")
             }
         }
     }

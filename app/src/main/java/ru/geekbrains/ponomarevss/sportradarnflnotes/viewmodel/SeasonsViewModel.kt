@@ -1,5 +1,6 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Season
