@@ -8,7 +8,7 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Wee
 interface IGamesCache {
 
     fun putGames(games: List<Game>, week: Week): Completable
-    fun getGames(week: Week): Single<List<Game>>
+    suspend fun getGames(week: Week): List<Game>
 
     fun putGame(game: Game, week: Week): Completable
     fun getGame(gameId: String): Single<Game>

@@ -3,12 +3,13 @@ package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.db
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.*
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.dao.GameDao
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.dao.SeasonDao
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.dao.WeekDao
 
 @Database(
     entities = [
-//        RoomGame::class,
+        RoomGame::class,
         RoomSeason::class,
 //        RoomStandings::class,
 //        RoomTeam::class,
@@ -20,8 +21,8 @@ abstract class SportradarDatabase : RoomDatabase() {
 
     abstract val seasonDao: SeasonDao
     abstract val weekDao: WeekDao
+    abstract val gameDao: GameDao
 
-//    abstract val gameDao: GameDao
 //    abstract val standingsDao: StandingsDao
 //    abstract val teamDao: TeamDao
 

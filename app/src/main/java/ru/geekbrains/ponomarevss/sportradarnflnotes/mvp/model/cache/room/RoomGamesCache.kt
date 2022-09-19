@@ -30,9 +30,8 @@ class RoomGamesCache(private val db: SportradarDatabase) : IGamesCache {
         TODO("Not yet implemented")
     }
 
-    override fun getGames(week: Week): Single<List<Game>> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getGames(week: Week): List<Game> =
+        db.gameDao.findForWeekId(week.id).map { mapRoomToGame(it) }
 
     override fun putGame(game: Game, week: Week): Completable {
         TODO("Not yet implemented")

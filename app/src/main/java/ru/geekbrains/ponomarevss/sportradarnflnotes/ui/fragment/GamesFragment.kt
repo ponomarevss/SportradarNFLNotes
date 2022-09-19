@@ -2,18 +2,21 @@ package ru.geekbrains.ponomarevss.sportradarnflnotes.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import com.github.terrakok.cicerone.Router
+import androidx.recyclerview.widget.LinearLayoutManager
 import moxy.MvpAppCompatFragment
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.FragmentGamesBinding
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Season
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Week
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.navigation.IScreens
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.GamesView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter.GamesRVAdapter
+import ru.geekbrains.ponomarevss.sportradarnflnotes.viewmodel.GamesViewModel
 
-class GamesFragment: MvpAppCompatFragment(), GamesView {
+class GamesFragment : MvpAppCompatFragment() {
     companion object {
         private const val SEASON_ARG = "season"
         private const val WEEK_ARG = "week"
@@ -26,19 +29,23 @@ class GamesFragment: MvpAppCompatFragment(), GamesView {
         }
     }
 
-    val router: Router by inject()
     val screens: IScreens by inject()
 
-//    val presenter: GamesPresenter by moxyPresenter {
-//        val season = arguments?.getParcelable<Season>(SEASON_ARG) as Season
-//        val week = arguments?.getParcelable<Week>(WEEK_ARG) as Week
-//        GamesPresenter(AndroidSchedulers.mainThread(), season, week).apply {
-//            App.instance.appComponent.inject(this)
-//        }
-//    }
+    private val gamesViewModel: GamesViewModel by viewModel {
+        parametersOf(
+            arguments?.getParcelable(SEASON_ARG)!!,
+            arguments?.getParcelable(WEEK_ARG)!!
+        )
+    }
+
+    private var vb: FragmentGamesBinding? = null
 
     var adapter: GamesRVAdapter? = null
-    private var vb: FragmentGamesBinding? = null
+
+    private val onListItemClickListener: GamesRVAdapter.OnListItemClickListener =
+        object : GamesRVAdapter.OnListItemClickListener {
+            override fun onItemClick() {}
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,20 +55,29 @@ class GamesFragment: MvpAppCompatFragment(), GamesView {
         vb = it
     }.root
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initViewModel()
+        initView()
+    }
+
+    fun initView() {
+        vb?.rvGames?.layoutManager = LinearLayoutManager(context)
+        vb?.rvGames?.adapter = adapter
+    }
+
+    fun initViewModel() {
+        val season: Season = arguments?.getParcelable(SEASON_ARG)!!
+        val week: Week = arguments?.getParcelable(WEEK_ARG)!!
+        adapter = GamesRVAdapter()
+//        adapter = GamesRVAdapter(presenter.gamesListPresenter, GlideImageLoader())
+        with(gamesViewModel.liveData) {
+            observe(viewLifecycleOwner) { value?.let { adapter?.setData(it) } }
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         vb = null
     }
-
-    override fun init() {
-//        vb?.rvGames?.layoutManager = LinearLayoutManager(context)
-//        adapter = GamesRVAdapter(presenter.gamesListPresenter, GlideImageLoader())
-//        vb?.rvGames?.adapter = adapter
-    }
-
-    override fun updateList() {
-//        adapter?.notifyDataSetChanged()
-    }
-
-//    override fun backPressed() = presenter.backPressed()
 }
