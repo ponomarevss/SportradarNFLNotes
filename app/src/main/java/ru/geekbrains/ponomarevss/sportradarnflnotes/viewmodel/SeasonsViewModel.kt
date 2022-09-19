@@ -15,8 +15,12 @@ class SeasonsViewModel(private val repo: ISeasonsRepo) : ViewModel() {
 
     fun loadInitSeasons() {
         viewModelScope.launch {
-            if (_mutableLiveData.value == null) {
-                _mutableLiveData.value = repo.getCachedSeasons().reversed()
+            try {
+                if (_mutableLiveData.value == null) {
+                    _mutableLiveData.value = repo.getCachedSeasons().reversed()
+                }
+            } catch (e: Throwable) {
+                Log.e("AAA", "loadInitSeasons ${e.message.toString()}")
             }
         }
     }
@@ -27,9 +31,13 @@ class SeasonsViewModel(private val repo: ISeasonsRepo) : ViewModel() {
 
     private fun updateSeasons(isOnline: Boolean) {
         viewModelScope.launch {
-            if (isOnline && !isUpdated) {
-                _mutableLiveData.value = repo.getApiSeasons().reversed()
-                isUpdated = true
+            try {
+                if (isOnline && !isUpdated) {
+                    _mutableLiveData.value = repo.getApiSeasons().reversed()
+                    isUpdated = true
+                }
+            } catch (e: Throwable){
+                Log.e("AAA", "updateSeasons ${e.message.toString()}")
             }
         }
     }

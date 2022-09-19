@@ -20,7 +20,6 @@ class SeasonViewModel(private val season: Season, private val repo: IWeeksRepo) 
             try {
                 if (_weeksMutableLiveData.value == null) {
                     _weeksMutableLiveData.value = repo.getCachedWeeks(season).reversed()
-                    Log.e("AAA", "data from repo.getCachedWeeks ${_weeksMutableLiveData.value}")
                 }
             } catch (e: Throwable) {
                 Log.e("AAA", "loadInitWeeks ${e.message.toString()}")
@@ -37,7 +36,6 @@ class SeasonViewModel(private val season: Season, private val repo: IWeeksRepo) 
             try {
                 if (isOnline && !isUpdated) {
                     _weeksMutableLiveData.value = repo.getApiWeeks(season).reversed()
-                    Log.e("AAA", "data from api")
                     isUpdated = true
                 }
             } catch (e: Throwable) {

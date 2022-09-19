@@ -33,9 +33,13 @@ class SeasonFragment : MvpAppCompatFragment() {
     private val router: Router by inject()
     private val screens: IScreens by inject()
 
-//    private val season: Season = arguments?.getParcelable(SEASON_ARG)!!
-//    private val seasonViewModel: SeasonViewModel by viewModel { parametersOf(season) }
-    private val seasonViewModel: SeasonViewModel by viewModel { parametersOf(arguments?.getParcelable(SEASON_ARG)!!) }
+    private val seasonViewModel: SeasonViewModel by viewModel {
+        parametersOf(
+            arguments?.getParcelable(
+                SEASON_ARG
+            )!!
+        )
+    }
 
     private var vb: FragmentSeasonBinding? = null
 
