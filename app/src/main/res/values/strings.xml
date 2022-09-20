@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Sportradar NFL Notes</string>
+    <string name="score_spacer">:</string>
 </resources>

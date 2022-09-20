@@ -10,6 +10,7 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.FragmentGamesBinding
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Game
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Season
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Week
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.navigation.IScreens
@@ -44,7 +45,7 @@ class GamesFragment : MvpAppCompatFragment() {
 
     private val onListItemClickListener: GamesRVAdapter.OnListItemClickListener =
         object : GamesRVAdapter.OnListItemClickListener {
-            override fun onItemClick() {}
+            override fun onItemClick(week: Week, game: Game) {}
         }
 
     override fun onCreateView(
@@ -69,7 +70,7 @@ class GamesFragment : MvpAppCompatFragment() {
     fun initViewModel() {
         val season: Season = arguments?.getParcelable(SEASON_ARG)!!
         val week: Week = arguments?.getParcelable(WEEK_ARG)!!
-        adapter = GamesRVAdapter()
+        adapter = GamesRVAdapter(week, onListItemClickListener)
 //        adapter = GamesRVAdapter(presenter.gamesListPresenter, GlideImageLoader())
         with(gamesViewModel.liveData) {
             observe(viewLifecycleOwner) { value?.let { adapter?.setData(it) } }

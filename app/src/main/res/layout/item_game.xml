@@ -32,12 +32,28 @@
                 tools:text="HOME"/>
 
             <TextView
-                android:id="@+id/tv_scoring"
+                android:id="@+id/tv_home_scoring"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:layout_marginStart="16dp"
-                tools:text="SCORING"/>
+                tools:text="H"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:layout_marginStart="16dp"
+                android:text="@string/score_spacer"
+                />
+
+            <TextView
+                android:id="@+id/tv_away_scoring"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:layout_marginStart="16dp"
+                tools:text="A"/>
 
             <TextView
                 android:id="@+id/tv_away"

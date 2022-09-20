@@ -2,65 +2,64 @@ package ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.ItemGameBinding
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.image.IImageLoader
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.list.IGamesListPresenter
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.list.GameItemView
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Game
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Week
 
-class GamesRVAdapter(val presenter: IGamesListPresenter, val imageLoader: IImageLoader<ImageView>) :
-    RecyclerView.Adapter<GamesRVAdapter.ViewHolder>() {
+class GamesRVAdapter(
+    private val week: Week,
+    private var onListItemClickListener: OnListItemClickListener/*,
+    val imageLoader: IImageLoader<ImageView>*/
+) : RecyclerView.Adapter<GamesRVAdapter.ViewHolder>() {
+
+    private var data: List<Game> = mutableListOf()
+
+    fun setData(data: List<Game>) {
+        this.data = data
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(
-            ItemGameBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-        ).apply {
-            itemView.setOnClickListener {
-                presenter.itemClickListener?.invoke(this)
+            ItemGameBinding
+                .inflate(LayoutInflater.from(parent.context), parent, false)
+        )
+
+    override fun getItemCount() = data.size
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(week, data[position])
+    }
+
+    inner class ViewHolder(private val vb: ItemGameBinding) : RecyclerView.ViewHolder(vb.root) {
+
+        fun bind(week: Week, data: Game) {
+            if (layoutPosition != RecyclerView.NO_POSITION) {
+                vb.tvStatus.text = data.status
+                vb.tvScheduled.text = data.scheduled
+                vb.tvHome.text = data.home
+                vb.tvAway.text = data.away
+                vb.tvHomeScoring.text = data.homePoints.toString()
+                vb.tvAwayScoring.text = data.awayPoints.toString()
+                itemView.setOnClickListener { setGameWatched(week, data) }
             }
         }
 
-    override fun getItemCount() = presenter.getCount()
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) =
-        presenter.bindView(holder.apply {
-            pos = position
-        })
-
-    inner class ViewHolder(val vb: ItemGameBinding) : RecyclerView.ViewHolder(vb.root), GameItemView {
-        override var pos = -1
-
-        override fun setStatus(text: String) = with(vb) {
-            tvStatus.text = text
+        fun loadHomeLogo(url: String) = with(vb) {
+//            imageLoader.loadInto(url, ivHome)
         }
 
-        override fun setScheduled(text: String) = with(vb) {
-            tvScheduled.text = text
+        fun loadAwayLogo(url: String) = with(vb) {
+//            imageLoader.loadInto(url, ivAway)
         }
+    }
 
-        override fun setHome(text: String) = with(vb) {
-            tvHome.text = text
-        }
+    private fun setGameWatched(week: Week, game: Game) {
+        onListItemClickListener.onItemClick(week, game)
+    }
 
-        override fun setAway(text: String) = with(vb) {
-            tvAway.text = text
-        }
-
-        override fun setScoring(text: String) = with(vb) {
-            tvScoring.text = text
-        }
-
-        override fun loadHomeLogo(url: String) = with(vb) {
-            imageLoader.loadInto(url, ivHome)
-        }
-
-        override fun loadAwayLogo(url: String) = with(vb) {
-            imageLoader.loadInto(url, ivAway)
-        }
+    interface OnListItemClickListener {
+            fun onItemClick(week: Week, game: Game)
     }
 }
