@@ -70,13 +70,13 @@ class GamesRepo(private val api: IDataSource, private val cache: IGamesCache) : 
         }
     }
 
-    private fun checkGames(games: List<Game>): List<Game> = games.map { game ->
-        var checkedGame = game
-        cache.getGame(game.id)
-            .subscribe(
-                { if (it.isWatched) checkedGame = it },
-                { println(it.message) }
-            )
-        checkedGame
-    }
+//    private fun checkGames(games: List<Game>): List<Game> = games.map { game ->
+//        var checkedGame = game
+//        cache.getGame(game.id)
+//            .subscribe(
+//                { if (it.isWatched) checkedGame = it },
+//                { println(it.message) }
+//            )
+//        checkedGame
+//    }
 }

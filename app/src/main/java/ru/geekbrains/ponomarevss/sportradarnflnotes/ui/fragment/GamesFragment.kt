@@ -15,6 +15,7 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Sea
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Week
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.navigation.IScreens
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter.GamesRVAdapter
+import ru.geekbrains.ponomarevss.sportradarnflnotes.utils.OnlineLiveData
 import ru.geekbrains.ponomarevss.sportradarnflnotes.viewmodel.GamesViewModel
 
 class GamesFragment : MvpAppCompatFragment() {
@@ -59,22 +60,30 @@ class GamesFragment : MvpAppCompatFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewModel()
+        fetchGames()
         initView()
     }
 
-    fun initView() {
+    private fun initView() {
         vb?.rvGames?.layoutManager = LinearLayoutManager(context)
         vb?.rvGames?.adapter = adapter
     }
 
-    fun initViewModel() {
-        val season: Season = arguments?.getParcelable(SEASON_ARG)!!
+    private fun initViewModel() {
         val week: Week = arguments?.getParcelable(WEEK_ARG)!!
         adapter = GamesRVAdapter(week, onListItemClickListener)
 //        adapter = GamesRVAdapter(presenter.gamesListPresenter, GlideImageLoader())
         with(gamesViewModel.liveData) {
             observe(viewLifecycleOwner) { value?.let { adapter?.setData(it) } }
         }
+    }
+
+    private fun fetchGames() {
+        gamesViewModel.loadInitGames()
+        OnlineLiveData(requireContext()).observe(
+            viewLifecycleOwner,
+            gamesViewModel.onlineLiveDataObserver()
+        )
     }
 
     override fun onDestroyView() {

@@ -1,15 +1,13 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache
 
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Single
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Game
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Week
 
 interface IGamesCache {
 
-    fun putGames(games: List<Game>, week: Week): Completable
+    suspend fun putGames(games: List<Game>, week: Week)
     suspend fun getGames(week: Week): List<Game>
 
-    fun putGame(game: Game, week: Week): Completable
-    fun getGame(gameId: String): Single<Game>
+    suspend fun putGame(game: Game, week: Week)
+    suspend fun getGame(gameId: String): Game?
 }

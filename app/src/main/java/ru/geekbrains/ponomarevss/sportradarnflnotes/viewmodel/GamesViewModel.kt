@@ -31,9 +31,7 @@ class GamesViewModel(
         }
     }
 
-    fun onlineLiveDataObserver(): Observer<Boolean> = Observer<Boolean> {
-        updateGames(it)
-    }
+    fun onlineLiveDataObserver(): Observer<Boolean> = Observer<Boolean> { updateGames(it) }
 
     private fun updateGames(isOnline: Boolean) {
         viewModelScope.launch {
