@@ -16,11 +16,8 @@ class TeamsRepo(
     private val cache: ITeamsCache
 ) : ITeamsRepo {
 
-    companion object {
-        private const val REQUESTS_GAP = 1100L
-    }
-
-    override fun getTeam(teamId: String): Single<Team> = cache.getTeam(teamId).doOnError { println(it.message) }.subscribeOn(ioScheduler)
+    override fun getTeam(teamId: String): Single<Team> =
+        cache.getTeam(teamId).doOnError { println(it.message) }.subscribeOn(ioScheduler)
 
 //    override fun getTeams(): Single<List<Team>> = cache.getTeams().flatMap { teamsList ->
 //        if (teamsList.isEmpty()) {

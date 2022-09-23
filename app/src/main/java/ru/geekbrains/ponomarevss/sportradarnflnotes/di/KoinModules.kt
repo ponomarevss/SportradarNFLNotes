@@ -50,6 +50,9 @@ val application = module {
             .build()
     }
 
+    single {
+
+    }
 }
 
 val seasonsFragment = module {

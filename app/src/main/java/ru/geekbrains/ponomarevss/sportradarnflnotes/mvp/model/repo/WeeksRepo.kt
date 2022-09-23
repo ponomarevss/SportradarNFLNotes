@@ -4,6 +4,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.REQUESTS_GAP
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.api.IDataSource
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IWeeksCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Season
@@ -11,10 +12,6 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Wee
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.mapReToWeek
 
 class WeeksRepo(private val api: IDataSource, private val cache: IWeeksCache) : IWeeksRepo {
-
-    companion object {
-        private const val REQUESTS_GAP = 1000L
-    }
 
     override suspend fun getCachedWeeks(season: Season): List<Week> =
         withContext(CoroutineScope(Dispatchers.IO).coroutineContext) {
