@@ -13,9 +13,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.api.IDataSource
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IGamesCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.ISeasonsCache
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.ITimestampCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IWeeksCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.room.RoomGamesCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.room.RoomSeasonsCache
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.room.RoomTimestampCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.room.RoomWeeksCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.db.SportradarDatabase
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.navigation.IScreens
@@ -50,21 +52,21 @@ val application = module {
             .build()
     }
 
-    single {
-
-    }
+    single<ITimestampCache> { RoomTimestampCache(get()) }
 }
 
 val seasonsFragment = module {
     single<ISeasonsCache> { RoomSeasonsCache(get()) }
     single<ISeasonsRepo> { SeasonsRepo(get(), get()) }
-    viewModel { SeasonsViewModel(get()) }
+    viewModel { SeasonsViewModel(get(), get()) }
 }
+
 val seasonFragment = module {
     single<IWeeksCache> { RoomWeeksCache(get()) }
     single<IWeeksRepo> { WeeksRepo(get(), get()) }
     viewModel { SeasonViewModel(get(), get()) }
 }
+
 val gamesFragment = module {
     single<IGamesCache> { RoomGamesCache(get()) }
     single<IGamesRepo> { GamesRepo(get(), get()) }
