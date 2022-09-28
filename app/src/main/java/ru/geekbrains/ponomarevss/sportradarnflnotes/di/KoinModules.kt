@@ -11,14 +11,8 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.api.IDataSource
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IGamesCache
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.ISeasonsCache
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.ITimestampCache
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IWeeksCache
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.room.RoomGamesCache
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.room.RoomSeasonsCache
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.room.RoomTimestampCache
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.room.RoomWeeksCache
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.*
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.room.*
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.db.SportradarDatabase
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.navigation.IScreens
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.*
@@ -52,23 +46,33 @@ val application = module {
             .build()
     }
 
-    single<ITimestampCache> { RoomTimestampCache(get()) }
+    single<ITimestampCache> { RoomTimestampCache(db = get()) }
+    single<IGamesCache> { RoomGamesCache(db = get()) }
+    single<ITeamsCache> { RoomTeamsCache(db = get()) }
+
+    single<ITeamsRepo> { TeamsRepo(api = get(), cache = get()) }
 }
 
 val seasonsFragment = module {
-    single<ISeasonsCache> { RoomSeasonsCache(get()) }
-    single<ISeasonsRepo> { SeasonsRepo(get(), get()) }
-    viewModel { SeasonsViewModel(get(), get()) }
+    single<ISeasonsCache> { RoomSeasonsCache(db = get()) }
+    single<ISeasonsRepo> { SeasonsRepo(api = get(), cache = get()) }
+    viewModel { SeasonsViewModel(seasonsRepo = get(), teamsRepo = get(), timestampCache = get()) }
 }
 
 val seasonFragment = module {
-    single<IWeeksCache> { RoomWeeksCache(get()) }
-    single<IWeeksRepo> { WeeksRepo(get(), get()) }
-    viewModel { SeasonViewModel(get(), get()) }
+    single<IWeeksCache> { RoomWeeksCache(db = get()) }
+    single<IWeeksRepo> { WeeksRepo(api = get(), weeksCache = get(), gamesCache = get()) }
+    viewModel {
+        SeasonViewModel(
+            season = get(),
+            weeksRepo = get(),
+            teamsRepo = get(),
+            timestampCache = get()
+        )
+    }
 }
 
 val gamesFragment = module {
-    single<IGamesCache> { RoomGamesCache(get()) }
-    single<IGamesRepo> { GamesRepo(get(), get()) }
-    viewModel { GamesViewModel(get(), get(), get()) }
+    single<IGamesRepo> { GamesRepo(api = get(), cache = get()) }
+    viewModel { GamesViewModel(week = get(), gamesRepo = get(), teamsRepo = get()) }
 }

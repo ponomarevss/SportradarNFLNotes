@@ -14,6 +14,5 @@ class AndroidScreens : IScreens {
 
     override fun season(season: Season) = FragmentScreen { SeasonFragment.newInstance(season) }
 
-    override fun games(season: Season, week: Week) =
-        FragmentScreen { GamesFragment.newInstance(season, week) }
+    override fun games(week: Week) = FragmentScreen { GamesFragment.newInstance(week) }
 }

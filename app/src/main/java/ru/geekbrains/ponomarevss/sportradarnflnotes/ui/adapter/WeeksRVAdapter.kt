@@ -8,7 +8,6 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Sea
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Week
 
 class WeeksRVAdapter(
-    private var season: Season,
     private var onListItemClickListener: OnListItemClickListener
 ) : RecyclerView.Adapter<WeeksRVAdapter.ViewHolder>() {
 
@@ -28,24 +27,24 @@ class WeeksRVAdapter(
     override fun getItemCount() = data.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(season, data[position])
+        holder.bind(data[position])
     }
 
     inner class ViewHolder(private val vb: ItemWeekBinding) : RecyclerView.ViewHolder(vb.root) {
 
-        fun bind(season: Season, data: Week, ) {
+        fun bind(data: Week, ) {
             if (layoutPosition != RecyclerView.NO_POSITION) {
                 vb.tvTitle.text = data.title
-                itemView.setOnClickListener { openInNewWindow(season, data) }
+                itemView.setOnClickListener { openInNewWindow(data) }
             }
         }
     }
 
-    private fun openInNewWindow(season: Season, listItemData: Week) {
-        onListItemClickListener.onItemClick(season, listItemData)
+    private fun openInNewWindow(listItemData: Week) {
+        onListItemClickListener.onItemClick(listItemData)
     }
 
     interface OnListItemClickListener {
-        fun onItemClick(sData: Season, wData: Week)
+        fun onItemClick(wData: Week)
     }
 }

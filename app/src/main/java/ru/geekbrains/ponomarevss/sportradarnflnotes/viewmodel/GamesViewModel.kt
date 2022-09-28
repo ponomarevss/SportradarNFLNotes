@@ -1,47 +1,33 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.viewmodel
 
 import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Game
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Season
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Week
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IGamesRepo
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.ITeamsRepo
 
 class GamesViewModel(
-    private val season: Season,
     private val week: Week,
-    private val repo: IGamesRepo
+    private val gamesRepo: IGamesRepo,
+    private val teamsRepo: ITeamsRepo
 ) : ViewModel() {
 
     private val _mutableLiveData: MutableLiveData<List<Game>> = MutableLiveData()
     val liveData: LiveData<List<Game>> = _mutableLiveData
 
-    private var isUpdated = false
-
     fun loadInitGames() {
         viewModelScope.launch {
             try {
                 if (_mutableLiveData.value == null) {
-                    _mutableLiveData.value = repo.getCachedGames(week)
+                    _mutableLiveData.value = gamesRepo.getCachedGames(week)
                 }
             } catch (e: Throwable) {
                 Log.e("AAA", "loadInitGames ${e.message.toString()}")
-            }
-        }
-    }
-
-    fun onlineLiveDataObserver(): Observer<Boolean> = Observer<Boolean> { updateGames(it) }
-
-    private fun updateGames(isOnline: Boolean) {
-        viewModelScope.launch {
-            try {
-                if (isOnline && !isUpdated) {
-                    _mutableLiveData.value = repo.getApiGames(season, week)
-                    isUpdated = true
-                }
-            } catch (e: Throwable) {
-                Log.e("AAA", "updateGames ${e.message.toString()}")
             }
         }
     }

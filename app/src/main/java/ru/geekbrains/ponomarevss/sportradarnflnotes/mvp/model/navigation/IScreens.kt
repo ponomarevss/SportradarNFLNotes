@@ -7,5 +7,5 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Wee
 interface IScreens {
     fun seasons(): Screen
     fun season(season: Season): Screen
-    fun games(season: Season, week: Week): Screen
+    fun games(week: Week): Screen
 }

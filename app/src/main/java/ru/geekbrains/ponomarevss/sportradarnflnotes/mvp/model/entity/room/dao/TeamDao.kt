@@ -20,6 +20,6 @@ interface TeamDao {
     @Query("SELECT * FROM RoomTeam WHERE id = :id LIMIT 1")
     fun findById(id: String): RoomTeam?
 
-    @Query("SELECT * FROM RoomTeam WHERE division = :division")
-    fun findByDivisionId(division: String): List<RoomTeam>
+//    @Query("SELECT * FROM RoomTeam WHERE division = :division")
+//    fun findByDivisionId(division: String): List<RoomTeam>
 }

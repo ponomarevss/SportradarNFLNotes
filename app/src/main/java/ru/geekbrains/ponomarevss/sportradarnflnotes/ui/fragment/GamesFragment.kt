@@ -11,7 +11,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.FragmentGamesBinding
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Game
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Season
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Week
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.navigation.IScreens
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter.GamesRVAdapter
@@ -20,12 +19,10 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.viewmodel.GamesViewModel
 
 class GamesFragment : MvpAppCompatFragment() {
     companion object {
-        private const val SEASON_ARG = "season"
         private const val WEEK_ARG = "week"
 
-        fun newInstance(season: Season, week: Week) = GamesFragment().apply {
+        fun newInstance(week: Week) = GamesFragment().apply {
             arguments = Bundle().apply {
-                putParcelable(SEASON_ARG, season)
                 putParcelable(WEEK_ARG, week)
             }
         }
@@ -34,10 +31,7 @@ class GamesFragment : MvpAppCompatFragment() {
     val screens: IScreens by inject()
 
     private val gamesViewModel: GamesViewModel by viewModel {
-        parametersOf(
-            arguments?.getParcelable(SEASON_ARG)!!,
-            arguments?.getParcelable(WEEK_ARG)!!
-        )
+        parametersOf(arguments?.getParcelable(WEEK_ARG)!!)
     }
 
     private var vb: FragmentGamesBinding? = null
@@ -80,10 +74,6 @@ class GamesFragment : MvpAppCompatFragment() {
 
     private fun fetchGames() {
         gamesViewModel.loadInitGames()
-        OnlineLiveData(requireContext()).observe(
-            viewLifecycleOwner,
-            gamesViewModel.onlineLiveDataObserver()
-        )
     }
 
     override fun onDestroyView() {

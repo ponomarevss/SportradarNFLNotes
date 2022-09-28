@@ -1,7 +1,6 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.ui.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,8 +43,8 @@ class SeasonFragment : MvpAppCompatFragment() {
 
     private val onListItemClickListener: WeeksRVAdapter.OnListItemClickListener =
         object : WeeksRVAdapter.OnListItemClickListener {
-            override fun onItemClick(sData: Season, wData: Week) {
-                router.navigateTo(screens.games(sData, wData))
+            override fun onItemClick(data: Week) {
+                router.navigateTo(screens.games(data))
             }
         }
 
@@ -60,7 +59,7 @@ class SeasonFragment : MvpAppCompatFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewModel()
-        fetchWeeks()
+        fetchData()
         initView()
     }
 
@@ -73,8 +72,8 @@ class SeasonFragment : MvpAppCompatFragment() {
 //        vb?.rvStandings?.adapter = standingsAdapter
     }
 
-    private fun fetchWeeks() {
-        seasonViewModel.loadInitWeeks()
+    private fun fetchData() {
+        seasonViewModel.loadInitData()
         OnlineLiveData(requireContext()).observe(
             viewLifecycleOwner,
             seasonViewModel.onlineLiveDataObserver()
@@ -82,8 +81,7 @@ class SeasonFragment : MvpAppCompatFragment() {
     }
 
     private fun initViewModel() {
-        val season: Season = arguments?.getParcelable(SEASON_ARG)!!
-        weeksAdapter = WeeksRVAdapter(season, onListItemClickListener)
+        weeksAdapter = WeeksRVAdapter(onListItemClickListener)
         with(seasonViewModel.weeksLiveData) {
             observe(viewLifecycleOwner) { value?.let { weeksAdapter?.setData(it) } }
         }
