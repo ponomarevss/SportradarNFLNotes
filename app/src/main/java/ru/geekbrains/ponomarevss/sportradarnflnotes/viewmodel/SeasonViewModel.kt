@@ -8,6 +8,7 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IStandingsCa
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.ITimestampCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Season
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Standings
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Team
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Week
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.ITeamsRepo
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IWeeksRepo
@@ -43,16 +44,25 @@ class SeasonViewModel(
         }
     }
 
-
     private suspend fun loadStandings() {
         try {
             if (_standingsMutableLiveData.value == null) {
                 val teams = teamsRepo.getCachedTeams()
-                _standingsMutableLiveData.value = standingsCache.getStandingsList(season.id, teams)
+                var standingsList = standingsCache.getStandingsList(season.id, teams)
+                if (standingsList.isEmpty()) {
+                    standingsList = createInitialStandingsList(teams)
+                }
+                _standingsMutableLiveData.value = standingsList
             }
         } catch (e: Throwable) {
             Log.e("AAA", "loadStandings ${e.message.toString()}")
         }
+    }
+
+    private suspend fun createInitialStandingsList(teams: List<Team>): List<Standings> {
+        val initialList = teams.map { Standings(seasonId = season.id, team = it) }
+        standingsCache.putStandingsList(initialList)
+        return initialList
     }
 
     fun onlineLiveDataObserver(): Observer<Boolean> = Observer<Boolean> {
