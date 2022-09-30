@@ -71,9 +71,9 @@ fun mapRoomToSeason(roomSeason: RoomSeason) = Season(
     type = roomSeason.type
 )
 
-fun mapRoomToStandings(roomStandings: RoomStandings) = Standings(
+fun mapRoomToStandings(roomStandings: RoomStandings, teams: List<Team>) = Standings(
     seasonId = roomStandings.seasonId,
-    teamId = roomStandings.teamId,
+    team = teams.first { it.id == roomStandings.teamId },
     wins = roomStandings.wins,
     losses = roomStandings.losses,
     ties = roomStandings.ties,
@@ -120,7 +120,7 @@ fun mapSeasonToRoom(season: Season) = RoomSeason(
 
 fun mapStandingsToRoom(standings: Standings) = RoomStandings(
     seasonId = standings.seasonId,
-    teamId = standings.teamId,
+    teamId = standings.team.id,
     wins = standings.wins,
     losses = standings.losses,
     ties = standings.ties,

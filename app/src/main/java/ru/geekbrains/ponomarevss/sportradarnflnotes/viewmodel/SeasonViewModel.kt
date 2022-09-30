@@ -4,9 +4,10 @@ import android.util.Log
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.HOURLY_UPDATE
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IStandingsCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.ITimestampCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Season
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Team
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Standings
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Week
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.ITeamsRepo
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IWeeksRepo
@@ -15,19 +16,20 @@ class SeasonViewModel(
     private val season: Season,
     private val weeksRepo: IWeeksRepo,
     private val teamsRepo: ITeamsRepo,
+    private val standingsCache: IStandingsCache,
     private val timestampCache: ITimestampCache
 ) : ViewModel() {
 
     private val _weeksMutableLiveData: MutableLiveData<List<Week>> = MutableLiveData()
     val weeksLiveData: LiveData<List<Week>> = _weeksMutableLiveData
 
-    private val _teamsMutableLiveData: MutableLiveData<List<Team>> = MutableLiveData()
-    val teamsLiveData: LiveData<List<Team>> = _teamsMutableLiveData
+    private val _standingsMutableLiveData: MutableLiveData<List<Standings>> = MutableLiveData()
+    val standingsLiveData: LiveData<List<Standings>> = _standingsMutableLiveData
 
     fun loadInitData() {
         viewModelScope.launch {
             loadInitWeeks()
-            loadTeams()
+            loadStandings()
         }
     }
 
@@ -41,13 +43,15 @@ class SeasonViewModel(
         }
     }
 
-    private suspend fun loadTeams() {
+
+    private suspend fun loadStandings() {
         try {
-            if (_teamsMutableLiveData.value == null) {
-                _teamsMutableLiveData.value = teamsRepo.getCachedTeams()
+            if (_standingsMutableLiveData.value == null) {
+                val teams = teamsRepo.getCachedTeams()
+                _standingsMutableLiveData.value = standingsCache.getStandingsList(season.id, teams)
             }
         } catch (e: Throwable) {
-            Log.e("AAA", "loadTeams ${e.message.toString()}")
+            Log.e("AAA", "loadStandings ${e.message.toString()}")
         }
     }
 

@@ -1,16 +1,8 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter
 
-import com.github.terrakok.cicerone.Cicerone
-import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.core.Scheduler
-import io.reactivex.rxjava3.core.Single
 import moxy.MvpPresenter
-import org.koin.java.KoinJavaComponent.inject
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.*
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.navigation.IScreens
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IGamesRepo
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IStandingsRepo
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.ITeamsRepo
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.list.IGamesListPresenter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.GamesView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.list.GameItemView

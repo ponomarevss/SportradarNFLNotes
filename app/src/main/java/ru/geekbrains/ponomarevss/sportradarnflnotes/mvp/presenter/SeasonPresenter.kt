@@ -1,23 +1,16 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter
 
-import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.core.Scheduler
 import moxy.MvpPresenter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Season
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Standings
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Team
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Week
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.navigation.IScreens
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.ITeamsRepo
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IStandingsRepo
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IWeeksRepo
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.list.IStandingsListPresenter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.list.IWeeksListPresenter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.WeeksView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.list.StandingsItemView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.list.WeekItemView
-import javax.inject.Inject
-import javax.inject.Named
 
 class SeasonPresenter(private val uiScheduler: Scheduler, val season: Season): MvpPresenter<WeeksView>() {
 

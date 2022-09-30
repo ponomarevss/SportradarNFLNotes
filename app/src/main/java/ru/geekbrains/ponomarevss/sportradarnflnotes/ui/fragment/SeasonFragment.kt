@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.terrakok.cicerone.Router
 import moxy.MvpAppCompatFragment
 import org.koin.android.ext.android.inject
@@ -43,8 +44,8 @@ class SeasonFragment : MvpAppCompatFragment() {
 
     private val onListItemClickListener: WeeksRVAdapter.OnListItemClickListener =
         object : WeeksRVAdapter.OnListItemClickListener {
-            override fun onItemClick(data: Week) {
-                router.navigateTo(screens.games(data))
+            override fun onItemClick(week: Week) {
+                router.navigateTo(screens.games(week))
             }
         }
 
@@ -67,9 +68,8 @@ class SeasonFragment : MvpAppCompatFragment() {
         vb?.rvWeeks?.layoutManager = GridLayoutManager(context, SPAN_COUNT)
         vb?.rvWeeks?.adapter = weeksAdapter
 
-//        vb?.rvStandings?.layoutManager = LinearLayoutManager(context)
-//        standingsAdapter = StandingsRVAdapter(presenter.standingsListPresenter, GlideImageLoader())
-//        vb?.rvStandings?.adapter = standingsAdapter
+        vb?.rvStandings?.layoutManager = LinearLayoutManager(context)
+        vb?.rvStandings?.adapter = standingsAdapter
     }
 
     private fun fetchData() {
@@ -84,6 +84,11 @@ class SeasonFragment : MvpAppCompatFragment() {
         weeksAdapter = WeeksRVAdapter(onListItemClickListener)
         with(seasonViewModel.weeksLiveData) {
             observe(viewLifecycleOwner) { value?.let { weeksAdapter?.setData(it) } }
+        }
+
+        standingsAdapter = StandingsRVAdapter()
+        with(seasonViewModel.standingsLiveData) {
+            observe(viewLifecycleOwner) { value?.let {standingsAdapter?.setData(it)} }
         }
     }
 

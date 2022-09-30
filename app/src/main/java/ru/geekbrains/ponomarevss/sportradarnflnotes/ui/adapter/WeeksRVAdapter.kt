@@ -32,7 +32,7 @@ class WeeksRVAdapter(
 
     inner class ViewHolder(private val vb: ItemWeekBinding) : RecyclerView.ViewHolder(vb.root) {
 
-        fun bind(data: Week, ) {
+        fun bind(data: Week) {
             if (layoutPosition != RecyclerView.NO_POSITION) {
                 vb.tvTitle.text = data.title
                 itemView.setOnClickListener { openInNewWindow(data) }
@@ -45,6 +45,6 @@ class WeeksRVAdapter(
     }
 
     interface OnListItemClickListener {
-        fun onItemClick(wData: Week)
+        fun onItemClick(week: Week)
     }
 }

@@ -9,7 +9,7 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.dao.*
     entities = [
         RoomGame::class,
         RoomSeason::class,
-//        RoomStandings::class,
+        RoomStandings::class,
         RoomTeam::class,
         RoomWeek::class,
         RoomTimestamp::class
@@ -23,7 +23,7 @@ abstract class SportradarDatabase : RoomDatabase() {
     abstract val gameDao: GameDao
     abstract val timestampDao: TimestampDao
     abstract val teamDao: TeamDao
-//    abstract val standingsDao: StandingsDao
+    abstract val standingsDao: StandingsDao
 
     companion object {
         const val DB_NAME = "database.db"

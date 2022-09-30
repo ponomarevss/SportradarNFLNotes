@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Standings(
     val seasonId: String,
-    val teamId: String,
+    val team: Team,
     var wins: Int = 0,
     var losses: Int = 0,
     var ties: Int = 0,

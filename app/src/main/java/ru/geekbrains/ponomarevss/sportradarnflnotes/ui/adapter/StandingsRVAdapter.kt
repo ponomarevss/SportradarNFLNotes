@@ -5,40 +5,45 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.ItemStandingsBinding
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Standings
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Week
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.image.IImageLoader
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.list.IStandingsListPresenter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.list.StandingsItemView
 
-class StandingsRVAdapter(val presenter: IStandingsListPresenter, val imageLoader: IImageLoader<ImageView>) :
+class StandingsRVAdapter(/*val imageLoader: IImageLoader<ImageView>*/) :
     RecyclerView.Adapter<StandingsRVAdapter.ViewHolder>() {
+
+    private var data: List<Standings> = mutableListOf()
+
+    fun setData(data: List<Standings>) {
+        this.data = data
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(
-            ItemStandingsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemStandingsBinding
+                .inflate(LayoutInflater.from(parent.context), parent, false)
         )
 
-    override fun getItemCount() = presenter.getCount()
+    override fun getItemCount() = data.size
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) = presenter.bindView(holder.apply { pos = position })
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(data[position])
+    }
 
-    inner class ViewHolder(val vb: ItemStandingsBinding) : RecyclerView.ViewHolder(vb.root), StandingsItemView {
+    inner class ViewHolder(private val vb: ItemStandingsBinding) :
+        RecyclerView.ViewHolder(vb.root) {
 
-        override var pos = -1
-
-        override fun setTeam(text: String) = with(vb) {
-            tvTeam.text = text
+        fun bind(data: Standings) {
+            if (layoutPosition != RecyclerView.NO_POSITION) {
+                vb.tvTeam.text = data.team.alias
+            }
         }
 
-        override fun setWLT(text: String) = with(vb) {
-            tvWLT.text = text
-        }
-
-        override fun setDivWLT(text: String) = with(vb) {
-            tvDivWLT.text = text
-        }
-
-        override fun loadLogo(url: String) = with(vb) {
-            imageLoader.loadInto(url, ivTeam)
-        }
+//        fun loadLogo(url: String) = with(vb) {
+//            imageLoader.loadInto(url, ivTeam)
+//        }
     }
 }

@@ -1,14 +1,13 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache
 
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Single
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Standings
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Team
 
 interface IStandingsCache {
 
-    fun putStandings(standings: Standings): Completable
-    fun getStandings(seasonId: String, teamId: String): Single<Standings>
+    suspend fun putStandings(standings: Standings)
+    suspend fun getStandings(seasonId: String, teamId: String, teams: List<Team>): Standings?
 
-    fun putStandingsList(standingsList: List<Standings>): Completable
-    fun getStandingsList(seasonId: String): Single<List<Standings>>
+    suspend fun putStandingsList(standingsList: List<Standings>)
+    suspend fun getStandingsList(seasonId: String, teams: List<Team>): List<Standings>
 }
