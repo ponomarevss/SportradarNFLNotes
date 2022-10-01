@@ -5,6 +5,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IGamesCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Game
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Team
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Week
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.mapGameToRoom
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.mapRoomToGame
@@ -18,9 +19,9 @@ class RoomGamesCache(private val db: SportradarDatabase) : IGamesCache {
         }
     }
 
-    override suspend fun getGames(week: Week): List<Game> =
+    override suspend fun getGames(week: Week, teams: List<Team>): List<Game> =
         withContext(CoroutineScope(Dispatchers.IO).coroutineContext) {
-            db.gameDao.findForWeekId(week.id).map { mapRoomToGame(it) }
+            db.gameDao.findForWeekId(week.id).map { mapRoomToGame(it, teams) }
         }
 
     override suspend fun putGame(game: Game, week: Week) {
@@ -29,8 +30,8 @@ class RoomGamesCache(private val db: SportradarDatabase) : IGamesCache {
         }
     }
 
-    override suspend fun getGame(gameId: String): Game? =
+    override suspend fun getGame(gameId: String, teams: List<Team>): Game? =
         withContext(CoroutineScope(Dispatchers.IO).coroutineContext) {
-            db.gameDao.findForId(gameId)?.let { mapRoomToGame(it) }
+            db.gameDao.findForId(gameId)?.let { mapRoomToGame(it, teams) }
         }
 }

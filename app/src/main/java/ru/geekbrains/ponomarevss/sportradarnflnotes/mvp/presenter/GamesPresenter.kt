@@ -30,18 +30,18 @@ class GamesPresenter(private val uiScheduler: Scheduler, val season: Season, val
         override var itemClickListener: ((GameItemView) -> Unit)? = null
 
         override fun bindView(view: GameItemView) {
-            val game = games[view.pos]
-            val home = teams.first { it.id == game.home }
-            val away = teams.first { it.id == game.away }
-            with(view) {
-                setHome(home.alias)
-                setAway(away.alias)
-                if (game.isWatched) setScoring("${game.homePoints} : ${game.awayPoints}") else setScoring("")
-                setScheduled(game.scheduled)
-                setStatus(game.status)
-                loadHomeLogo(logoUrl + home.alias)
-                loadAwayLogo(logoUrl + away.alias)
-            }
+//            val game = games[view.pos]
+//            val home = teams.first { it.id == game.home }
+//            val away = teams.first { it.id == game.away }
+//            with(view) {
+//                setHome(home.alias)
+//                setAway(away.alias)
+//                if (game.isWatched) setScoring("${game.homePoints} : ${game.awayPoints}") else setScoring("")
+//                setScheduled(game.scheduled)
+//                setStatus(game.status)
+//                loadHomeLogo(logoUrl + home.alias)
+//                loadAwayLogo(logoUrl + away.alias)
+//            }
         }
 
         override fun getCount(): Int = games.size

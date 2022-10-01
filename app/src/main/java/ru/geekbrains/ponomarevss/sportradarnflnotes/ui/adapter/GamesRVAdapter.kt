@@ -29,20 +29,20 @@ class GamesRVAdapter(
     override fun getItemCount() = data.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(week, data[position])
+        holder.bind(data[position], week)
     }
 
     inner class ViewHolder(private val vb: ItemGameBinding) : RecyclerView.ViewHolder(vb.root) {
 
-        fun bind(week: Week, data: Game) {
+        fun bind(data: Game, week: Week) {
             if (layoutPosition != RecyclerView.NO_POSITION) {
                 vb.tvStatus.text = data.status
                 vb.tvScheduled.text = data.scheduled
-                vb.tvHome.text = data.home
-                vb.tvAway.text = data.away
+                vb.tvHome.text = data.home.alias
+                vb.tvAway.text = data.away.alias
                 vb.tvHomeScoring.text = data.homePoints.toString()
                 vb.tvAwayScoring.text = data.awayPoints.toString()
-                itemView.setOnClickListener { setGameWatched(week, data) }
+                itemView.setOnClickListener { setGameWatched(data, week) }
             }
         }
 
@@ -55,11 +55,11 @@ class GamesRVAdapter(
         }
     }
 
-    private fun setGameWatched(week: Week, game: Game) {
-        onListItemClickListener.onItemClick(week, game)
+    private fun setGameWatched(game: Game, week: Week) {
+        onListItemClickListener.onItemClick(game, week)
     }
 
     interface OnListItemClickListener {
-            fun onItemClick(week: Week, game: Game)
+            fun onItemClick(game: Game, week: Week)
     }
 }

@@ -40,7 +40,9 @@ class GamesFragment : MvpAppCompatFragment() {
 
     private val onListItemClickListener: GamesRVAdapter.OnListItemClickListener =
         object : GamesRVAdapter.OnListItemClickListener {
-            override fun onItemClick(week: Week, game: Game) {}
+            override fun onItemClick(game: Game, week: Week) {
+                gamesViewModel.itemClicked()
+            }
         }
 
     override fun onCreateView(

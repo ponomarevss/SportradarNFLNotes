@@ -12,12 +12,14 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.*
 /**
  * Mapping of Response to General
  * */
-fun mapReToGame(reGame: ReGame) = Game(
+fun mapReToGame(reGame: ReGame, teams: List<Team>) = Game(
     id = reGame.id,
     status = reGame.status,
     scheduled = reGame.scheduled,
-    home = reGame.home.id,
-    away = reGame.away.id,
+    home = teams.first { it.id == reGame.home.id },
+    away = teams.first { it.id == reGame.away.id },
+//    home = reGame.home.id,
+//    away = reGame.away.id,
     homePoints = reGame.scoring?.homePoints ?: 0,
     awayPoints = reGame.scoring?.awayPoints ?: 0
 )
@@ -53,12 +55,14 @@ fun mapReToWeek(reWeek: ReWeek) = Week(
 /**
  * Mapping of Room entities to General
  * */
-fun mapRoomToGame(roomGame: RoomGame) = Game(
+fun mapRoomToGame(roomGame: RoomGame, teams: List<Team>) = Game(
     id = roomGame.id,
     status = roomGame.status,
     scheduled = roomGame.scheduled,
-    home = roomGame.homeId,
-    away = roomGame.awayId,
+    home = teams.first { it.id == roomGame.homeId },
+    away = teams.first { it.id == roomGame.awayId },
+//    home = roomGame.homeId,
+//    away = roomGame.awayId,
     homePoints = roomGame.homePoints,
     awayPoints = roomGame.awayPoints,
     isWatched = roomGame.isWatched
@@ -103,8 +107,8 @@ fun mapGameToRoom(game: Game, week: Week) = RoomGame(
     id = game.id,
     status = game.status,
     scheduled = game.scheduled,
-    homeId = game.home,
-    awayId = game.away,
+    homeId = game.home.id,
+    awayId = game.away.id,
     homePoints = game.homePoints,
     awayPoints = game.awayPoints,
     weekId = week.id,

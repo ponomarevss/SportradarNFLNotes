@@ -2,14 +2,13 @@ package ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo
 
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Game
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Season
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Team
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Week
 
 interface IGamesRepo {
 
-//    fun getGames(season: Season, week: Week): Single<List<Game>>
-
-    suspend fun getCachedGames(week: Week): List<Game>
-    suspend fun getApiGames(season: Season, week: Week): List<Game>
+    suspend fun getCachedGames(week: Week, teams: List<Team>): List<Game>
+    suspend fun getApiGames(season: Season, week: Week, teams: List<Team>): List<Game>
 
     suspend fun putGame(game: Game, week: Week)
 }
