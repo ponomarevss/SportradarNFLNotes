@@ -11,19 +11,20 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.FragmentGamesBinding
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Game
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Week
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.navigation.IScreens
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter.GamesRVAdapter
-import ru.geekbrains.ponomarevss.sportradarnflnotes.utils.OnlineLiveData
 import ru.geekbrains.ponomarevss.sportradarnflnotes.viewmodel.GamesViewModel
 
 class GamesFragment : MvpAppCompatFragment() {
     companion object {
-        private const val WEEK_ARG = "week"
+        private const val SEASON_ARG = "seasonId"
+        private const val WEEK_ARG = "weekId"
 
-        fun newInstance(week: Week) = GamesFragment().apply {
+        fun newInstance(seasonId: String, weekId: String) = GamesFragment().apply {
             arguments = Bundle().apply {
-                putParcelable(WEEK_ARG, week)
+                putString(SEASON_ARG, seasonId)
+                putString(WEEK_ARG, weekId)
+//                putParcelable(WEEK_ARG, week)
             }
         }
     }
@@ -31,7 +32,8 @@ class GamesFragment : MvpAppCompatFragment() {
     val screens: IScreens by inject()
 
     private val gamesViewModel: GamesViewModel by viewModel {
-        parametersOf(arguments?.getParcelable(WEEK_ARG)!!)
+        parametersOf(arguments?.getString(WEEK_ARG)!!)
+//        parametersOf(arguments?.getParcelable(WEEK_ARG)!!)
     }
 
     private var vb: FragmentGamesBinding? = null
@@ -40,8 +42,8 @@ class GamesFragment : MvpAppCompatFragment() {
 
     private val onListItemClickListener: GamesRVAdapter.OnListItemClickListener =
         object : GamesRVAdapter.OnListItemClickListener {
-            override fun onItemClick(game: Game, week: Week) {
-                gamesViewModel.itemClicked()
+            override fun onItemClick(game: Game, weekId: String) {
+                gamesViewModel.itemClicked(game, weekId)
             }
         }
 
@@ -56,7 +58,7 @@ class GamesFragment : MvpAppCompatFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewModel()
-        fetchGames()
+        loadData()
         initView()
     }
 
@@ -66,16 +68,16 @@ class GamesFragment : MvpAppCompatFragment() {
     }
 
     private fun initViewModel() {
-        val week: Week = arguments?.getParcelable(WEEK_ARG)!!
-        adapter = GamesRVAdapter(week, onListItemClickListener)
+        val weekId: String = arguments?.getString(WEEK_ARG)!!
+        adapter = GamesRVAdapter(weekId, onListItemClickListener)
 //        adapter = GamesRVAdapter(presenter.gamesListPresenter, GlideImageLoader())
         with(gamesViewModel.liveData) {
             observe(viewLifecycleOwner) { value?.let { adapter?.setData(it) } }
         }
     }
 
-    private fun fetchGames() {
-        gamesViewModel.loadInitGames()
+    private fun loadData() {
+        gamesViewModel.initData()
     }
 
     override fun onDestroyView() {

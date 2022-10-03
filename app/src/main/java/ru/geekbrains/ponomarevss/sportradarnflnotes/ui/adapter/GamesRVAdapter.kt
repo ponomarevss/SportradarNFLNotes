@@ -8,7 +8,7 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Gam
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Week
 
 class GamesRVAdapter(
-    private val week: Week,
+    private val weekId: String,
     private var onListItemClickListener: OnListItemClickListener/*,
     val imageLoader: IImageLoader<ImageView>*/
 ) : RecyclerView.Adapter<GamesRVAdapter.ViewHolder>() {
@@ -29,12 +29,12 @@ class GamesRVAdapter(
     override fun getItemCount() = data.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(data[position], week)
+        holder.bind(data[position], weekId)
     }
 
     inner class ViewHolder(private val vb: ItemGameBinding) : RecyclerView.ViewHolder(vb.root) {
 
-        fun bind(data: Game, week: Week) {
+        fun bind(data: Game, weekId: String) {
             if (layoutPosition != RecyclerView.NO_POSITION) {
                 vb.tvStatus.text = data.status
                 vb.tvScheduled.text = data.scheduled
@@ -42,7 +42,7 @@ class GamesRVAdapter(
                 vb.tvAway.text = data.away.alias
                 vb.tvHomeScoring.text = data.homePoints.toString()
                 vb.tvAwayScoring.text = data.awayPoints.toString()
-                itemView.setOnClickListener { setGameWatched(data, week) }
+                itemView.setOnClickListener { setGameWatched(data, weekId) }
             }
         }
 
@@ -55,11 +55,11 @@ class GamesRVAdapter(
         }
     }
 
-    private fun setGameWatched(game: Game, week: Week) {
-        onListItemClickListener.onItemClick(game, week)
+    private fun setGameWatched(game: Game, weekId: String) {
+        onListItemClickListener.onItemClick(game, weekId)
     }
 
     interface OnListItemClickListener {
-            fun onItemClick(game: Game, week: Week)
+            fun onItemClick(game: Game, weekId: String)
     }
 }

@@ -18,8 +18,6 @@ fun mapReToGame(reGame: ReGame, teams: List<Team>) = Game(
     scheduled = reGame.scheduled,
     home = teams.first { it.id == reGame.home.id },
     away = teams.first { it.id == reGame.away.id },
-//    home = reGame.home.id,
-//    away = reGame.away.id,
     homePoints = reGame.scoring?.homePoints ?: 0,
     awayPoints = reGame.scoring?.awayPoints ?: 0
 )
@@ -34,16 +32,16 @@ fun mapReToSeason(reSeason: ReSeason) = Season(
 fun mapReToTeams(reHierarchy: ReHierarchy): List<Team> =
     reHierarchy.conferences.flatMap { reConference ->
         reConference.divisions.flatMap { reDivision ->
-            reDivision.teams.map { mapReToTeam(reDivision, it) }
+            reDivision.teams.map { mapReToTeam(reDivision.name, it) }
         }
     }
 
-fun mapReToTeam(reDivision: ReDivision, reTeam: ReTeam) = Team(
+fun mapReToTeam(reDivisionName: String, reTeam: ReTeam) = Team(
     id = reTeam.id,
     name = reTeam.name,
     market = reTeam.market,
     alias = reTeam.alias,
-    division = reDivision.name
+    division = reDivisionName
 ).apply { if (alias == "JAC") alias = "JAX" }
 
 fun mapReToWeek(reWeek: ReWeek) = Week(
@@ -61,8 +59,6 @@ fun mapRoomToGame(roomGame: RoomGame, teams: List<Team>) = Game(
     scheduled = roomGame.scheduled,
     home = teams.first { it.id == roomGame.homeId },
     away = teams.first { it.id == roomGame.awayId },
-//    home = roomGame.homeId,
-//    away = roomGame.awayId,
     homePoints = roomGame.homePoints,
     awayPoints = roomGame.awayPoints,
     isWatched = roomGame.isWatched
@@ -103,7 +99,7 @@ fun mapRoomToWeek(roomWeek: RoomWeek) = Week(
 /**
  * Mapping of General entities to Room
  * */
-fun mapGameToRoom(game: Game, week: Week) = RoomGame(
+fun mapGameToRoom(game: Game, weekId: String) = RoomGame(
     id = game.id,
     status = game.status,
     scheduled = game.scheduled,
@@ -111,7 +107,7 @@ fun mapGameToRoom(game: Game, week: Week) = RoomGame(
     awayId = game.away.id,
     homePoints = game.homePoints,
     awayPoints = game.awayPoints,
-    weekId = week.id,
+    weekId = weekId,
     isWatched = game.isWatched
 )
 
@@ -141,9 +137,9 @@ fun mapTeamToRoom(team: Team) = RoomTeam(
     division = team.division
 )
 
-fun mapWeekToRoom(week: Week, season: Season) = RoomWeek(
+fun mapWeekToRoom(week: Week, seasonId: String) = RoomWeek(
     id = week.id,
     sequence = week.sequence,
     title = week.title,
-    seasonId = season.id
+    seasonId = seasonId
 )

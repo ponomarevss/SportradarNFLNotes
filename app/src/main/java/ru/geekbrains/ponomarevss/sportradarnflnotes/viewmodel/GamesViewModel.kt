@@ -16,7 +16,7 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.ITeamsRepo
 
 class GamesViewModel(
     private val seasonId: String,
-    private val week: Week,
+    private val weekId: String,
     private val gamesRepo: IGamesRepo,
     private val teamsRepo: ITeamsRepo,
     private val standingsCache: IStandingsCache
@@ -47,20 +47,20 @@ class GamesViewModel(
     private suspend fun loadInitGames() {
         try {
             if (_mutableLiveData.value == null) {
-                _mutableLiveData.value = teams?.let { gamesRepo.getCachedGames(week, it) }
+                _mutableLiveData.value = teams?.let { gamesRepo.getCachedGames(weekId, it) }
             }
         } catch (e: Throwable) {
             Log.e("AAA", "loadInitGames ${e.message.toString()}")
         }
     }
 
-    fun itemClicked(game: Game, week: Week) {
+    fun itemClicked(game: Game, weekId: String) {
         viewModelScope.launch {
             if (teams == null) teams = teamsRepo.getCachedTeams()
             game.apply {
                 if (status == CLOSED_STATUS && !isWatched) {
                     isWatched = true
-                    gamesRepo.putGame(this, week)
+                    gamesRepo.putGame(this, weekId)
                     updateStandings(seasonId, this)
                 }
             }

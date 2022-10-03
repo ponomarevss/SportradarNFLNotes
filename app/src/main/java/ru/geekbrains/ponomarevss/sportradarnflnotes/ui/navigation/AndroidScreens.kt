@@ -2,7 +2,6 @@ package ru.geekbrains.ponomarevss.sportradarnflnotes.ui.navigation
 
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Season
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Week
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.navigation.IScreens
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.fragment.GamesFragment
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.fragment.SeasonFragment
@@ -14,5 +13,6 @@ class AndroidScreens : IScreens {
 
     override fun season(season: Season) = FragmentScreen { SeasonFragment.newInstance(season) }
 
-    override fun games(week: Week) = FragmentScreen { GamesFragment.newInstance(week) }
+    override fun games(seasonId: String, weekId: String) =
+        FragmentScreen { GamesFragment.newInstance(seasonId, weekId) }
 }

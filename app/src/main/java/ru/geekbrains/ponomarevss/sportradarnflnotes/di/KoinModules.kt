@@ -50,6 +50,7 @@ val application = module {
     single<IGamesCache> { RoomGamesCache(db = get()) }
     single<ITeamsCache> { RoomTeamsCache(db = get()) }
     single<ITeamsRepo> { TeamsRepo(api = get(), cache = get()) }
+    single<IStandingsCache> { RoomStandingsCache(db = get()) }
 }
 
 val seasonsFragment = module {
@@ -61,7 +62,6 @@ val seasonsFragment = module {
 val seasonFragment = module {
     single<IWeeksCache> { RoomWeeksCache(db = get()) }
     single<IWeeksRepo> { WeeksRepo(api = get(), weeksCache = get(), gamesCache = get()) }
-    single<IStandingsCache> {RoomStandingsCache(db = get())}
     viewModel {
         SeasonViewModel(
             season = get(),
@@ -75,5 +75,13 @@ val seasonFragment = module {
 
 val gamesFragment = module {
     single<IGamesRepo> { GamesRepo(api = get(), cache = get()) }
-    viewModel { GamesViewModel(week = get(), gamesRepo = get(), teamsRepo = get()) }
+    viewModel {
+        GamesViewModel(
+            seasonId = get(),
+            weekId = get(),
+            gamesRepo = get(),
+            teamsRepo = get(),
+            standingsCache = get()
+        )
+    }
 }

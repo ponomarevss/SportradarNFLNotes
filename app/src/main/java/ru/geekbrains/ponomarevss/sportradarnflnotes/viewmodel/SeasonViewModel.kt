@@ -24,20 +24,31 @@ class SeasonViewModel(
     private val _weeksMutableLiveData: MutableLiveData<List<Week>> = MutableLiveData()
     val weeksLiveData: LiveData<List<Week>> = _weeksMutableLiveData
 
-    private val _standingsMutableLiveData: MutableLiveData<List<Standings>> = MutableLiveData()
-    val standingsLiveData: LiveData<List<Standings>> = _standingsMutableLiveData
+    private val _standingsMutableLiveData: MutableLiveData<List<Standings>?> = MutableLiveData()
+    val standingsLiveData: LiveData<List<Standings>?> = _standingsMutableLiveData
+
+    private var teams: List<Team>? = null
 
     fun loadInitData() {
         viewModelScope.launch {
+            initTeams()
             loadInitWeeks()
             loadStandings()
         }
     }
 
+    fun onlineLiveDataObserver(): Observer<Boolean> = Observer<Boolean> {
+        updateWeeks(it)
+    }
+
+    private suspend fun initTeams() {
+        if (teams == null) teams = teamsRepo.getCachedTeams()
+    }
+
     private suspend fun loadInitWeeks() {
         try {
             if (_weeksMutableLiveData.value == null) {
-                _weeksMutableLiveData.value = weeksRepo.getCachedWeeks(season).reversed()
+                _weeksMutableLiveData.value = weeksRepo.getCachedWeeks(season.id).reversed()
             }
         } catch (e: Throwable) {
             Log.e("AAA", "loadInitWeeks ${e.message.toString()}")
@@ -47,10 +58,9 @@ class SeasonViewModel(
     private suspend fun loadStandings() {
         try {
             if (_standingsMutableLiveData.value == null) {
-                val teams = teamsRepo.getCachedTeams()
-                var standingsList = standingsCache.getStandingsList(season.id, teams)
-                if (standingsList.isEmpty()) {
-                    standingsList = createInitialStandingsList(teams)
+                var standingsList = teams?.let { standingsCache.getStandingsList(season.id, it) }
+                if (standingsList != null && standingsList.isEmpty()) {
+                    standingsList = teams?.let { createInitialStandingsList(it) }
                 }
                 _standingsMutableLiveData.value = standingsList
             }
@@ -65,15 +75,13 @@ class SeasonViewModel(
         return initialList
     }
 
-    fun onlineLiveDataObserver(): Observer<Boolean> = Observer<Boolean> {
-        updateWeeks(it)
-    }
-
     private fun updateWeeks(isOnline: Boolean) {
         viewModelScope.launch {
             try {
                 if (isOnline && !timestampCache.isUpdated(season.id, HOURLY_UPDATE)) {
-                    _weeksMutableLiveData.value = weeksRepo.getApiWeeks(season).reversed()
+                    _weeksMutableLiveData.value = teams?.let {
+                        weeksRepo.getApiWeeks(season, it).reversed()
+                    }
                     timestampCache.updateTimestamp(season.id)
                 }
             } catch (e: Throwable) {

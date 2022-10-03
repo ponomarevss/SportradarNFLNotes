@@ -44,8 +44,8 @@ class SeasonFragment : MvpAppCompatFragment() {
 
     private val onListItemClickListener: WeeksRVAdapter.OnListItemClickListener =
         object : WeeksRVAdapter.OnListItemClickListener {
-            override fun onItemClick(week: Week) {
-                router.navigateTo(screens.games(week))
+            override fun onItemClick(seasonId: String, weekId: String) {
+                router.navigateTo(screens.games(seasonId, weekId))
             }
         }
 
@@ -81,7 +81,10 @@ class SeasonFragment : MvpAppCompatFragment() {
     }
 
     private fun initViewModel() {
-        weeksAdapter = WeeksRVAdapter(onListItemClickListener)
+        val season: Season? = arguments?.getParcelable(SEASON_ARG)
+        if (season != null) {
+            weeksAdapter = WeeksRVAdapter(season.id, onListItemClickListener)
+        }
         with(seasonViewModel.weeksLiveData) {
             observe(viewLifecycleOwner) { value?.let { weeksAdapter?.setData(it) } }
         }

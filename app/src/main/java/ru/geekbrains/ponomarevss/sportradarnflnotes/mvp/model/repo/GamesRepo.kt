@@ -19,15 +19,15 @@ class GamesRepo(private val api: IDataSource, private val cache: IGamesCache) : 
             season.type,
             week.sequence.toString()
         ).week.games.map { mapReToGame(it, teams) }
-        cache.putGames(games, week)
+        cache.putGames(games, week.id)
         return games
     }
 
-    override suspend fun getCachedGames(week: Week, teams: List<Team>): List<Game> =
-        cache.getGames(week, teams)
+    override suspend fun getCachedGames(weekId: String, teams: List<Team>): List<Game> =
+        cache.getGames(weekId, teams)
 
-    override suspend fun putGame(game: Game, week: Week) {
-        cache.putGame(game, week)
+    override suspend fun putGame(game: Game, weekId: String) {
+        cache.putGame(game, weekId)
     }
 
 //    private fun checkGames(games: List<Game>): List<Game> = games.map { game ->

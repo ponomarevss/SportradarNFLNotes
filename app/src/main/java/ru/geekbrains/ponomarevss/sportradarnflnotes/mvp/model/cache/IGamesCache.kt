@@ -6,9 +6,9 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Wee
 
 interface IGamesCache {
 
-    suspend fun putGames(games: List<Game>, week: Week)
-    suspend fun getGames(week: Week, teams: List<Team>): List<Game>
+    suspend fun putGames(games: List<Game>, weekId: String)
+    suspend fun getGames(weekId: String, teams: List<Team>): List<Game>
 
-    suspend fun putGame(game: Game, week: Week)
+    suspend fun putGame(game: Game, weekId: String)
     suspend fun getGame(gameId: String, teams: List<Team>): Game?
 }

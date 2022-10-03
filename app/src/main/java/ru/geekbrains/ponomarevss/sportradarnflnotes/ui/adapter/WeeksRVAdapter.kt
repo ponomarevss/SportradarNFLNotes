@@ -4,10 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.ItemWeekBinding
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Season
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Week
 
 class WeeksRVAdapter(
+    private val seasonId: String,
     private var onListItemClickListener: OnListItemClickListener
 ) : RecyclerView.Adapter<WeeksRVAdapter.ViewHolder>() {
 
@@ -35,16 +35,16 @@ class WeeksRVAdapter(
         fun bind(data: Week) {
             if (layoutPosition != RecyclerView.NO_POSITION) {
                 vb.tvTitle.text = data.title
-                itemView.setOnClickListener { openInNewWindow(data) }
+                itemView.setOnClickListener { openInNewWindow(seasonId, data.id) }
             }
         }
     }
 
-    private fun openInNewWindow(listItemData: Week) {
-        onListItemClickListener.onItemClick(listItemData)
+    private fun openInNewWindow(seasonId: String, weekId: String) {
+        onListItemClickListener.onItemClick(seasonId, weekId)
     }
 
     interface OnListItemClickListener {
-        fun onItemClick(week: Week)
+        fun onItemClick(seasonId: String, weekId: String)
     }
 }

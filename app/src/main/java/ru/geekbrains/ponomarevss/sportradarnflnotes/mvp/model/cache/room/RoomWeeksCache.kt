@@ -12,9 +12,9 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.db.Spo
 
 class RoomWeeksCache(private val db: SportradarDatabase) : IWeeksCache {
 
-    override suspend fun putWeeks(weeks: List<Week>, season: Season) {
+    override suspend fun putWeeks(weeks: List<Week>, seasonId: String) {
         withContext(CoroutineScope(Dispatchers.IO).coroutineContext) {
-            db.weekDao.insert(weeks.map { mapWeekToRoom(it, season) })
+            db.weekDao.insert(weeks.map { mapWeekToRoom(it, seasonId) })
         }
     }
 
