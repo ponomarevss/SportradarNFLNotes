@@ -14,11 +14,12 @@ class GamesRepo(private val api: IDataSource, private val cache: IGamesCache) : 
 
     override suspend fun getApiGames(season: Season, week: Week, teams: List<Team>): List<Game> {
         delay(REQUESTS_GAP)
-        val games: List<Game> = api.getWeeklySchedule(
+        var games: List<Game> = api.getWeeklySchedule(
             season.year.toString(),
             season.type,
             week.sequence.toString()
         ).week.games.map { mapReToGame(it, teams) }
+        games = checkGames(games, teams)
         cache.putGames(games, week.id)
         return games
     }
@@ -30,13 +31,17 @@ class GamesRepo(private val api: IDataSource, private val cache: IGamesCache) : 
         cache.putGame(game, weekId)
     }
 
-//    private fun checkGames(games: List<Game>): List<Game> = games.map { game ->
+    private suspend fun checkGames(games: List<Game>, teams: List<Team>): List<Game> {
+        val checkedGames = games as MutableList<Game>
+        checkedGames.
+    }
+
+    //todo переделать метод: надо проверять полученный список из сети на пердмет наличия в кэше такой же просмотренной игры. если такая есть, эту игру из списка удалять
+
+
+//    private suspend fun checkGames(games: List<Game>, teams: List<Team>): List<Game> = games.map { game ->
 //        var checkedGame = game
-//        cache.getGame(game.id)
-//            .subscribe(
-//                { if (it.isWatched) checkedGame = it },
-//                { println(it.message) }
-//            )
+//        cache.getGame(game.id, teams)?.let { if (it.isWatched) checkedGame = it}
 //        checkedGame
 //    }
 }

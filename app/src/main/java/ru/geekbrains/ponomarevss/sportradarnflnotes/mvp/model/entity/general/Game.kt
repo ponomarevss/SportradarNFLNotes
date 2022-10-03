@@ -10,8 +10,6 @@ data class Game(
     val scheduled: String,
     val home: Team,
     val away: Team,
-//    val home: String,
-//    val away: String,
     var homePoints: Int,
     var awayPoints: Int,
     var isWatched: Boolean = false

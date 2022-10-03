@@ -1,16 +1,14 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IStandingsCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Game
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Standings
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Team
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Week
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.IGamesRepo
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.ITeamsRepo
 
@@ -33,24 +31,20 @@ class GamesViewModel(
 
     fun initData() {
         viewModelScope.launch {
-            getTeams()
+            initTeams()
             loadInitGames()
         }
     }
 
-    private suspend fun getTeams() {
+    private suspend fun initTeams() {
         if (teams == null) {
             teams = teamsRepo.getCachedTeams()
         }
     }
 
     private suspend fun loadInitGames() {
-        try {
-            if (_mutableLiveData.value == null) {
-                _mutableLiveData.value = teams?.let { gamesRepo.getCachedGames(weekId, it) }
-            }
-        } catch (e: Throwable) {
-            Log.e("AAA", "loadInitGames ${e.message.toString()}")
+        if (_mutableLiveData.value == null) {
+            _mutableLiveData.value = teams?.let { gamesRepo.getCachedGames(weekId, it) }
         }
     }
 
@@ -67,7 +61,51 @@ class GamesViewModel(
         }
     }
 
-    private fun updateStandings(seasonId: String, game: Game) {
+    private suspend fun updateStandings(seasonId: String, game: Game) {
+        val stHome =
+            teams?.let { standingsCache.getStandings(seasonId, game.home.id, it) } as Standings
+        val stAway =
+            teams?.let { standingsCache.getStandings(seasonId, game.away.id, it) } as Standings
+        game.apply {
+            when {
+                homePoints > awayPoints -> homeWins(home, away, stHome, stAway)
+                homePoints < awayPoints -> awayWins(home, away, stHome, stAway)
+                homePoints == awayPoints -> ties(home, away, stHome, stAway)
+            }
+        }
+//        with(game) {
+//            when {
+//                homePoints > awayPoints -> homeWins(home, away, stHome, stAway)
+//                homePoints < awayPoints -> awayWins(home, away, stHome, stAway)
+//                homePoints == awayPoints -> ties(home, away, stHome, stAway)
+//            }
+//        }
+    }
 
+    private fun homeWins(home: Team, away: Team, stHome: Standings, stAway: Standings) {
+        ++stHome.wins
+        ++stAway.losses
+        if (home.division == away.division) {
+            ++stHome.divWins
+            ++stAway.divLosses
+        }
+    }
+
+    private fun awayWins(home: Team, away: Team, stHome: Standings, stAway: Standings) {
+        ++stHome.losses
+        ++stAway.wins
+        if (home.division == away.division) {
+            ++stHome.divLosses
+            ++stAway.divWins
+        }
+    }
+
+    private fun ties(home: Team, away: Team, stHome: Standings, stAway: Standings) {
+        ++stHome.ties
+        ++stAway.ties
+        if (home.division == away.division) {
+            ++stHome.divTies
+            ++stAway.divTies
+        }
     }
 }

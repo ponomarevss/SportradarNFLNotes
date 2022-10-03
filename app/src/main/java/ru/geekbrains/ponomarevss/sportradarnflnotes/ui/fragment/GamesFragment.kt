@@ -24,7 +24,6 @@ class GamesFragment : MvpAppCompatFragment() {
             arguments = Bundle().apply {
                 putString(SEASON_ARG, seasonId)
                 putString(WEEK_ARG, weekId)
-//                putParcelable(WEEK_ARG, week)
             }
         }
     }
@@ -33,7 +32,6 @@ class GamesFragment : MvpAppCompatFragment() {
 
     private val gamesViewModel: GamesViewModel by viewModel {
         parametersOf(arguments?.getString(WEEK_ARG)!!)
-//        parametersOf(arguments?.getParcelable(WEEK_ARG)!!)
     }
 
     private var vb: FragmentGamesBinding? = null
