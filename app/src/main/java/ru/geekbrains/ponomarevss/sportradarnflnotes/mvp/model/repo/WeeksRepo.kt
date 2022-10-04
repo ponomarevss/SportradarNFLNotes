@@ -5,6 +5,7 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.REQUESTS_GAP
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.api.IDataSource
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IGamesCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.IWeeksCache
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Game
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Season
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Team
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Week
@@ -25,10 +26,23 @@ class WeeksRepo(
         val weeks: List<Week> =
             api.getSeasonSchedule(season.year.toString(), season.type).weeks.map { reWeek ->
                 val week = mapReToWeek(reWeek)
-                gamesCache.putGames(reWeek.games.map { mapReToGame(it, teams) }, week.id)
+                val games = reWeek.games.map { mapReToGame(it, teams) }
+                gamesCache.putGames(checkGames(games, teams), week.id)
                 week
             }
         weeksCache.putWeeks(weeks, season.id)
         return weeks
+    }
+
+    private suspend fun checkGames(games: List<Game>, teams: List<Team>): List<Game> {
+        games as MutableList<Game>
+        games.map { game ->
+            gamesCache.getGame(game.id, teams)?.let {
+                if (it.isWatched) {
+                    games.remove(game)
+                }
+            }
+        }
+        return games
     }
 }

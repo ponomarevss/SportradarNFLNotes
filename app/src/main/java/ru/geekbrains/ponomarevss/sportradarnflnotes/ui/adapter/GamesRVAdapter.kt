@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.ItemGameBinding
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Game
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Week
 
 class GamesRVAdapter(
     private val weekId: String,
@@ -29,24 +28,27 @@ class GamesRVAdapter(
     override fun getItemCount() = data.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(data[position], weekId)
+        holder.bind(data[position], weekId, position)
     }
 
     inner class ViewHolder(private val vb: ItemGameBinding) : RecyclerView.ViewHolder(vb.root) {
 
-        fun bind(data: Game, weekId: String) {
+        fun bind(data: Game, weekId: String, position: Int) {
             if (layoutPosition != RecyclerView.NO_POSITION) {
                 vb.tvStatus.text = data.status
                 vb.tvScheduled.text = data.scheduled
                 vb.tvHome.text = data.home.alias
                 vb.tvAway.text = data.away.alias
-                vb.tvHomeScoring.text = data.homePoints.toString()
-                vb.tvAwayScoring.text = data.awayPoints.toString()
-                itemView.setOnClickListener { setGameWatched(data, weekId) }
+                vb.tvHomeScoring.text = if (data.isWatched) data.homePoints.toString() else ""
+                vb.tvAwayScoring.text = if (data.isWatched) data.awayPoints.toString() else ""
+                itemView.setOnClickListener {
+                    setGameWatched(data, weekId)
+                    notifyItemChanged(position)
+                }
             }
         }
 
-        fun loadHomeLogo(url: String) = with(vb) {
+        private fun loadHomeLogo(url: String) = with(vb) {
 //            imageLoader.loadInto(url, ivHome)
         }
 

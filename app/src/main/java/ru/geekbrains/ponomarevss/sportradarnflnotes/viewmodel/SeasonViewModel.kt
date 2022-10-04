@@ -48,7 +48,7 @@ class SeasonViewModel(
     private suspend fun loadInitWeeks() {
         try {
             if (_weeksMutableLiveData.value == null) {
-                _weeksMutableLiveData.value = weeksRepo.getCachedWeeks(season.id).reversed()
+                _weeksMutableLiveData.value = weeksRepo.getCachedWeeks(season.id)
             }
         } catch (e: Throwable) {
             Log.e("AAA", "loadInitWeeks ${e.message.toString()}")
@@ -80,7 +80,7 @@ class SeasonViewModel(
             try {
                 if (isOnline && !timestampCache.isUpdated(season.id, HOURLY_UPDATE)) {
                     _weeksMutableLiveData.value = teams?.let {
-                        weeksRepo.getApiWeeks(season, it).reversed()
+                        weeksRepo.getApiWeeks(season, it)
                     }
                     timestampCache.updateTimestamp(season.id)
                 }

@@ -74,12 +74,11 @@ val seasonFragment = module {
 }
 
 val gamesFragment = module {
-    single<IGamesRepo> { GamesRepo(api = get(), cache = get()) }
     viewModel {
         GamesViewModel(
             seasonId = get(),
             weekId = get(),
-            gamesRepo = get(),
+            gamesCache = get(),
             teamsRepo = get(),
             standingsCache = get()
         )

@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="padding_l">16dp</dimen>
     <dimen name="padding_m">8dp</dimen>
     <dimen name="padding_s">6dp</dimen>
+    <dimen name="padding_xs">4dp</dimen>
+    <dimen name="padding_xxs">2dp</dimen>
 
-    <dimen name="text_size_l">25sp</dimen>
+    <dimen name="text_size_xl">25sp</dimen>
+    <dimen name="text_size_l">20sp</dimen>
+    <dimen name="text_size_m">16sp</dimen>
+
+    <dimen name="image_size_m">40sp</dimen>
 </resources>
