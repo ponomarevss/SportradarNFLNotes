@@ -33,7 +33,7 @@ class SeasonViewModel(
         viewModelScope.launch {
             initTeams()
             loadInitWeeks()
-            loadStandings()
+            collectStandingsList()
         }
     }
 
@@ -55,17 +55,13 @@ class SeasonViewModel(
         }
     }
 
-    private suspend fun loadStandings() {
-        try {
-            if (_standingsMutableLiveData.value == null) {
-                var standingsList = teams?.let { standingsCache.getStandingsList(season.id, it) }
-                if (standingsList != null && standingsList.isEmpty()) {
-                    standingsList = teams?.let { createInitialStandingsList(it) }
+    private suspend fun collectStandingsList() {
+        teams?.let { teamsList ->
+            standingsCache.observeStandingsList(season.id, teamsList)
+                .collect {
+                    if (it.isEmpty()) createInitialStandingsList(teamsList)
+                    _standingsMutableLiveData.value = it
                 }
-                _standingsMutableLiveData.value = standingsList
-            }
-        } catch (e: Throwable) {
-            Log.e("AAA", "loadStandings ${e.message.toString()}")
         }
     }
 

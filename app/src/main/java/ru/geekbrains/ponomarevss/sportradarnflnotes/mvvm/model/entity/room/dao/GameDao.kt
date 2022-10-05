@@ -9,17 +9,17 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.entity.room.RoomG
 @Dao
 interface GameDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(roomGame: RoomGame)
+    suspend fun insert(roomGame: RoomGame)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(roomGames: List<RoomGame>)
+    suspend fun insert(roomGames: List<RoomGame>)
 
     @Query("SELECT * FROM RoomGame WHERE id = :id LIMIT 1")
-    fun findForId(id: String): RoomGame?
+    suspend fun findForId(id: String): RoomGame?
 
     @Query("SELECT * FROM RoomGame WHERE weekId = :weekId")
-    fun findForWeekId(weekId: String): List<RoomGame>
+    suspend fun findForWeekId(weekId: String): List<RoomGame>
 
     @Query("SELECT * FROM RoomGame WHERE homeId = :rivalId OR awayId = :rivalId")
-    fun findForRivalId(rivalId: String): List<RoomGame>
+    suspend fun findForRivalId(rivalId: String): List<RoomGame>
 }

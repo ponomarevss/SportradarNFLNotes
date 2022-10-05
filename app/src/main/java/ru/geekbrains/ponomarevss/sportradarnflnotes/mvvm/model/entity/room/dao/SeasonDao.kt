@@ -6,11 +6,11 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.entity.room.RoomS
 @Dao
 interface SeasonDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(roomSeasons: List<RoomSeason>)
+    suspend fun insert(roomSeasons: List<RoomSeason>)
 
     @Query("SELECT * FROM RoomSeason")
-    fun getAll(): List<RoomSeason>
+    suspend fun getAll(): List<RoomSeason>
 
     @Query("SELECT * FROM RoomSeason WHERE year = :year AND type = :type LIMIT 1")
-    fun select(year: Int, type: String): RoomSeason?
+    suspend fun select(year: Int, type: String): RoomSeason?
 }

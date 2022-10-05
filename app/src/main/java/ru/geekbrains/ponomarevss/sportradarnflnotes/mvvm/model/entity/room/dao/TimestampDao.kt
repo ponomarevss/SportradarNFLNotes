@@ -9,8 +9,8 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.entity.room.RoomT
 @Dao
 interface TimestampDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(timestamp: RoomTimestamp)
+    suspend fun insert(timestamp: RoomTimestamp)
 
     @Query("SELECT * FROM RoomTimestamp WHERE name = :name LIMIT 1")
-    fun findForName(name: String): RoomTimestamp?
+    suspend fun findForName(name: String): RoomTimestamp?
 }

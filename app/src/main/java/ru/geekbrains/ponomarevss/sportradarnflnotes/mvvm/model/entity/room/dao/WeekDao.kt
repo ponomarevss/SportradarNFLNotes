@@ -6,14 +6,14 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.entity.room.RoomW
 @Dao
 interface WeekDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(roomWeek: RoomWeek)
+    suspend fun insert(roomWeek: RoomWeek)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(roomWeeks: List<RoomWeek>)
+    suspend fun insert(roomWeeks: List<RoomWeek>)
 
     @Query("SELECT * FROM RoomWeek WHERE seasonId = :seasonId AND sequence = :sequence LIMIT 1")
-    fun findOneBySeasonId(seasonId: String, sequence: Int): RoomWeek?
+    suspend fun findOneBySeasonId(seasonId: String, sequence: Int): RoomWeek?
 
     @Query("SELECT * FROM RoomWeek WHERE seasonId = :seasonId")
-    fun findForSeasonId(seasonId: String): List<RoomWeek>
+    suspend fun findForSeasonId(seasonId: String): List<RoomWeek>
 }

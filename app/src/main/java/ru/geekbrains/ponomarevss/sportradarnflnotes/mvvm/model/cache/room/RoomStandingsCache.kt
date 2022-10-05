@@ -1,8 +1,7 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.cache.room
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.cache.IStandingsCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.entity.general.Standings
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.entity.general.Team
@@ -13,9 +12,7 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.entity.room.db.Sp
 class RoomStandingsCache(private val db: SportradarDatabase) : IStandingsCache {
 
     override suspend fun putStandings(standings: Standings) {
-        withContext(CoroutineScope(Dispatchers.IO).coroutineContext) {
-            db.standingsDao.insert(mapStandingsToRoom(standings))
-        }
+        db.standingsDao.insert(mapStandingsToRoom(standings))
     }
 
     override suspend fun getStandings(
@@ -23,19 +20,17 @@ class RoomStandingsCache(private val db: SportradarDatabase) : IStandingsCache {
         teamId: String,
         teams: List<Team>
     ): Standings? =
-        withContext(CoroutineScope(Dispatchers.IO).coroutineContext) {
-            db.standingsDao.select(seasonId, teamId)?.let { mapRoomToStandings(it, teams) }
-        }
+        db.standingsDao.select(seasonId, teamId)?.let { mapRoomToStandings(it, teams) }
 
     override suspend fun putStandingsList(standingsList: List<Standings>) {
-        withContext(CoroutineScope(Dispatchers.IO).coroutineContext) {
-            db.standingsDao.insert(standingsList.map { mapStandingsToRoom(it) })
-        }
+        db.standingsDao.insert(standingsList.map { mapStandingsToRoom(it) })
     }
 
     override suspend fun getStandingsList(seasonId: String, teams: List<Team>): List<Standings> =
-        withContext(CoroutineScope(Dispatchers.IO).coroutineContext) {
-            db.standingsDao.selectForSeason(seasonId).map { mapRoomToStandings(it, teams) }
-        }
+        db.standingsDao.selectForSeason(seasonId).map { mapRoomToStandings(it, teams) }
 
+    override fun observeStandingsList(seasonId: String, teams: List<Team>): Flow<List<Standings>> =
+        db.standingsDao.observeForSeason(seasonId).map { list ->
+            list.map { mapRoomToStandings(it, teams) }
+        }
 }
