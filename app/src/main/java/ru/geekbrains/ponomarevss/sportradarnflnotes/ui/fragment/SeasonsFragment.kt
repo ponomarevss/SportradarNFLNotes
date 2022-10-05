@@ -1,7 +1,6 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.ui.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,11 +10,11 @@ import moxy.MvpAppCompatFragment
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.FragmentSeasonsBinding
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Season
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.navigation.IScreens
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.entity.general.Season
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.navigation.IScreens
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter.SeasonsRVAdapter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.utils.OnlineLiveData
-import ru.geekbrains.ponomarevss.sportradarnflnotes.viewmodel.SeasonsViewModel
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.viewmodel.SeasonsViewModel
 
 class SeasonsFragment : MvpAppCompatFragment() {
 

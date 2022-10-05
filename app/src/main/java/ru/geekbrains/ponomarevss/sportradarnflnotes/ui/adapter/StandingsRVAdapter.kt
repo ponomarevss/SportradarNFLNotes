@@ -2,14 +2,9 @@ package ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.ItemStandingsBinding
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Standings
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Week
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.image.IImageLoader
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.presenter.list.IStandingsListPresenter
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.view.list.StandingsItemView
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.entity.general.Standings
 
 class StandingsRVAdapter(/*val imageLoader: IImageLoader<ImageView>*/) :
     RecyclerView.Adapter<StandingsRVAdapter.ViewHolder>() {

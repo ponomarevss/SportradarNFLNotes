@@ -1,8 +1,8 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.ui.navigation
 
 import com.github.terrakok.cicerone.androidx.FragmentScreen
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Season
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.navigation.IScreens
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.entity.general.Season
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.navigation.IScreens
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.fragment.GamesFragment
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.fragment.SeasonFragment
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.fragment.SeasonsFragment

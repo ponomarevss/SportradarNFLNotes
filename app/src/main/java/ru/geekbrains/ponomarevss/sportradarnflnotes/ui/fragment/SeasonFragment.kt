@@ -12,13 +12,12 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.FragmentSeasonBinding
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Season
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Week
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.navigation.IScreens
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.entity.general.Season
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.navigation.IScreens
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter.StandingsRVAdapter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter.WeeksRVAdapter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.utils.OnlineLiveData
-import ru.geekbrains.ponomarevss.sportradarnflnotes.viewmodel.SeasonViewModel
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.viewmodel.SeasonViewModel
 
 class SeasonFragment : MvpAppCompatFragment() {
     companion object {

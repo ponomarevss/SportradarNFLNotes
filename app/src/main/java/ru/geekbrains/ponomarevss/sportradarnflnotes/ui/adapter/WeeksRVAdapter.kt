@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.ItemWeekBinding
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Week
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.entity.general.Week
 
 class WeeksRVAdapter(
     private val seasonId: String,

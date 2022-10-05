@@ -10,16 +10,16 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.api.IDataSource
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.*
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.cache.room.*
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.room.db.SportradarDatabase
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.navigation.IScreens
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.repo.*
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.api.IDataSource
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.cache.*
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.cache.room.*
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.entity.room.db.SportradarDatabase
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.navigation.IScreens
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.repo.*
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.navigation.AndroidScreens
-import ru.geekbrains.ponomarevss.sportradarnflnotes.viewmodel.GamesViewModel
-import ru.geekbrains.ponomarevss.sportradarnflnotes.viewmodel.SeasonViewModel
-import ru.geekbrains.ponomarevss.sportradarnflnotes.viewmodel.SeasonsViewModel
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.viewmodel.GamesViewModel
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.viewmodel.SeasonViewModel
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.viewmodel.SeasonsViewModel
 
 val application = module {
     single { Cicerone.create() }
@@ -76,8 +76,7 @@ val seasonFragment = module {
 val gamesFragment = module {
     viewModel {
         GamesViewModel(
-            seasonId = get(),
-            weekId = get(),
+            seasonAndWeekIds = get(),
             gamesCache = get(),
             teamsRepo = get(),
             standingsCache = get()

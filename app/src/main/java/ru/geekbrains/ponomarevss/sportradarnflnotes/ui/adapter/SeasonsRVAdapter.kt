@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.ItemSeasonBinding
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.general.Season
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.entity.general.Season
 
 class SeasonsRVAdapter(private var onListItemClickListener: OnListItemClickListener) :
     RecyclerView.Adapter<SeasonsRVAdapter.ViewHolder>() {
