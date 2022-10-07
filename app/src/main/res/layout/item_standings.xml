@@ -17,107 +17,140 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="end">
-
-            <TextView
-                android:id="@+id/tv_team"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size_m"
-                android:layout_marginStart="@dimen/padding_l"
-                android:layout_marginEnd="@dimen/padding_l"
-                android:layout_gravity="center"
-                tools:text="team"/>
+            android:gravity="start">
 
             <ImageView
                 android:id="@+id/iv_team"
                 android:layout_width="@dimen/image_size_m"
                 android:layout_height="@dimen/image_size_m"
                 android:layout_gravity="end"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:id="@+id/tv_team"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_m"
+                    android:layout_marginStart="@dimen/padding_s"
+                    android:layout_marginEnd="@dimen/padding_s"
+                    android:ellipsize="end"
+                    android:layout_gravity="start"
+                    tools:text="team"/>
+
+                <TextView
+                    android:id="@+id/tv_division"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_s"
+                    android:layout_marginStart="@dimen/padding_s"
+                    android:layout_marginEnd="@dimen/padding_s"
+                    android:layout_gravity="start"
+                    tools:text="division"/>
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:gravity="center"
+            >
 
-            <TextView
-                android:id="@+id/tv_w"
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size_l"
-                tools:text="w"/>
+                android:orientation="horizontal"
+                android:gravity="center">
 
-            <TextView
+                <TextView
+                    android:id="@+id/tv_w"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_m"
+                    tools:text="w"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_m"
+                    android:text="@string/wtl_spacer"/>
+
+                <TextView
+                    android:id="@+id/tv_t"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_m"
+                    tools:text="t"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_m"
+                    android:text="@string/wtl_spacer"/>
+
+                <TextView
+                    android:id="@+id/tv_l"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_m"
+                    tools:text="l"/>
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size_l"
-                android:text="@string/wtl_spacer"/>
+                android:orientation="horizontal"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/tv_div_w"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_s"
+                    tools:text="w"/>
 
-            <TextView
-                android:id="@+id/tv_t"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size_l"
-                tools:text="t"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_s"
+                    android:text="@string/wtl_spacer"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size_l"
-                android:text="@string/wtl_spacer"/>
+                <TextView
+                    android:id="@+id/tv_div_t"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_s"
+                    tools:text="t"/>
 
-            <TextView
-                android:id="@+id/tv_l"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size_l"
-                tools:text="l"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_s"
+                    android:text="@string/wtl_spacer"/>
+
+                <TextView
+                    android:id="@+id/tv_div_l"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_s"
+                    tools:text="l"/>
+            </LinearLayout>
+
+
+
+
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-            <TextView
-                android:id="@+id/tv_div_w"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size_m"
-                tools:text="w"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size_m"
-                android:text="@string/wtl_spacer"/>
-
-            <TextView
-                android:id="@+id/tv_div_t"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size_m"
-                tools:text="t"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size_m"
-                android:text="@string/wtl_spacer"/>
-
-            <TextView
-                android:id="@+id/tv_div_l"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size_m"
-                tools:text="l"/>
-        </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

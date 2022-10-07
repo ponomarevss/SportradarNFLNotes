@@ -34,6 +34,7 @@ class StandingsRVAdapter(/*val imageLoader: IImageLoader<ImageView>*/) :
         fun bind(data: Standings) {
             if (layoutPosition != RecyclerView.NO_POSITION) {
                 vb.tvTeam.text = data.team.name
+                vb.tvDivision.text = data.team.division
                 vb.tvW.text = data.wins.toString()
                 vb.tvT.text = data.ties.toString()
                 vb.tvL.text = data.losses.toString()

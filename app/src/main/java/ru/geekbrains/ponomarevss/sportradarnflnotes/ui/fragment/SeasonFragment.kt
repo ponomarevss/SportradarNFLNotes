@@ -22,7 +22,9 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.viewmodel.SeasonViewMod
 class SeasonFragment : MvpAppCompatFragment() {
     companion object {
         private const val SEASON_ARG = "season"
-        private const val SPAN_COUNT = 6
+        private const val WEEKS_SPAN_COUNT = 6
+        private const val STANDINGS_SPAN_COUNT = 2
+
 
         fun newInstance(season: Season) = SeasonFragment().apply {
             arguments = Bundle().apply { putParcelable(SEASON_ARG, season) }
@@ -64,10 +66,12 @@ class SeasonFragment : MvpAppCompatFragment() {
     }
 
     private fun initView() {
-        vb?.rvWeeks?.layoutManager = GridLayoutManager(context, SPAN_COUNT)
+        vb?.rvWeeks?.layoutManager = GridLayoutManager(context, WEEKS_SPAN_COUNT)
         vb?.rvWeeks?.adapter = weeksAdapter
 
-        vb?.rvStandings?.layoutManager = LinearLayoutManager(context)
+
+
+        vb?.rvStandings?.layoutManager = GridLayoutManager(context, STANDINGS_SPAN_COUNT)
         vb?.rvStandings?.adapter = standingsAdapter
     }
 

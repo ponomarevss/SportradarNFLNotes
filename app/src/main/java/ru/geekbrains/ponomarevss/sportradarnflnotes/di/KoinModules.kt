@@ -68,7 +68,8 @@ val seasonFragment = module {
             weeksRepo = get(),
             teamsRepo = get(),
             standingsCache = get(),
-            timestampCache = get()
+            timestampCache = get(),
+            gamesCache = get()
         )
     }
 }

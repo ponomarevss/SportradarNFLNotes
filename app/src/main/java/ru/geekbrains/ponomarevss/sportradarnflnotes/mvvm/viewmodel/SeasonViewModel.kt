@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.HOURLY_UPDATE
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.cache.IGamesCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.cache.IStandingsCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.cache.ITimestampCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.entity.general.Season
@@ -18,7 +19,8 @@ class SeasonViewModel(
     private val weeksRepo: IWeeksRepo,
     private val teamsRepo: ITeamsRepo,
     private val standingsCache: IStandingsCache,
-    private val timestampCache: ITimestampCache
+    private val timestampCache: ITimestampCache,
+    private val gamesCache: IGamesCache
 ) : ViewModel() {
 
     private val _weeksMutableLiveData: MutableLiveData<List<Week>> = MutableLiveData()
@@ -27,12 +29,13 @@ class SeasonViewModel(
     private val _standingsMutableLiveData: MutableLiveData<List<Standings>?> = MutableLiveData()
     val standingsLiveData: LiveData<List<Standings>?> = _standingsMutableLiveData
 
-    private var teams: List<Team>? = null
+    private var teams: List<Team> = mutableListOf()
 
     fun loadInitData() {
         viewModelScope.launch {
             initTeams()
             loadInitWeeks()
+            isWeekWatched()
             collectStandingsList()
         }
     }
@@ -42,7 +45,7 @@ class SeasonViewModel(
     }
 
     private suspend fun initTeams() {
-        if (teams == null) teams = teamsRepo.getCachedTeams()
+        teams = teamsRepo.getCachedTeams()
     }
 
     private suspend fun loadInitWeeks() {
@@ -51,18 +54,16 @@ class SeasonViewModel(
                 _weeksMutableLiveData.value = weeksRepo.getCachedWeeks(season.id)
             }
         } catch (e: Throwable) {
-            Log.e("AAA", "loadInitWeeks ${e.message.toString()}")
+            Log.e("AAA", "loadInitWeeks Throwable: ${e.message.toString()}")
         }
     }
 
     private suspend fun collectStandingsList() {
-        teams?.let { teamsList ->
-            standingsCache.observeStandingsList(season.id, teamsList)
-                .collect {
-                    if (it.isEmpty()) createInitialStandingsList(teamsList)
-                    _standingsMutableLiveData.value = it
-                }
-        }
+        standingsCache.observeStandingsList(season.id, teams)
+            .collect { standingsList ->
+                if (standingsList.isEmpty()) createInitialStandingsList(teams)
+                _standingsMutableLiveData.value = standingsList.sortedBy { it.team.division }
+            }
     }
 
     private suspend fun createInitialStandingsList(teams: List<Team>): List<Standings> {
@@ -75,14 +76,24 @@ class SeasonViewModel(
         viewModelScope.launch {
             try {
                 if (isOnline && !timestampCache.isUpdated(season.id, HOURLY_UPDATE)) {
-                    _weeksMutableLiveData.value = teams?.let {
-                        weeksRepo.getApiWeeks(season, it)
-                    }
+                    _weeksMutableLiveData.value = weeksRepo.getApiWeeks(season, teams)
                     timestampCache.updateTimestamp(season.id)
                 }
             } catch (e: Throwable) {
-                Log.e("AAA", "updateWeeks ${e.message.toString()}")
+                Log.e("AAA", "updateWeeks Throwable: ${e.message.toString()}")
             }
         }
+    }
+
+    fun setWeekWatched(weekId: String) {}
+
+    private fun isWeekWatched(/*weekId: String*/): Boolean {
+        var isWeekWatched = false
+
+        viewModelScope.launch {
+//            gamesCache.getGames(weekId, teams)
+//            isWeekWatched = true
+        }
+        return isWeekWatched
     }
 }
