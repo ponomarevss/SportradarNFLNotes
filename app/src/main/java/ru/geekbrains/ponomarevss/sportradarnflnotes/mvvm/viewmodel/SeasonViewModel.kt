@@ -74,7 +74,7 @@ class SeasonViewModel(
         viewModelScope.launch {
             try {
                 if (isOnline && !timestampCache.isUpdated(season.id, HOURLY_UPDATE)) {
-                    _weeksMutableLiveData.value = weeksRepo.getApiWeeks(season, teams)
+                    _weeksMutableLiveData.value = weeksRepo.handleApiData(season, teams)
                     timestampCache.updateTimestamp(season.id)
                     getTimestamp()
                 }

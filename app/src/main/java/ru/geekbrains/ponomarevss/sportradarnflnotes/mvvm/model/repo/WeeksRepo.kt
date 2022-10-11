@@ -25,22 +25,16 @@ class WeeksRepo(
     override suspend fun getCachedWeeks(seasonId: String): List<Week> =
         weeksCache.getWeeks(seasonId)
 
-    override suspend fun getApiWeeks(season: Season, teams: List<Team>): List<Week> {
+    override suspend fun handleApiData(season: Season, teams: List<Team>): List<Week> {
         delay(REQUESTS_GAP)
-        val weeks: List<Week> =
-            api.getSeasonSchedule(season.year.toString(), season.type).weeks.map { reWeek ->
-                val week = mapReToWeek(reWeek)
-                val games = reWeek.games.map { mapReToGame(it, teams) }
-
-                //todo проверить как работает метод с дочерним скоупом
-                CoroutineScope(Dispatchers.IO).launch {
-                    gamesCache.putGames(checkGames(games, teams), week.id)
-                }.join()
-                //todo проверить как работает метод с дочерним скоупом
-
-                week
-            }
+        val reWeeks = api.getSeasonSchedule(season.year.toString(), season.type).weeks
+        reWeeks.forEach { reWeek ->
+            val games = reWeek.games.map { mapReToGame(it, teams) }
+            gamesCache.putGames(checkGames(games, teams), reWeek.id)
+        }
+        val weeks = reWeeks.map { mapReToWeek(it) }
         weeksCache.putWeeks(weeks, season.id)
+
         return weeks
     }
 

@@ -7,5 +7,5 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.entity.general.We
 interface IWeeksRepo {
 
     suspend fun getCachedWeeks(seasonId: String): List<Week>
-    suspend fun getApiWeeks(season: Season, teams: List<Team>): List<Week>
+    suspend fun handleApiData(season: Season, teams: List<Team>): List<Week>
 }
