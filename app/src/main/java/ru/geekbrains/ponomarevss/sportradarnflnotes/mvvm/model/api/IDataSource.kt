@@ -11,7 +11,8 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.entity.response.h
 interface IDataSource {
 
     companion object {
-        private const val APIKEY = "efv8g6v7bta5mkgey4v38xbe"
+        private const val APIKEY = "vkmxt8k2jjgxnxvr82usdrdk"
+//        private const val APIKEY = "efv8g6v7bta5mkgey4v38xbe"  - exceeded
     }
 
     @GET("league/seasons.json")
