@@ -1,10 +1,15 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.ItemGameBinding
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.entity.general.Game
+import java.text.SimpleDateFormat
+import java.time.OffsetDateTime
+import java.util.*
 
 class GamesRVAdapter(
     private val weekId: String,
@@ -36,7 +41,7 @@ class GamesRVAdapter(
         fun bind(data: Game, weekId: String, position: Int) {
             if (layoutPosition != RecyclerView.NO_POSITION) {
                 vb.tvStatus.text = data.status
-                vb.tvScheduled.text = data.scheduled
+                vb.tvScheduled.text = formattedDate(data.scheduled)
                 vb.tvHome.text = data.home.alias
                 vb.tvAway.text = data.away.alias
                 vb.tvHomeScoring.text = if (data.isWatched) data.homePoints.toString() else ""
@@ -55,6 +60,14 @@ class GamesRVAdapter(
         fun loadAwayLogo(url: String) = with(vb) {
 //            imageLoader.loadInto(url, ivAway)
         }
+
+        private fun formattedDate(timeString: String): String {
+            return if (Build.VERSION.SDK_INT >= 26) {
+                Date(OffsetDateTime.parse(timeString).toEpochSecond() * 1000).toString()
+            } else {
+                timeString
+            }
+        }
     }
 
     private fun setGameWatched(game: Game, weekId: String) {
@@ -62,6 +75,6 @@ class GamesRVAdapter(
     }
 
     interface OnListItemClickListener {
-            fun onItemClick(game: Game, weekId: String)
+        fun onItemClick(game: Game, weekId: String)
     }
 }

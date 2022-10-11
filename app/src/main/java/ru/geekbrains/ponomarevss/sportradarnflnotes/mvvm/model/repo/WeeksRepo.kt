@@ -1,6 +1,10 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.repo
 
+import android.util.Log
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.REQUESTS_GAP
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.api.IDataSource
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.cache.IGamesCache
@@ -27,7 +31,13 @@ class WeeksRepo(
             api.getSeasonSchedule(season.year.toString(), season.type).weeks.map { reWeek ->
                 val week = mapReToWeek(reWeek)
                 val games = reWeek.games.map { mapReToGame(it, teams) }
-                gamesCache.putGames(checkGames(games, teams), week.id)
+
+                //todo проверить как работает метод с дочерним скоупом
+                CoroutineScope(Dispatchers.IO).launch {
+                    gamesCache.putGames(checkGames(games, teams), week.id)
+                }.join()
+                //todo проверить как работает метод с дочерним скоупом
+
                 week
             }
         weeksCache.putWeeks(weeks, season.id)

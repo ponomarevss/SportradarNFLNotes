@@ -11,6 +11,7 @@ import moxy.MvpAppCompatFragment
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+import ru.geekbrains.ponomarevss.sportradarnflnotes.R
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.FragmentSeasonBinding
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.entity.general.Season
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.navigation.IScreens
@@ -69,7 +70,7 @@ class SeasonFragment : MvpAppCompatFragment() {
         vb?.rvWeeks?.layoutManager = GridLayoutManager(context, WEEKS_SPAN_COUNT)
         vb?.rvWeeks?.adapter = weeksAdapter
 
-
+        vb?.tvUpdateLabel?.text = resources.getString(R.string.last_update)
 
         vb?.rvStandings?.layoutManager = GridLayoutManager(context, STANDINGS_SPAN_COUNT)
         vb?.rvStandings?.adapter = standingsAdapter
@@ -92,9 +93,13 @@ class SeasonFragment : MvpAppCompatFragment() {
             observe(viewLifecycleOwner) { value?.let { weeksAdapter?.setData(it) } }
         }
 
+        with(seasonViewModel.timestampLiveData) {
+            observe(viewLifecycleOwner) { value?.let { vb?.tvUpdateValue?.text = it.toString() }}
+        }
+
         standingsAdapter = StandingsRVAdapter()
         with(seasonViewModel.standingsLiveData) {
-            observe(viewLifecycleOwner) { value?.let {standingsAdapter?.setData(it)} }
+            observe(viewLifecycleOwner) { value?.let { standingsAdapter?.setData(it) } }
         }
     }
 
