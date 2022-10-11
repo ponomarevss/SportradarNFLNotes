@@ -12,7 +12,7 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvp.model.entity.response.We
 interface IDataSource {
 
     companion object {
-        private const val APIKEY = "efv8g6v7bta5mkgey4v38xbe"
+        private const val APIKEY = "vkmxt8k2jjgxnxvr82usdrdk"
     }
     @GET("league/seasons.json")
     fun getSeasons(
