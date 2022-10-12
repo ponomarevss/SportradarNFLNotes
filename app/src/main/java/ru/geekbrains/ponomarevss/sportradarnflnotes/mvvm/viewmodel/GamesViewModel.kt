@@ -44,7 +44,7 @@ class GamesViewModel(
     private suspend fun loadInitGames() {
         if (_mutableLiveData.value == null) {
             _mutableLiveData.value = teams?.let { list ->
-                gamesCache.getGames(seasonAndWeekIds[1], list).sortedBy { it.id }
+                gamesCache.getGames(seasonAndWeekIds[1], list).sortedBy { it.scheduled }
             }
         }
     }

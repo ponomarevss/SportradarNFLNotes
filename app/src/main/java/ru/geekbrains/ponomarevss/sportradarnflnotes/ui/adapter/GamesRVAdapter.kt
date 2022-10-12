@@ -60,7 +60,7 @@ class GamesRVAdapter(
 
         private fun loadHomeLogo(url: String) = with(vb) { imageLoader.loadInto(url, ivHome) }
 
-        fun loadAwayLogo(url: String) = with(vb) { imageLoader.loadInto(url, ivAway) }
+        private fun loadAwayLogo(url: String) = with(vb) { imageLoader.loadInto(url, ivAway) }
 
         private fun formattedDate(timeString: String): String {
             return if (Build.VERSION.SDK_INT >= 26) {
