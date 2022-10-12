@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.terrakok.cicerone.Router
 import moxy.MvpAppCompatFragment
 import org.koin.android.ext.android.inject
@@ -15,10 +14,11 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.R
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.FragmentSeasonBinding
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.entity.general.Season
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.navigation.IScreens
-import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter.StandingsRVAdapter
-import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter.WeeksRVAdapter
-import ru.geekbrains.ponomarevss.sportradarnflnotes.utils.OnlineLiveData
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.viewmodel.SeasonViewModel
+import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter.DivisionsRVAdapter
+import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter.WeeksRVAdapter
+import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.image.GlideImageLoader
+import ru.geekbrains.ponomarevss.sportradarnflnotes.utils.OnlineLiveData
 
 class SeasonFragment : MvpAppCompatFragment() {
     companion object {
@@ -42,7 +42,7 @@ class SeasonFragment : MvpAppCompatFragment() {
     private var vb: FragmentSeasonBinding? = null
 
     private var weeksAdapter: WeeksRVAdapter? = null
-    private var standingsAdapter: StandingsRVAdapter? = null
+    private var divisionsAdapter: DivisionsRVAdapter? = null
 
     private val onListItemClickListener: WeeksRVAdapter.OnListItemClickListener =
         object : WeeksRVAdapter.OnListItemClickListener {
@@ -72,8 +72,8 @@ class SeasonFragment : MvpAppCompatFragment() {
 
         vb?.tvUpdateLabel?.text = resources.getString(R.string.last_update)
 
-        vb?.rvStandings?.layoutManager = GridLayoutManager(context, STANDINGS_SPAN_COUNT)
-        vb?.rvStandings?.adapter = standingsAdapter
+        vb?.rvDivisions?.layoutManager = GridLayoutManager(context, STANDINGS_SPAN_COUNT)
+        vb?.rvDivisions?.adapter = divisionsAdapter
     }
 
     private fun fetchData() {
@@ -94,12 +94,12 @@ class SeasonFragment : MvpAppCompatFragment() {
         }
 
         with(seasonViewModel.timestampLiveData) {
-            observe(viewLifecycleOwner) { value?.let { vb?.tvUpdateValue?.text = it.toString() }}
+            observe(viewLifecycleOwner) { value?.let { vb?.tvUpdateValue?.text = it.toString() } }
         }
 
-        standingsAdapter = StandingsRVAdapter()
+        divisionsAdapter = DivisionsRVAdapter(GlideImageLoader())
         with(seasonViewModel.standingsLiveData) {
-            observe(viewLifecycleOwner) { value?.let { standingsAdapter?.setData(it) } }
+            observe(viewLifecycleOwner) { value?.let { divisionsAdapter?.setData(it) } }
         }
     }
 

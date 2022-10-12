@@ -14,6 +14,7 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.entity.general.Ga
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.navigation.IScreens
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter.GamesRVAdapter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.viewmodel.GamesViewModel
+import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.image.GlideImageLoader
 
 class GamesFragment : MvpAppCompatFragment() {
     companion object {
@@ -65,8 +66,7 @@ class GamesFragment : MvpAppCompatFragment() {
 
     private fun initViewModel() {
         val weekId: String = arguments?.getStringArray(SEASON_AND_WEEK_ARGS)!![1]
-        adapter = GamesRVAdapter(weekId, onListItemClickListener)
-//        adapter = GamesRVAdapter(presenter.gamesListPresenter, GlideImageLoader())
+        adapter = GamesRVAdapter(weekId, onListItemClickListener, GlideImageLoader())
         with(gamesViewModel.liveData) {
             observe(viewLifecycleOwner) { value?.let { adapter?.setData(it) } }
         }

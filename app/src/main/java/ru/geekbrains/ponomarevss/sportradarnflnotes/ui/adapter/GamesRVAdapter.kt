@@ -3,18 +3,21 @@ package ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.ItemGameBinding
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.NAME_LOGO_URL
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.entity.general.Game
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.image.IImageLoader
 import java.text.SimpleDateFormat
 import java.time.OffsetDateTime
 import java.util.*
 
 class GamesRVAdapter(
     private val weekId: String,
-    private var onListItemClickListener: OnListItemClickListener/*,
-    val imageLoader: IImageLoader<ImageView>*/
+    private var onListItemClickListener: OnListItemClickListener,
+    val imageLoader: IImageLoader<ImageView>
 ) : RecyclerView.Adapter<GamesRVAdapter.ViewHolder>() {
 
     private var data: List<Game> = mutableListOf()
@@ -50,16 +53,14 @@ class GamesRVAdapter(
                     setGameWatched(data, weekId)
                     notifyItemChanged(position)
                 }
+                loadHomeLogo(NAME_LOGO_URL + data.home.alias)
+                loadAwayLogo(NAME_LOGO_URL + data.away.alias)
             }
         }
 
-        private fun loadHomeLogo(url: String) = with(vb) {
-//            imageLoader.loadInto(url, ivHome)
-        }
+        private fun loadHomeLogo(url: String) = with(vb) { imageLoader.loadInto(url, ivHome) }
 
-        fun loadAwayLogo(url: String) = with(vb) {
-//            imageLoader.loadInto(url, ivAway)
-        }
+        fun loadAwayLogo(url: String) = with(vb) { imageLoader.loadInto(url, ivAway) }
 
         private fun formattedDate(timeString: String): String {
             return if (Build.VERSION.SDK_INT >= 26) {

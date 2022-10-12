@@ -49,7 +49,7 @@
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_standings"
+            android:id="@+id/rv_divisions"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingTop="16dp"

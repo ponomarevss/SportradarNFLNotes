@@ -5,14 +5,12 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.entity.response.games.ReLeagueSeasons
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.entity.response.games.ReScheduleSeason
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.entity.response.games.ReScheduleWeek
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.entity.response.hierarchy.ReHierarchy
 
 interface IDataSource {
 
     companion object {
         private const val APIKEY = "vkmxt8k2jjgxnxvr82usdrdk"
-//        private const val APIKEY = "efv8g6v7bta5mkgey4v38xbe"  - exceeded
     }
 
     @GET("league/seasons.json")
@@ -29,14 +27,6 @@ interface IDataSource {
         @Path("nfl_season") nflSeason: String,
         @Query("api_key") apiKey: String = APIKEY
     ): ReScheduleSeason
-
-    @GET("games/{year}/{nfl_season}/{nfl_season_week}/schedule.json")
-    suspend fun getWeeklySchedule(
-        @Path("year") year: String,
-        @Path("nfl_season") nflSeason: String,
-        @Path("nfl_season_week") nflSeasonWeek: String,
-        @Query("api_key") apiKey: String = APIKEY
-    ): ReScheduleWeek
 }
 
 
