@@ -1,10 +1,6 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.repo
 
-import android.util.Log
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.REQUESTS_GAP
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.api.IDataSource
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.cache.IGamesCache
@@ -30,7 +26,7 @@ class WeeksRepo(
         val reWeeks = api.getSeasonSchedule(season.year.toString(), season.type).weeks
         reWeeks.forEach { reWeek ->
             val games = reWeek.games.map { mapReToGame(it, teams) }
-            gamesCache.putGames(checkGames(games, teams), reWeek.id)
+            gamesCache.putGames(filterWatchedGames(games, teams), reWeek.id)
         }
         val weeks = reWeeks.map { mapReToWeek(it) }
         weeksCache.putWeeks(weeks, season.id)
@@ -38,7 +34,7 @@ class WeeksRepo(
         return weeks
     }
 
-    private suspend fun checkGames(games: List<Game>, teams: List<Team>): List<Game> {
+    private suspend fun filterWatchedGames(games: List<Game>, teams: List<Team>): List<Game> {
         games as MutableList<Game>
         games.map { game ->
             gamesCache.getGame(game.id, teams)?.let {
