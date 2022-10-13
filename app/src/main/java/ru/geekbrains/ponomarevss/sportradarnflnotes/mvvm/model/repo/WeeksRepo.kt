@@ -1,5 +1,6 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.repo
 
+import android.util.Log
 import kotlinx.coroutines.delay
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.REQUESTS_GAP
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.api.IDataSource
@@ -26,23 +27,29 @@ class WeeksRepo(
         val reWeeks = api.getSeasonSchedule(season.year.toString(), season.type).weeks
         reWeeks.forEach { reWeek ->
             val games = reWeek.games.map { mapReToGame(it, teams) }
-            gamesCache.putGames(filterWatchedGames(games, teams), reWeek.id)
+            gamesCache.putGames(filterWatchedGames(games, reWeek.id, teams), reWeek.id)
         }
         val weeks = reWeeks.map { mapReToWeek(it) }
         weeksCache.putWeeks(weeks, season.id)
-
         return weeks
     }
 
-    private suspend fun filterWatchedGames(games: List<Game>, teams: List<Team>): List<Game> {
-        games as MutableList<Game>
-        games.map { game ->
-            gamesCache.getGame(game.id, teams)?.let {
-                if (it.isWatched) {
-                    games.remove(game)
+    private suspend fun filterWatchedGames(
+        games: List<Game>,
+        weekId: String,
+        teams: List<Team>
+    ): List<Game> {
+        val filteredGames = mutableListOf<Game>()
+        val cachedGames = gamesCache.getGames(weekId, teams)
+        return if (cachedGames.isNotEmpty()) {
+            games.forEach { game ->
+                if (!cachedGames.first { it.id == game.id }.isWatched) {
+                    filteredGames.add(game)
                 }
             }
+            filteredGames
+        } else {
+            games
         }
-        return games
     }
 }
