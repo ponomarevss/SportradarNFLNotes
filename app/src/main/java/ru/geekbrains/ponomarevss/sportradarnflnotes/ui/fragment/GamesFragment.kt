@@ -6,14 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import moxy.MvpAppCompatFragment
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.FragmentGamesBinding
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.entity.general.Game
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.navigation.IScreens
-import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter.GamesRVAdapter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.viewmodel.GamesViewModel
+import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter.DatesRVAdapter
+import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter.GamesRVAdapter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.image.GlideImageLoader
 
 class GamesFragment : MvpAppCompatFragment() {
@@ -27,15 +26,13 @@ class GamesFragment : MvpAppCompatFragment() {
         }
     }
 
-    val screens: IScreens by inject()
-
     private val gamesViewModel: GamesViewModel by viewModel {
         parametersOf(arguments?.getStringArray(SEASON_AND_WEEK_ARGS)!!)
     }
 
     private var vb: FragmentGamesBinding? = null
 
-    var adapter: GamesRVAdapter? = null
+    private var datesAdapter: DatesRVAdapter? = null
 
     private val onListItemClickListener: GamesRVAdapter.OnListItemClickListener =
         object : GamesRVAdapter.OnListItemClickListener {
@@ -60,15 +57,15 @@ class GamesFragment : MvpAppCompatFragment() {
     }
 
     private fun initView() {
-        vb?.rvGames?.layoutManager = LinearLayoutManager(context)
-        vb?.rvGames?.adapter = adapter
+        vb?.rvDates?.layoutManager = LinearLayoutManager(context)
+        vb?.rvDates?.adapter = datesAdapter
     }
 
     private fun initViewModel() {
         val weekId: String = arguments?.getStringArray(SEASON_AND_WEEK_ARGS)!![1]
-        adapter = GamesRVAdapter(weekId, onListItemClickListener, GlideImageLoader())
+        datesAdapter = DatesRVAdapter(weekId, onListItemClickListener, GlideImageLoader())
         with(gamesViewModel.liveData) {
-            observe(viewLifecycleOwner) { value?.let { adapter?.setData(it) } }
+            observe(viewLifecycleOwner) { value?.let { datesAdapter?.setData(it) } }
         }
     }
 

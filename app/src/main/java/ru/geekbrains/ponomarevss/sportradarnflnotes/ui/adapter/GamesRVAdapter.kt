@@ -4,13 +4,11 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.ItemGameBinding
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.NAME_LOGO_URL
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.entity.general.Game
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.image.IImageLoader
-import java.text.SimpleDateFormat
 import java.time.OffsetDateTime
 import java.util.*
 
