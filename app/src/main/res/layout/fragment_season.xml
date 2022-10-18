@@ -1,61 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_weeks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:paddingTop="@dimen/padding_l"
+            android:paddingBottom="@dimen/padding_l" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:gravity="end"
+            android:orientation="horizontal">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_weeks"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tv_update_label"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="16dp"
-                android:clipToPadding="false"
-                android:paddingBottom="16dp"/>
+                android:layout_gravity="end"
+                android:textSize="@dimen/text_size_s"
+                tools:text="timestamp label:" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tv_update_value"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="end">
-
-                <TextView
-                    android:id="@+id/tv_update_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/text_size_s"
-                    android:layout_gravity="end"
-                    tools:text="timestamp label:"/>
-
-                <TextView
-                    android:id="@+id/tv_update_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/text_size_s"
-                    android:layout_marginStart="@dimen/padding_s"
-                    android:layout_gravity="end"
-                    tools:text="timestamp"/>
-            </LinearLayout>
+                android:layout_gravity="end"
+                android:layout_marginStart="@dimen/padding_s"
+                android:textSize="@dimen/text_size_s"
+                tools:text="timestamp" />
         </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_divisions"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingTop="16dp"
-            android:clipToPadding="false"
-            android:paddingBottom="16dp" />
     </LinearLayout>
-    
 
-</FrameLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_divisions"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingTop="@dimen/padding_l"
+        android:paddingBottom="@dimen/padding_l" />
+</LinearLayout>

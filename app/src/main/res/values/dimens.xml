@@ -14,4 +14,6 @@
     <dimen name="text_size_s">12sp</dimen>
 
     <dimen name="image_size_m">40dp</dimen>
+
+    <dimen name="item_size_m">40dp</dimen>
 </resources>

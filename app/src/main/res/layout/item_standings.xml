@@ -5,11 +5,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    app:cardCornerRadius="5dp"
+    android:layout_margin="@dimen/padding_xs"
+    app:cardCornerRadius="@dimen/radius_m"
     android:orientation="horizontal">
 
     <LinearLayout
+        android:baselineAligned="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -23,6 +24,7 @@
             android:gravity="start">
 
             <ImageView
+                android:contentDescription="@string/team_label"
                 android:id="@+id/iv_team"
                 android:layout_width="@dimen/image_size_m"
                 android:layout_height="@dimen/image_size_m"

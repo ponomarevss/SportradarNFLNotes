@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="5dp"
-    app:cardCornerRadius="5dp"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_margin="@dimen/padding_xs"
+    app:cardCornerRadius="@dimen/radius_m">
 
     <LinearLayout
         android:baselineAligned="false"
@@ -28,30 +29,33 @@
                 <ImageView
                     android:contentDescription="@string/home_team_label"
                     android:id="@+id/iv_home"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"/>
+                    android:layout_width="@dimen/image_size_m"
+                    android:layout_height="@dimen/image_size_m"/>
 
                 <TextView
                     android:id="@+id/tv_home"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:layout_marginStart="16dp"
+                    android:textSize="@dimen/text_size_l"
+                    android:layout_marginStart="@dimen/padding_m"
+                    android:layout_marginEnd="@dimen/padding_m"
                     tools:text="HOME"/>
 
                 <TextView
                     android:id="@+id/tv_home_scoring"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:layout_marginStart="16dp"
+                    android:textSize="@dimen/text_size_l"
+                    android:layout_marginStart="@dimen/padding_m"
+                    android:layout_marginEnd="@dimen/padding_m"
                     tools:text="H"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:layout_marginStart="16dp"
+                    android:textSize="@dimen/text_size_l"
+                    android:layout_marginStart="@dimen/padding_m"
+                    android:layout_marginEnd="@dimen/padding_m"
                     android:text="@string/score_spacer"
                     />
 
@@ -59,23 +63,25 @@
                     android:id="@+id/tv_away_scoring"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:layout_marginStart="16dp"
+                    android:textSize="@dimen/text_size_l"
+                    android:layout_marginStart="@dimen/padding_m"
+                    android:layout_marginEnd="@dimen/padding_m"
                     tools:text="A"/>
 
                 <TextView
                     android:id="@+id/tv_away"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:layout_marginStart="16dp"
+                    android:textSize="@dimen/text_size_l"
+                    android:layout_marginStart="@dimen/padding_m"
+                    android:layout_marginEnd="@dimen/padding_m"
                     tools:text="AWAY"/>
 
                 <ImageView
                     android:contentDescription="@string/away_team_label"
                     android:id="@+id/iv_away"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"/>
+                    android:layout_width="@dimen/image_size_m"
+                    android:layout_height="@dimen/image_size_m"/>
             </LinearLayout>
 
             <LinearLayout
@@ -88,16 +94,18 @@
                     android:id="@+id/tv_scheduled"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="11sp"
-                    android:layout_marginStart="16dp"
+                    android:textSize="@dimen/text_size_s"
+                    android:layout_marginStart="@dimen/padding_m"
+                    android:layout_marginEnd="@dimen/padding_m"
                     tools:text="scheduled"/>
 
                 <TextView
                     android:id="@+id/tv_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="11sp"
-                    android:layout_marginStart="16dp"
+                    android:textSize="@dimen/text_size_s"
+                    android:layout_marginStart="@dimen/padding_m"
+                    android:layout_marginEnd="@dimen/padding_m"
                     tools:text="status"/>
             </LinearLayout>
         </LinearLayout>
@@ -113,10 +121,5 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"/>
         </FrameLayout>
-
-
-
     </LinearLayout>
-
-
 </androidx.cardview.widget.CardView>
