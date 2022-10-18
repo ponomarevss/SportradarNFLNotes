@@ -4,6 +4,7 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RatingBar
 import androidx.recyclerview.widget.RecyclerView
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.ItemGameBinding
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.NAME_LOGO_URL
@@ -15,6 +16,8 @@ import java.util.*
 class GamesRVAdapter(
     private val weekId: String,
     private var onListItemClickListener: OnListItemClickListener,
+//    private var onRatingBarChangeListener: RatingBar.OnRatingBarChangeListener,
+    private var onRateChangeListener: OnRateChangeListener,
     val imageLoader: IImageLoader<ImageView>
 ) : RecyclerView.Adapter<GamesRVAdapter.ViewHolder>() {
 
@@ -53,6 +56,13 @@ class GamesRVAdapter(
                 }
                 loadHomeLogo(NAME_LOGO_URL + data.home.alias)
                 loadAwayLogo(NAME_LOGO_URL + data.away.alias)
+
+                vb.rbGame.numStars = 1
+                vb.rbGame.stepSize = .5f
+                vb.rbGame.rating = data.rating
+                vb.rbGame.setOnRatingBarChangeListener { _, rating, _ ->
+                    rateThisGame(data, weekId, rating)
+                }
             }
         }
 
@@ -69,11 +79,19 @@ class GamesRVAdapter(
         }
     }
 
+    private fun rateThisGame(game: Game, weekId: String, rating: Float) {
+        onRateChangeListener.onBarRated(game, weekId, rating)
+    }
+
     private fun setGameWatched(game: Game, weekId: String) {
         onListItemClickListener.onItemClick(game, weekId)
     }
 
     interface OnListItemClickListener {
         fun onItemClick(game: Game, weekId: String)
+    }
+
+    interface OnRateChangeListener {
+        fun onBarRated(game: Game, weekId: String, rating: Float)
     }
 }

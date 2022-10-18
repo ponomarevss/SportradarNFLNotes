@@ -23,7 +23,7 @@ class GamesViewModel(
         private const val CLOSED_STATUS = "closed"
     }
 
-    var teams: List<Team>? = null
+    var teams: List<Team> = mutableListOf()
 
     private val _mutableLiveData: MutableLiveData<List<Game>> = MutableLiveData()
     val liveData: LiveData<List<Game>> = _mutableLiveData
@@ -36,14 +36,14 @@ class GamesViewModel(
     }
 
     private suspend fun initTeams() {
-        if (teams == null) {
+        if (teams.isEmpty()) {
             teams = teamsRepo.getCachedTeams()
         }
     }
 
     private suspend fun loadInitGames() {
         if (_mutableLiveData.value == null) {
-            _mutableLiveData.value = teams?.let { list ->
+            _mutableLiveData.value = teams.let { list ->
                 gamesCache.getGames(seasonAndWeekIds[1], list).sortedBy { it.scheduled }
             }
         }
@@ -51,7 +51,6 @@ class GamesViewModel(
 
     fun itemClicked(game: Game, weekId: String) {
         viewModelScope.launch {
-            if (teams == null) teams = teamsRepo.getCachedTeams()
             game.apply {
                 if (status == CLOSED_STATUS && !isWatched) {
                     isWatched = true
@@ -62,9 +61,20 @@ class GamesViewModel(
         }
     }
 
+    fun rateBarSwiped(game: Game, weekId: String, rating: Float) {
+        viewModelScope.launch {
+            game.apply {
+                if (status == CLOSED_STATUS) {
+                    this.rating = rating
+                    gamesCache.putGame(this, weekId)
+                }
+            }
+        }
+    }
+
     private suspend fun updateStandings(seasonId: String, game: Game) {
-        val stHome = teams?.let { standingsCache.getStandings(seasonId, game.home.id, it) }
-        val stAway = teams?.let { standingsCache.getStandings(seasonId, game.away.id, it) }
+        val stHome = standingsCache.getStandings(seasonId, game.home.id, teams)
+        val stAway = standingsCache.getStandings(seasonId, game.away.id, teams)
 
         game.apply {
             if (stHome != null && stAway != null) {

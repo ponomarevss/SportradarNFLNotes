@@ -60,7 +60,8 @@ fun mapRoomToGame(roomGame: RoomGame, teams: List<Team>) = Game(
     away = teams.first { it.id == roomGame.awayId },
     homePoints = roomGame.homePoints,
     awayPoints = roomGame.awayPoints,
-    isWatched = roomGame.isWatched
+    isWatched = roomGame.isWatched,
+    rating = roomGame.rating.toFloat()
 )
 
 fun mapRoomToSeason(roomSeason: RoomSeason) = Season(
@@ -107,7 +108,8 @@ fun mapGameToRoom(game: Game, weekId: String) = RoomGame(
     homePoints = game.homePoints,
     awayPoints = game.awayPoints,
     weekId = weekId,
-    isWatched = game.isWatched
+    isWatched = game.isWatched,
+    rating = game.rating
 )
 
 fun mapSeasonToRoom(season: Season) = RoomSeason(

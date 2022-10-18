@@ -13,5 +13,6 @@ data class RoomGame(
     var homePoints: Int,
     var awayPoints: Int,
     var weekId: String,
-    var isWatched: Boolean
+    var isWatched: Boolean,
+    var rating: Float
 )

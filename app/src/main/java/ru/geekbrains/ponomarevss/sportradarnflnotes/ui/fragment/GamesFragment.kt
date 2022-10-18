@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RatingBar
 import androidx.recyclerview.widget.LinearLayoutManager
 import moxy.MvpAppCompatFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -41,6 +42,13 @@ class GamesFragment : MvpAppCompatFragment() {
             }
         }
 
+    private val onRateChangeListener: GamesRVAdapter.OnRateChangeListener =
+        object : GamesRVAdapter.OnRateChangeListener {
+            override fun onBarRated(game: Game, weekId: String, rating: Float) {
+                gamesViewModel.rateBarSwiped(game, weekId, rating)
+            }
+        }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -63,7 +71,12 @@ class GamesFragment : MvpAppCompatFragment() {
 
     private fun initViewModel() {
         val weekId: String = arguments?.getStringArray(SEASON_AND_WEEK_ARGS)!![1]
-        datesAdapter = DatesRVAdapter(weekId, onListItemClickListener, GlideImageLoader())
+        datesAdapter = DatesRVAdapter(
+            weekId,
+            onListItemClickListener,
+            onRateChangeListener,
+            GlideImageLoader()
+        )
         with(gamesViewModel.liveData) {
             observe(viewLifecycleOwner) { value?.let { datesAdapter?.setData(it) } }
         }

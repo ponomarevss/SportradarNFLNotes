@@ -12,5 +12,6 @@ data class Game(
     val away: Team,
     var homePoints: Int,
     var awayPoints: Int,
-    var isWatched: Boolean = false
+    var isWatched: Boolean = false,
+    var rating: Float = 0f
 ): Parcelable

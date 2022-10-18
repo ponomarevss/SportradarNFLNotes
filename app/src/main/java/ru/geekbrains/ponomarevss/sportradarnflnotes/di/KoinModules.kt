@@ -13,6 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.api.IDataSource
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.cache.*
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.cache.room.*
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.entity.room.db.MIGRATION_1_2
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.entity.room.db.SportradarDatabase
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.navigation.IScreens
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.repo.*
@@ -43,6 +44,7 @@ val application = module {
             SportradarDatabase::class.java,
             SportradarDatabase.DB_NAME
         )
+            .addMigrations(MIGRATION_1_2)
             .build()
     }
 

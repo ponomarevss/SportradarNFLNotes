@@ -3,4 +3,6 @@
     <string name="score_spacer">:</string>
     <string name="wtl_spacer">-</string>
     <string name="last_update">Last update:</string>
+    <string name="home_team_label">Home team label:</string>
+    <string name="away_team_label">Away team label:</string>
 </resources>

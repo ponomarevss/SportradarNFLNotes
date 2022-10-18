@@ -13,6 +13,7 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.image.IImageLoade
 class DatesRVAdapter(
     private val weekId: String,
     private var onListItemClickListener: GamesRVAdapter.OnListItemClickListener,
+    private var onRateChangeListener: GamesRVAdapter.OnRateChangeListener,
     private val imageLoader: IImageLoader<ImageView>
 ) : RecyclerView.Adapter<DatesRVAdapter.ViewHolder>() {
 
@@ -30,7 +31,7 @@ class DatesRVAdapter(
             ItemDateBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false),
             parent.context,
-            GamesRVAdapter(weekId, onListItemClickListener, imageLoader)
+            GamesRVAdapter(weekId, onListItemClickListener, onRateChangeListener, imageLoader)
         )
 
     override fun getItemCount() = dates.size
