@@ -1,16 +1,16 @@
 package ru.geekbrains.ponomarevss.sportradarnflnotes.ui.activity
 
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
 import com.github.terrakok.cicerone.androidx.AppNavigator
-import moxy.MvpAppCompatActivity
 import org.koin.android.ext.android.inject
 import ru.geekbrains.ponomarevss.sportradarnflnotes.R
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.ActivityMainBinding
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.navigation.IScreens
 
-class MainActivity : MvpAppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     private val navigator = AppNavigator(this, R.id.container)
     private val navigatorHolder: NavigatorHolder by inject()

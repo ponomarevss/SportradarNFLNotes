@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.github.terrakok.cicerone.Router
-import moxy.MvpAppCompatFragment
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -20,7 +20,7 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter.WeeksRVAdapter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.image.GlideImageLoader
 import ru.geekbrains.ponomarevss.sportradarnflnotes.utils.OnlineLiveData
 
-class SeasonFragment : MvpAppCompatFragment() {
+class SeasonFragment : Fragment() {
     companion object {
         private const val SEASON_ARG = "season"
         private const val WEEKS_SPAN_COUNT = 6

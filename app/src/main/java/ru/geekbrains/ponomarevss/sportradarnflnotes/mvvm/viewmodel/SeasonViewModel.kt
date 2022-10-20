@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import androidx.lifecycle.Observer
 import kotlinx.coroutines.launch
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.HOURLY_UPDATE
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.SIX_HOURS_UPDATE
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.cache.IGamesCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.cache.IStandingsCache
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.cache.ITimestampCache
@@ -73,7 +73,7 @@ class SeasonViewModel(
     private fun updateWeeks(isOnline: Boolean) {
         viewModelScope.launch {
             try {
-                if (isOnline && !timestampCache.isUpdated(season.id, HOURLY_UPDATE)) {
+                if (isOnline && !timestampCache.isUpdated(season.id, SIX_HOURS_UPDATE)) {
                     _weeksMutableLiveData.value = weeksRepo.handleApiData(season, teams)
                     timestampCache.updateTimestamp(season.id)
                     getTimestamp()

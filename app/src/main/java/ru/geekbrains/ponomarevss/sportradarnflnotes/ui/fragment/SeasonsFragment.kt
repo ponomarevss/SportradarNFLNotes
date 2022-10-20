@@ -4,19 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.github.terrakok.cicerone.Router
-import moxy.MvpAppCompatFragment
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.FragmentSeasonsBinding
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.entity.general.Season
 import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.model.navigation.IScreens
+import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.viewmodel.SeasonsViewModel
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter.SeasonsRVAdapter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.utils.OnlineLiveData
-import ru.geekbrains.ponomarevss.sportradarnflnotes.mvvm.viewmodel.SeasonsViewModel
 
-class SeasonsFragment : MvpAppCompatFragment() {
+class SeasonsFragment : Fragment() {
 
     companion object {
         private const val SPAN_COUNT = 2

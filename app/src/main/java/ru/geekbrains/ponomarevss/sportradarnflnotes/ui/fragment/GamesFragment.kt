@@ -4,9 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RatingBar
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import moxy.MvpAppCompatFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import ru.geekbrains.ponomarevss.sportradarnflnotes.databinding.FragmentGamesBinding
@@ -16,7 +15,7 @@ import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter.DatesRVAdapter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.adapter.GamesRVAdapter
 import ru.geekbrains.ponomarevss.sportradarnflnotes.ui.image.GlideImageLoader
 
-class GamesFragment : MvpAppCompatFragment() {
+class GamesFragment : Fragment() {
     companion object {
         private const val SEASON_AND_WEEK_ARGS = "seasonId weekId"
 
